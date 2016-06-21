@@ -1,5 +1,5 @@
 <?php
-require('includes/config.php');
+require('../includes/config.php');
 
 //collect values from the url
 $memberID = trim($_GET['x']);
