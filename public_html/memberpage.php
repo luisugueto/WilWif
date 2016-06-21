@@ -20,6 +20,7 @@ require('layout/header.php');
 				<p><a href='logout.php'>Salir</a></p>
 				<hr>
 
+				
 		</div>
 	</div>
 
