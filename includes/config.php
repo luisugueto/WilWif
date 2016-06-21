@@ -8,7 +8,7 @@ session_start();
 //database credentials
 define('DBHOST','localhost');
 define('DBUSER','root');
-define('DBPASS','24388425');
+define('DBPASS','');
 define('DBNAME','lostobject');
 
 //application address
