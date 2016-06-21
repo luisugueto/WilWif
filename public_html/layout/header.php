@@ -5,6 +5,8 @@
     <title><?php if(isset($title)){ echo $title; }?></title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
 
