@@ -17,7 +17,6 @@ if(isset($_POST['submit'])){
 		if(!empty($row['username'])){
 			$error[] = 'Usuario ya esta en uso.';
 		}
-
 	}
 
 	if(strlen($_POST['password']) < 3){

@@ -11,7 +11,7 @@
 <div class="page-header">
   <h1>Example page header <small>Subtext for header</small></h1>
 </div>
-
+<?php if( $user->is_logged_in() ){ ?>
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -66,3 +66,9 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+<?php
+
+  }
+
+?>
