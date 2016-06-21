@@ -8,7 +8,7 @@ if(isset($_POST['submit'])){
 
 	//very basic validation
 	if(strlen($_POST['username']) < 3){
-		$error[] = 'Username is too short.';
+		$error[] = 'Usuario muy corto.';
 	} else {
 		$stmt = $db->prepare('SELECT username FROM members WHERE username = :username');
 		$stmt->execute(array(':username' => $_POST['username']));
