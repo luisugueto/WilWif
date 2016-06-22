@@ -1,4 +1,5 @@
 <?php
+include('conexion.php');
 ob_start();
 session_start();
 
@@ -14,18 +15,19 @@ define('DBNAME','lostobject');
 //application address
 #define('DIR','http://domain.com/');
 #define('SITEEMAIL','noreply@domain.com');
+$db=mysql_connect("localhost","root","");
+mysql_select_db("lostobject",$db);
+// try {
 
-try {
+// 	//create PDO connection
+// 	$db = new PDO("mysql:host=".DBHOST.";dbname=".DBNAME, DBUSER, DBPASS);
+// 	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-	//create PDO connection
-	$db = new PDO("mysql:host=".DBHOST.";dbname=".DBNAME, DBUSER, DBPASS);
-	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-} catch(PDOException $e) {
-	//show error
-    echo '<p class="bg-danger">'.$e->getMessage().'</p>';
-    exit;
-}
+// } catch(PDOException $e) {
+// 	//show error
+//     echo '<p class="bg-danger">'.$e->getMessage().'</p>';
+//     exit;
+// }
 
 //include the user class, pass in the database connection
 include('../classes/user.php');

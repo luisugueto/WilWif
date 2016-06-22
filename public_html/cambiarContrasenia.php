@@ -1,7 +1,10 @@
 <?php require('../includes/config.php');
+require('../classes/db.php');
+
+$db = new DB();
 
 //if logged in redirect to members page
-if(!$user->is_logged_in()){ header('Location: login.php'); } 
+if(!$db->is_logged_in()){ header('Location: login.php'); } 
 
 //if form has been submitted process it
 
@@ -22,26 +25,12 @@ if(isset($_POST['submit'])){
 
 	//if no errors have been created carry on
 	if(!isset($error)){
-
-		//hash the password
-		$hashedpassword = $user->password_hash($_POST['password'], PASSWORD_BCRYPT);
-		$id = $_SESSION['memberID'];
-		try {
-
-			$stmt = $db->prepare("UPDATE members SET password = :hashedpassword WHERE memberID = $id");
-			$stmt->execute(array(
-				':hashedpassword' => $hashedpassword
-			));
+		$password = $_POST['password'];
+		$sql = mysql_query("UPDATE members SET password = $password WHERE memberID = $id");
 
 			//redirect to index page
 			header('Location: index.php?action=resetAccount');
 			exit;
-
-		//else catch the exception and show the error.
-		} catch(PDOException $e) {
-		    $error[] = $e->getMessage();
-		}
-
 	}
 
 }

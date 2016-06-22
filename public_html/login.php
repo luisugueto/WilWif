@@ -1,9 +1,12 @@
 <?php
 //include config
 require_once('../includes/config.php');
+require_once('../classes/db.php');
+
+$db = new DB();
 
 //check if already logged in move to home page
-if( $user->is_logged_in() ){ header('Location: index.php'); } 
+if( $db->is_logged_in() ){ header('Location: index.php'); } 
 
 //process login form if submitted
 if(isset($_POST['submit'])){
@@ -11,7 +14,7 @@ if(isset($_POST['submit'])){
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 	
-	if($user->login($username,$password)){ 
+	if($db->login($username,$password)){ 
 		$_SESSION['username'] = $username;
 		header('Location: memberpage.php');
 		exit;

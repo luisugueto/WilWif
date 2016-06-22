@@ -1,97 +1,19 @@
 <?php require('../includes/config.php');
 
+require('../classes/db.php');
+
 //if logged in redirect to members page
 if( $user->is_logged_in() ){ header('Location: memberpage.php'); }
 
 //if form has been submitted process it
-if(isset($_POST['submit'])){
-
-	//very basic validation
-	if(strlen($_POST['username']) < 3){
-		$error[] = 'Usuario muy corto.';
-	} else {
-		$stmt = $db->prepare('SELECT username FROM members WHERE username = :username');
-		$stmt->execute(array(':username' => $_POST['username']));
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-		if(!empty($row['username'])){
-			$error[] = 'Usuario ya esta en uso.';
-		}
+ if(isset($_POST['submit'])){
+ 	$password = $_POST['password'];
+ 	$username = $_POST['username'];
+ 	$email = $_POST['email'];
+ 	
+	$stmt = mysql_query('INSERT INTO members (username,password,email) VALUES ($username, $password, $email)');
 	}
 
-	if(strlen($_POST['password']) < 3){
-		$error[] = 'Contraseña muy corta.';
-	}
-
-	if(strlen($_POST['passwordConfirm']) < 3){
-		$error[] = 'Contraseña muy corta.';
-	}
-
-	if($_POST['password'] != $_POST['passwordConfirm']){
-		$error[] = 'Las contraseñas no son iguales.';
-	}
-
-	//email validation
-	if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
-	    $error[] = 'Por favor ingrese un correo valido.';
-	} else {
-		$stmt = $db->prepare('SELECT email FROM members WHERE email = :email');
-		$stmt->execute(array(':email' => $_POST['email']));
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-		if(!empty($row['email'])){
-			$error[] = 'Este Correo ya esta en uso.';
-		}
-
-	}
-
-
-	//if no errors have been created carry on
-	if(!isset($error)){
-
-		//hash the password
-		$hashedpassword = $user->password_hash($_POST['password'], PASSWORD_BCRYPT);
-
-		//create the activasion code
-		$activasion = md5(uniqid(rand(),true));
-
-		try {
-
-			//insert into database with a prepared statement
-			$stmt = $db->prepare('INSERT INTO members (username,password,email,active) VALUES (:username, :password, :email, :active)');
-			$stmt->execute(array(
-				':username' => $_POST['username'],
-				':password' => $hashedpassword,
-				':email' => $_POST['email'],
-				':active' => $activasion
-			));
-			$id = $db->lastInsertId('memberID');
-
-			//send email
-			$to = $_POST['email'];
-			$subject = "Confirmar Registro";
-			$body = "<p>Gracias por registrarse en el sitio.</p>
-			<p>Para activar tu cuenta, por favor click en el siguiente enlace: <a href='".DIR."activate.php?x=$id&y=$activasion'>".DIR."activate.php?x=$id&y=$activasion</a></p>";
-
-#			$mail = new Mail();
-#			$mail->setFrom(SITEEMAIL);
-#			$mail->addAddress($to);
-#			$mail->subject($subject);
-#			$mail->body($body);
-#			$mail->send();
-
-			//redirect to index page
-			header('Location: index.php?action=joined');
-			exit;
-
-		//else catch the exception and show the error.
-		} catch(PDOException $e) {
-		    $error[] = $e->getMessage();
-		}
-
-	}
-
-}
 
 //define page title
 $title = 'Lost Object';
