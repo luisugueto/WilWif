@@ -7,11 +7,28 @@ if( $user->is_logged_in() ){ header('Location: memberpage.php'); }
 
 //if form has been submitted process it
  if(isset($_POST['submit'])){
+
+ 	if(strlen($_POST['password']) < 3){
+		$error[] = 'Contraseña muy corta.';
+	}
+
+	if(strlen($_POST['passwordConfirm']) < 3){
+		$error[] = 'Confirmar Contraseña muy corta.';
+	}
+
+	if(strlen($_POST['password']) < 3){
+		$error[] = 'Contraseña muy corta.';
+	}
+
+	if(strlen($_POST['passwordConfirm']) < 3){
+		$error[] = 'Confirmar Contraseña muy corta.';
+	}
+
  	$password = $_POST['password'];
  	$username = $_POST['username'];
  	$email = $_POST['email'];
  	
-	$stmt = mysql_query('INSERT INTO members (username,password,email) VALUES ("'.$username.'", MD5("'.$password.'"), "'.$email.'")');
+	$stmt = mysql_query('INSERT INTO members (username,password,email) VALUES ("'.$username.'", "'.$password.'", "'.$email.'")');
 	}
 
 
