@@ -8,15 +8,15 @@ session_start();
 
 //database credentials
 define('DBHOST','localhost');
-define('DBUSER','root');
-define('DBPASS','');
-define('DBNAME','lostobject');
+define('DBUSER','appadminzuaru');
+define('DBPASS','d)*a-0CDLH]2');
+define('DBNAME','ap_wilwif');
 
 //application address
 #define('DIR','http://domain.com/');
 #define('SITEEMAIL','noreply@domain.com');
-$db=mysql_connect("localhost","root","");
-mysql_select_db("lostobject",$db);
+$db=mysql_connect("localhost","appadminzuaru","d)*a-0CDLH]2");
+mysql_select_db("ap_wilwif",$db);
 // try {
 
 // 	//create PDO connection
