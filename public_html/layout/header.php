@@ -3,16 +3,35 @@
 <head>
     <meta charset="utf-8">
     <title><?php if(isset($title)){ echo $title; }?></title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
-    <script src="js/jquery-1.11.3.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body style="text-align: center;">
+<div id="page-container"  style="width: 1024px; display: inline-block;">
+<header style="height: 269px;">
 
 <div class="page-header">
-  <h1>Example page header <small>Subtext for header</small></h1>
+	
 </div>
+<div class="sub-menu-container">
+	 <form  method="post"  action="/">
+		<div>
+		  
+		 	<input type="text" value="<?php if(isset($_POST['s'])){ echo $_POST['s']; }?>" name="s"  style="margin-left: 110px; width: 556px; height: 46px; background-image: url('../image/barra_busqueda_556x48.png'); background-size: 100% 100%; border-width: 0px; background-color: transparent; margin-top: 20px; padding-left: 40px; padding-right: 50px;">
+			<img src="/image/lupa_31x31.png" title="search_icon" width="31" height="31"  style="margin-top: 0px; margin-left: -50px;">	
+		 
+		 <a href="/register/"  style="color: black;">
+			<input type="submit" value="Login/Register"  style="width: 247px; float: right; margin-top: 15px; height: 60px; padding-left: 67px; padding-right: 0px; border-width: 0px; padding-top: 0px; background-size: 100% 100%; background-color: transparent; margin-right: -19px; background-image: url('../image/Boton_usuario_229x45.png');">
+		 </a>
+		</div>
+	 </form>
+</div>
+<div class="logo_container" style="margin-top: 0px; top: -210px; left: -400px; position: relative;display: inline-block;">
+		<img src="/image/logo_203x203.png" title="logo" width="203" height="203"  style="margin-top: 0px; margin-left: 0px; width: 203px;">
+</div>
+	
 <?php if( $user->is_logged_in() ){ ?>
 
 <nav class="navbar navbar-default">
@@ -71,3 +90,5 @@
   }
 
 ?>
+</header>
+ <div id="main-area">
