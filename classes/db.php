@@ -6,14 +6,14 @@ class DB{
 //$2y$10$uka1A.bW8FZEEYltklZCBeOgHF4CF1h55p0/LIqiFV88hmcOYbQlm
 
 	public function login($username, $password){
-		$sql = 'SELECT username, password, memberID FROM members WHERE username = "'.$username.'"';
+		$sql = 'SELECT username, password, id FROM user WHERE username = "'.$username.'"';
 		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
 		$row = mysql_fetch_assoc($query);
 		echo $row['password'];
 		if(($username == $row['username']) && ($password == $row['password'])){
 		 	    $_SESSION['loggedin'] = true;
 		 	    $_SESSION['username'] = $row['username'];
-		 	    $_SESSION['memberID'] = $row['memberID'];
+		 	    $_SESSION['id'] = $row['id'];
 		 	    return true;
 		 }
 	}

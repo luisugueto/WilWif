@@ -33,11 +33,12 @@ if(isset($_POST['submit'])){
 	}
 
 	else{
+	 	$name = $_POST['name'];
 	 	$password = $_POST['password'];
 	 	$username = $_POST['username'];
 	 	$email = $_POST['email'];
 	 	
-		$stmt = mysql_query('INSERT INTO members (username,password,email) VALUES ("'.$username.'", "'.$password.'", "'.$email.'")');
+		$stmt = mysql_query('INSERT INTO members (name,username,password,email) VALUES ("'.$name.'","'.$username.'", "'.$password.'", "'.$email.'")');
 		echo "<script>
 			alert('Usuario Registrado.');
 		</script>";
@@ -79,28 +80,30 @@ require('layout/header.php');
 					}
 				}
 				?>
-
 				<div class="form-group">
-					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="Nombre de Usuario" value="<?php if(isset($error)){ echo $_POST['username']; } ?>" required tabindex="1">
+					<input type="text" name="name" id="name" class="form-control input-lg" placeholder="Nombre" value="<?php if(isset($error)){ echo $_POST['username']; } ?>" required tabindex="1">
 				</div>
 				<div class="form-group">
-					<input type="email" name="email" id="email" class="form-control input-lg" placeholder="Correo" value="<?php if(isset($error)){ echo $_POST['email']; } ?>" required tabindex="2">
+					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="Nombre de Usuario" value="<?php if(isset($error)){ echo $_POST['username']; } ?>" required tabindex="2">
+				</div>
+				<div class="form-group">
+					<input type="email" name="email" id="email" class="form-control input-lg" placeholder="Correo" value="<?php if(isset($error)){ echo $_POST['email']; } ?>" required tabindex="3">
 				</div>
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Contraseña" required tabindex="3">
+							<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Contraseña" required tabindex="4">
 						</div>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Confirmar Contraseña" required tabindex="4">
+							<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Confirmar Contraseña" required tabindex="5">
 						</div>
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Registrar" class="btn btn-primary btn-block btn-lg" required tabindex="5"></div>
+					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Registrar" class="btn btn-primary btn-block btn-lg" required tabindex="6"></div>
 				</div>
 			</form>
 		</div>

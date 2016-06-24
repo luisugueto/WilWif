@@ -7,10 +7,10 @@ session_start();
 //date_default_timezone_set('Europe/London');
 
 //database credentials
-define('DBHOST','localhost');
-define('DBUSER','appadminzuaru');
-define('DBPASS','d)*a-0CDLH]2');
-define('DBNAME','ap_wilwif');
+// define('DBHOST','localhost');
+// define('DBUSER','appadminzuaru');
+// define('DBPASS','d)*a-0CDLH]2');
+// define('DBNAME','ap_wilwif');
 
 //application address
 #define('DIR','http://domain.com/');
