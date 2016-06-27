@@ -1,7 +1,7 @@
-<?php require('../includes/config.php'); 
+<?php #require('../includes/config.php'); 
 
 //if not logged in redirect to login page
-if(!$user->is_logged_in()){ header('Location: login.php'); } 
+#if(!$user->is_logged_in()){ header('Location: login.php'); } 
 
 $category_sql = "SELECT * FROM item_category";
 $category = mysql_query($category_sql);

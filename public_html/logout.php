@@ -7,6 +7,6 @@ $db = new DB();
 $db->logout(); 
 
 //logged in return to index page
-header('Location: index.php');
+header('Location: ../public_html/');
 exit;
 ?>

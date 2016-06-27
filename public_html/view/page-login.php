@@ -6,7 +6,7 @@ require_once('../classes/db.php');
 $db = new DB();
 
 //check if already logged in move to home page
-if( $db->is_logged_in() ){ header('Location: index.php'); } 
+#if( $db->is_logged_in() ){ header('Location: index.php'); } 
 
 //process login form if submitted
 if(isset($_POST['submit'])){
@@ -16,7 +16,7 @@ if(isset($_POST['submit'])){
 	
 	if($db->login($username,$password)){ 
 		$_SESSION['username'] = $username;
-		header('Location: memberpage.php');
+		header('Location: /');
 		exit;
 	
 	} else {

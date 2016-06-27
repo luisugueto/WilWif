@@ -2,9 +2,6 @@
 require('../includes/config.php');
 require('../classes/db.php');
 $db = new DB();
-//if logged in redirect to members page
-if( $user->is_logged_in() ){ header('Location: memberpage.php'); }
-
 //define page title
 $title = 'Lost Object';
 $request_url = $_SERVER['REQUEST_URI'];
@@ -17,6 +14,7 @@ if($path_urls[1])
  $path = "";
 }
  $path = $path_urls[1];
+
 switch ($path){
     case '1':
 	
@@ -28,6 +26,15 @@ switch ($path){
 	
 	case 'register':
 	 include 'view/page_register.php';
+	break;
+	
+	case 'nuevoItem':
+	 include 'view/page-newItem.php';
+	break;
+
+	case 'logout':
+	 session_destroy();
+	 header('Location: /');
 	break;
 	
 	default:
