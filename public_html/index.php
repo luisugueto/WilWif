@@ -1,6 +1,7 @@
 <?php 
 require('../includes/config.php');
 require('../classes/db.php');
+require('../classes/item.php');
 $db = new DB();
 //define page title
 $title = 'Lost Object';
@@ -13,11 +14,10 @@ if($path_urls[1])
 }else{
  $path = "";
 }
- $path = $path_urls[1];
 
 switch ($path){
-    case '1':
-	
+    case 'execution':
+	   include '../execution-controler.php';
 	break;
 	
 	case 'login':
