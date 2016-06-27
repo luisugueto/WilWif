@@ -23,15 +23,15 @@ switch ($path){
 	break;
 	
 	case 'login':
-	  include 'login.php';
+	  include 'view/page-login.php';
 	break;
 	
 	case 'register':
-	 include 'page_register.php';
+	 include 'view/page_register.php';
 	break;
 	
 	default:
-	 include 'page_home.php';
+	 include 'view/page_home.php';
 	break;
 }
 
