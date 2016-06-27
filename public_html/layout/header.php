@@ -23,9 +23,7 @@
 			<img src="/image/lupa_31x31.png" title="search_icon" width="31" height="31"  style="margin-top: 0px; margin-left: -50px;">	
 		 
      <a href="/register/"  style="color: black;">
-     <input type="button" onClick="document.location = '/register/'" name="loginRegister" value="Login/Register"  style="width: 247px; float: right; margin-top: 15px; height: 60px; padding-left: 67px; padding-right: 0px; border-width: 0px; padding-top: 0px; background-size: 100% 100%; background-color: transparent; margin-right: -19px; background-image: url('../image/Boton_usuario_229x45.png');>
-
-			<input type="submit" value="Login/Register" ">
+     <input type="button" onClick="document.location = '/register/'" name="loginRegister" value="Login/Register"  style="width: 247px; float: right; margin-top: 15px; height: 60px; padding-left: 67px; padding-right: 0px; border-width: 0px; padding-top: 0px; background-size: 100% 100%; background-color: transparent; margin-right: -19px; background-image: url('../image/Boton_usuario_229x45.png');>">
 		 </a>
 		</div>
 	 </form>
