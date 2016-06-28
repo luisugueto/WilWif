@@ -77,14 +77,7 @@ require('layout/header.php');
 
 				<div class="form-group">
 					<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="3">
-				</div>
-				
-				<div class="row">
-					<div class="col-xs-9 col-sm-9 col-md-9">
-						 <a href='reset.php'>Perdiste tu contraseña?</a>
-					</div>
-				</div>
-				
+				</div>				
 				<hr>
 				<div class="row">
 					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Entrar" class="btn btn-primary btn-block btn-lg" tabindex="5"></div>
