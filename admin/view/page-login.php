@@ -14,12 +14,12 @@ if(isset($_POST['submit'])){
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 	
-	if($db->login($username,$password)){ 
+	if($db->loginBackOffice($username,$password)){ 
 		$_SESSION['username'] = $username;
 		header('Location: /');
 		exit;
 	} else {
-		$error[] = 'Usuario o Password no ha sido activada.';
+		$error[] = 'Usuario o Password incorrectos.';
 	}
 
 }//end if submit

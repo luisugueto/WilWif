@@ -20,12 +20,12 @@
 
 <div class="page-header">
 	
-</div>
-<div class="sub-menu-container">
+  <div class="sub-menu-container">
 	
-	</div>
-<div class="logo_container" style="margin-top: 0px; top: -210px; left: -400px; position: relative;display: inline-block;">
-		<img src="/image/logo_203x203.png" title="logo" width="203" height="203"  style="margin-top: 0px; margin-left: 0px; width: 203px;">
+  </div>
+  <div class="logo_container" style="margin-top: 0px; top: -210px; left: -400px; position: relative;display: inline-block;">
+	 	<img src="/image/logo_203x203.png" title="logo" width="180" height="180"  style="margin-top: 70px; margin-left: 0px; width: 203px;">
+  </div>
 </div>
 	
 <?php if( $user->is_logged_in() ){ ?>
@@ -47,7 +47,14 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
+         <?php if( $_SESSION['rol_id'] == 1 ){ ?>
+         <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Empleados<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/nuevoEmpleado/">Agregar</a></li>
+          </ul>
+        </li>
+        <?php } ?>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Objetos <span class="caret"></span></a>
           <ul class="dropdown-menu">

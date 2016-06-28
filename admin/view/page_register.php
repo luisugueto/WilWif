@@ -32,7 +32,7 @@ if(isset($_POST['submit'])){
 	 	$username = $_POST['username'];
 	 	$email = $_POST['email'];
 	 	
-		$stmt = mysql_query('INSERT INTO user (name,username,password,email,rol_id) VALUES ("'.$name.'","'.$username.'", "'.$password.'", "'.$email.'", 3)');
+		$stmt = mysql_query('INSERT INTO user (name,username,password,email, rol_id) VALUES ("'.$name.'","'.$username.'", "'.$password.'", "'.$email.'", 2)');
 		echo "<script>
 			alert('Usuario Registrado.');
 		</script>";
@@ -50,8 +50,7 @@ require('layout/header.php');
 
 	    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 			<form role="form" method="post" action="" autocomplete="off">
-				<h2>Por favor registrese</h2>
-				<p>Ya eres miembro? <a href='/login/'>Entrar</a></p>
+				<h2>Nuevo Empleado</h2>
 				<hr>
 
 				<?php
@@ -70,7 +69,10 @@ require('layout/header.php');
 				}
 				?>
 				<div class="form-group">
-					<input type="text" name="name" id="name" class="form-control input-lg" placeholder="Nombre" value="<?php if(isset($error)){ echo $_POST['username']; } ?>" required tabindex="1">
+					<input type="text" name="name" id="name" class="form-control input-lg" placeholder="Nombre" value="<?php if(isset($error)){ echo $_POST['name']; } ?>" required tabindex="1">
+				</div>
+				<div class="form-group">
+					<input type="text" name="apellido" id="apellido" class="form-control input-lg" placeholder="Apellido" value="<?php if(isset($error)){ echo $_POST['apellido']; } ?>" required tabindex="1">
 				</div>
 				<div class="form-group">
 					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="Nombre de Usuario" value="<?php if(isset($error)){ echo $_POST['username']; } ?>" required tabindex="2">

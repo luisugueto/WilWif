@@ -15,18 +15,17 @@ if($path_urls[1])
  $path = "";
 }
 
-echo $path;
 
 switch ($path){	
-	case 'inicio':
-
+	case 'nuevoEmpleado':
+		include 'view/page_register.php';
 	break;
 	case 'logout':
 		session_destroy();
 		header('Location: /');
 	break;
 	default:
-	 include 'view/page-login.php';
+	 	include 'view/page-login.php';
 	break;
 }
 
