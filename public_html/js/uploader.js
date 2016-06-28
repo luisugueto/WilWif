@@ -236,6 +236,13 @@ function cropFile(){
 				eliminar.className = "uploader_eliminar";
 				eliminar.addEventListener('click', function(e) {  			    
 					row_img.parentNode.removeChild(row_img);
+					var lis = document.getElementById('lista-imagenes').getElementsByTagName("li");
+			var imgcontw= lis.length*125;
+			if(imgcontw <= 0)
+			{
+				imgcontw = 0;
+			}
+			$(".upload_container_inner").width(imgcontw);
 				}, false);
 			var	row_img = document.createElement('li');	
 		    var upload_img  = document.createElement('div'); 
@@ -250,14 +257,14 @@ function cropFile(){
 			// add url value 
 			var input_url = document.createElement('input'); 
 			input_url.type = "hidden";
-			input_url.id = "url_img"+list.getElementsByTagName("li").length;
-			input_url.name = "url_img"+list.getElementsByTagName("li").length;
+			input_url.id = "url_img[]";//+list.getElementsByTagName("li").length;
+			input_url.name = "url_img[]";//+list.getElementsByTagName("li").length;
 			input_url.value = "'"+ xhr2.responseText +"'";
 			row_img.appendChild(input_url);
 			
 			
 			// add width depending of the nume of image
-			var lis = list.getElementsByTagName("li");
+			var lis = document.getElementById('lista-imagenes').getElementsByTagName("li");
 			var imgcontw= lis.length*125;
 			if(imgcontw <= 0)
 			{

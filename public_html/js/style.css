@@ -179,3 +179,9 @@ ul,li {
 .upload_container_crop_controls{
 
 }
+
+.images_holder{
+	clear: both; 
+	content: "";
+	display: table;
+}

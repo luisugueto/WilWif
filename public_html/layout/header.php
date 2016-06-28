@@ -28,7 +28,6 @@
 		 	<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="margin-left: 110px; width: 556px; height: 46px; background-image: url('../image/barra_busqueda_556x48.png'); background-size: 100% 100%; border-width: 0px; background-color: transparent; margin-top: 20px; padding-left: 40px; padding-right: 50px;">
 			<img src="/image/lupa_31x31.png" title="search_icon" width="31" height="31"  id="search_icon"style="margin-top: 0px; margin-left: -50px;">	
 			<?php if( $user->is_logged_in() ){ ?>
-  
 				<a href="/account/"  style="color: black;">
 				<input type="button" onClick="document.location = '/account/'" name="account" value="Account"  style="width: 247px; float: right; margin-top: 15px; height: 60px; padding-left: 67px; padding-right: 0px; border-width: 0px; padding-top: 0px; background-size: 100% 100%; background-color: transparent; margin-right: -19px; background-image: url('../image/Boton_usuario_229x45.png');>">
 				</a>

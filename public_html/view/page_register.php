@@ -32,7 +32,7 @@ if(isset($_POST['submit'])){
 	 	$username = $_POST['username'];
 	 	$email = $_POST['email'];
 	 	
-		$stmt = mysql_query('INSERT INTO user (name,username,password,email,rol_id) VALUES ("'.$name.'","'.$username.'", "'.$password.'", "'.$email.'", 3)');
+		$stmt = mysql_query('INSERT INTO user (name,username,password,email) VALUES ("'.$name.'","'.$username.'", "'.$password.'", "'.$email.'")');
 		echo "<script>
 			alert('Usuario Registrado.');
 		</script>";
