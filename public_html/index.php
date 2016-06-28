@@ -16,6 +16,9 @@ if($path_urls[1])
 }
 
 switch ($path){
+	case 'newitem':
+	   include 'view/page-new-item.php';
+	break;
 	case 'item':
 	   include 'view/page_item.php';
 	break;

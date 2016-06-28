@@ -120,10 +120,11 @@ if(isset($_GET['s']))
 {
 ?>
 var search_value = '<?php echo $_GET['s']; ?>';
+var filter_value = '<?php if(isset($_GET['filter'])){ echo $_GET['filter'];}else{echo '';} ?>';
  $(document).ready(function()
  {
 	
-    search_items(search_value,'');
+    search_items(search_value,filter_value);
  });
  <?php 
 }

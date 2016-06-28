@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="/css/main.css">
     <script src="/js/jquery-1.11.3.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+	
+	<link type="text/css" rel="stylesheet" href="/js/style.css" />
+	<link rel="stylesheet" href="/js/jquery.Jcrop.css" type="text/css" />
+	
+	<script src="/js/uploader.js"></script>
+	<script src="/js/jquery.Jcrop.js"></script>
 </head>
 <body style="text-align: center;">
 <div id="page-container"  style="width: 1024px; display: inline-block;">
@@ -21,10 +27,18 @@
 		  
 		 	<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="margin-left: 110px; width: 556px; height: 46px; background-image: url('../image/barra_busqueda_556x48.png'); background-size: 100% 100%; border-width: 0px; background-color: transparent; margin-top: 20px; padding-left: 40px; padding-right: 50px;">
 			<img src="/image/lupa_31x31.png" title="search_icon" width="31" height="31"  id="search_icon"style="margin-top: 0px; margin-left: -50px;">	
-		 
-     <a href="/register/"  style="color: black;">
-     <input type="button" onClick="document.location = '/register/'" name="loginRegister" value="Login/Register"  style="width: 247px; float: right; margin-top: 15px; height: 60px; padding-left: 67px; padding-right: 0px; border-width: 0px; padding-top: 0px; background-size: 100% 100%; background-color: transparent; margin-right: -19px; background-image: url('../image/Boton_usuario_229x45.png');>">
-		 </a>
+			<?php if( $user->is_logged_in() ){ ?>
+				<a href="/account/"  style="color: black;">
+				<input type="button" onClick="document.location = '/account/'" name="account" value="Account"  style="width: 247px; float: right; margin-top: 15px; height: 60px; padding-left: 67px; padding-right: 0px; border-width: 0px; padding-top: 0px; background-size: 100% 100%; background-color: transparent; margin-right: -19px; background-image: url('../image/Boton_usuario_229x45.png');>">
+				</a>
+
+			<?php }
+				else{?>
+				<a href="/register/"  style="color: black;">
+				<input type="button" onClick="document.location = '/register/'" name="loginRegister" value="Login/Register"  style="width: 247px; float: right; margin-top: 15px; height: 60px; padding-left: 67px; padding-right: 0px; border-width: 0px; padding-top: 0px; background-size: 100% 100%; background-color: transparent; margin-right: -19px; background-image: url('../image/Boton_usuario_229x45.png');>">
+				</a>
+		<?php }?>
+     
 		</div>
 	 </form>
 </div>
