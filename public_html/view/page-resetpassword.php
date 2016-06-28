@@ -1,22 +1,20 @@
-<?php require('../includes/config.php'); 
+<?php 
 
 //if logged in redirect to members page
-if( $user->is_logged_in() ){ header('Location: memberpage.php'); } 
 
-$stmt = $db->prepare('SELECT resetToken, resetComplete FROM members WHERE resetToken = :token');
-$stmt->execute(array(':token' => $_GET['key']));
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
+// $stmt = $db->prepare('SELECT resetToken, resetComplete FROM members WHERE resetToken = :token');
+// $stmt->execute(array(':token' => $_GET['key']));
+// $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-//if no token from db then kill the page
-if(empty($row['resetToken'])){
-	$stop = 'Elemento inválido proporcionado, por favor utilice el enlace proporcionado en el correo electrónico de restablecimiento.';
-} elseif($row['resetComplete'] == 'Yes') {
-	$stop = 'Tu contraseña ha sido cambiada!';
-}
+// //if no token from db then kill the page
+// if(empty($row['resetToken'])){
+// 	$stop = 'Elemento inválido proporcionado, por favor utilice el enlace proporcionado en el correo electrónico de restablecimiento.';
+// } elseif($row['resetComplete'] == 'Yes') {
+// 	$stop = 'Tu contraseña ha sido cambiada!';
+//}
 
 //if form has been submitted process it
 if(isset($_POST['submit'])){
-
 	//basic validation
 	if(strlen($_POST['password']) < 3){
 		$error[] = 'Contraseña muy corta.';
@@ -33,26 +31,9 @@ if(isset($_POST['submit'])){
 	//if no errors have been created carry on
 	if(!isset($error)){
 
-		//hash the password
-		$hashedpassword = $user->password_hash($_POST['password'], PASSWORD_BCRYPT);
-
-		try {
-
-			$stmt = $db->prepare("UPDATE members SET password = :hashedpassword, resetComplete = 'Yes'  WHERE resetToken = :token");
-			$stmt->execute(array(
-				':hashedpassword' => $hashedpassword,
-				':token' => $row['resetToken']
-			));
-
-			//redirect to index page
-			header('Location: login.php?action=resetAccount');
-			exit;
-
-		//else catch the exception and show the error.
-		} catch(PDOException $e) {
-		    $error[] = $e->getMessage();
-		}
-
+		$sql = "UPDATE user SET password = '".$_POST['password']."' WHERE id = '".$_SESSION['id']."'";
+		$query = mysql_query($sql);
+		header('Location: ./action=cambiada');
 	}
 
 }
@@ -90,12 +71,9 @@ require('layout/header.php');
 					}
 
 					//check the action
-					switch ($_GET['action']) {
-						case 'active':
-							echo "<h2 class='bg-success'>Su cuenta está activa ahora se puede iniciar sesión.</h2>";
-							break;
-						case 'reset':
-							echo "<h2 class='bg-success'>Por favor, compruebe su bandeja de entrada para un enlace de restablecimiento.</h2>";
+					switch (isset($_GET['action'])) {
+						case 'cambiada':
+							echo "<h2 class='bg-success'>Su contraseña ha sido cambiada.</h2>";
 							break;
 					}
 					?>
@@ -115,7 +93,7 @@ require('layout/header.php');
 					
 					<hr>
 					<div class="row">
-						<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Change Password" class="btn btn-primary btn-block btn-lg" tabindex="3"></div>
+						<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Cambiar Contraseña" class="btn btn-primary btn-block btn-lg" tabindex="3"></div>
 					</div>
 				</form>
 
