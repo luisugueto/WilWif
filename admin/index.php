@@ -20,9 +20,15 @@ switch ($path){
 	case 'nuevoEmpleado':
 		include 'view/page_register.php';
 	break;
+	case 'listadoUsuarios':
+		include 'view/page_listadoUsuarios.php';
+	break;
 	case 'logout':
 		session_destroy();
 		header('Location: /');
+	break;
+	case 'modificarUsuario':
+		include 'view/page-modificarUsuario.php';
 	break;
 	default:
 	 	include 'view/page-login.php';
