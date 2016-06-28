@@ -13,10 +13,10 @@ require('layout/header.php');
 				<table align="center" class="table table-striped table-hover">
 				<thead>		
 					<tr>
-						<th>Nombre</th>
-						<th>Nombre de Usuario</th>
-						<th>Correo</th>
-						<th>Opciones</th>
+						<th><p align="center">Nombre</p></th>
+						<th><p align="center">Nombre de Usuario</p></th>
+						<th><p align="center">Correo</p></th>
+						<th width="200px"><p align="center">Opciones</p></th>
 					</tr>
 				</thead>
 					<?php
@@ -30,8 +30,8 @@ require('layout/header.php');
 						<td><?php echo $sql_assoc['name']; ?></td>
 						<td><?php echo $sql_assoc['username']; ?></td>
 						<td><?php echo $sql_assoc['email']; ?></td>
-						<td><?php echo "<a href='/modificarUsuario/?id=$sql_assoc[id]'>Bloquear</a>
-										<a href='/modificarUsuario/?id=$sql_assoc[id]'>Articulos</a>
+						<td><?php echo "<a href='/modificarUsuario/?id=$sql_assoc[id]'>Bloquear</a> /
+										<a href='/modificarUsuario/?id=$sql_assoc[id]'>Articulos</a> /
 										<a href='/modificarUsuario/?id=$sql_assoc[id]'>Historia</a>"; ?></td>
 						
 					<?php	 
