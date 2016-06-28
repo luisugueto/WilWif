@@ -247,6 +247,15 @@ function cropFile(){
 			row_img.appendChild(eliminar);	
 			list = document.getElementById('lista-imagenes');
 			list.appendChild(row_img);
+			// add url value 
+			var input_url = document.createElement('input'); 
+			input_url.type = "hidden";
+			input_url.id = "url_img"+list.getElementsByTagName("li").length;
+			input_url.name = "url_img"+list.getElementsByTagName("li").length;
+			input_url.value = "'"+ xhr2.responseText +"'";
+			row_img.appendChild(input_url);
+			
+			
 			// add width depending of the nume of image
 			var lis = list.getElementsByTagName("li");
 			var imgcontw= lis.length*125;
