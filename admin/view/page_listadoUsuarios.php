@@ -7,22 +7,25 @@ require('layout/header.php');
 
 	<div class="row">
 
-	    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+	    <div class="table-responsive">
 				<h2>Usuarios</h2>
 				<hr>
-				<table class="table table-striped">			
+				<table align="center" class="table table-striped table-hover">
+				<thead>		
 					<tr>
 						<th>Nombre</th>
 						<th>Nombre de Usuario</th>
 						<th>Correo</th>
 						<th>Opciones</th>
 					</tr>
+				</thead>
 					<?php
 						$query = "SELECT * FROM user";
 						$sql = mysql_query($query);
 						$sql_assoc = mysql_fetch_assoc($sql);
 						do{
 					?>
+				<tbody>
 					<tr>
 						<td><?php echo $sql_assoc['name']; ?></td>
 						<td><?php echo $sql_assoc['username']; ?></td>
@@ -35,6 +38,7 @@ require('layout/header.php');
 						}while($sql_assoc = mysql_fetch_assoc($sql));
 					?>
 					</tr>
+					</tbody>
 				</table>
 
 
