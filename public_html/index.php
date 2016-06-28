@@ -16,6 +16,10 @@ if($path_urls[1])
 }
 
 switch ($path){
+	case 'item':
+	   include 'view/page_item.php';
+	break;
+	
     case 'execution':
 	   include '../execution-controler.php';
 	break;
@@ -31,9 +35,7 @@ switch ($path){
 	case 'nuevoItem':
 	 include 'view/page-newItem.php';
 	break;
-	case 'cambiarContrasenia':
-	 include 'view/page-resetpassword.php';
-	break;
+
 	case 'logout':
 	 session_destroy();
 	 header('Location: /');

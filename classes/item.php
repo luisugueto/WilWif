@@ -38,11 +38,15 @@ class item{
 			$this->item_photos_url = array();
 			$sql = 'SELECT path FROM item_photo where id_item ='.$this->item_id.'';
 			$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
-			while($row2 = mysql_fetch_assoc($query))
+			if (mysql_num_rows($query)>0) 
 			{
-				array_push($this->$item_photos_url, $row2["path"]);	
+				while($row2 = mysql_fetch_assoc($query))
+				{
+					array_push($this->item_photos_url, $row2["path"]);	
+				}
+			}else{
+				 array_push($this->item_photos_url, '/image/No_image_available_125x132.png');	
 			}
-			
 			$this->item_user_id = $row["id_user"];
 			$sql = 'SELECT username FROM user where id ='.$this->item_user_id.'';
 			$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
