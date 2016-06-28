@@ -9,13 +9,10 @@ if($path_urls[2])
 
 switch ($path){
     case 'search_items':
-	   include 'include/search_items.php';
+	   include 'includes/search_items.php';
 	break;
 	default:
 	 die("Access denied");
 	break;
 }
-
-
-
 ?>
