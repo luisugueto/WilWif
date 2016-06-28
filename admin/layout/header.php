@@ -22,27 +22,8 @@
 	
 </div>
 <div class="sub-menu-container">
-	 <form  method="get"  action="/" id="search_form">
-		<div>
-		  
-		 	<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="margin-left: 110px; width: 556px; height: 46px; background-image: url('../image/barra_busqueda_556x48.png'); background-size: 100% 100%; border-width: 0px; background-color: transparent; margin-top: 20px; padding-left: 40px; padding-right: 50px;">
-			<img src="/image/lupa_31x31.png" title="search_icon" width="31" height="31"  id="search_icon"style="margin-top: 0px; margin-left: -50px;">	
-			<?php if( $user->is_logged_in() ){ ?>
-  
-				<a href="/account/"  style="color: black;">
-				<input type="button" onClick="document.location = '/account/'" name="account" value="Account"  style="width: 247px; float: right; margin-top: 15px; height: 60px; padding-left: 67px; padding-right: 0px; border-width: 0px; padding-top: 0px; background-size: 100% 100%; background-color: transparent; margin-right: -19px; background-image: url('../image/Boton_usuario_229x45.png');>">
-				</a>
-
-			<?php }
-				else{?>
-				<a href="/register/"  style="color: black;">
-				<input type="button" onClick="document.location = '/register/'" name="loginRegister" value="Login/Register"  style="width: 247px; float: right; margin-top: 15px; height: 60px; padding-left: 67px; padding-right: 0px; border-width: 0px; padding-top: 0px; background-size: 100% 100%; background-color: transparent; margin-right: -19px; background-image: url('../image/Boton_usuario_229x45.png');>">
-				</a>
-		<?php }?>
-     
-		</div>
-	 </form>
-</div>
+	
+	</div>
 <div class="logo_container" style="margin-top: 0px; top: -210px; left: -400px; position: relative;display: inline-block;">
 		<img src="/image/logo_203x203.png" title="logo" width="203" height="203"  style="margin-top: 0px; margin-left: 0px; width: 203px;">
 </div>
@@ -91,7 +72,7 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="cambiarContrasenia.php">Cambiar Contraseña</a></li>
+            <li><a href="/prueba/">Cambiar Contraseña</a></li>
             <li><a href="/logout/">Cerrar Sesión</a></li>
           </ul>
         </li>
