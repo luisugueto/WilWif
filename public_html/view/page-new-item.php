@@ -14,107 +14,140 @@ $error['error'] = false;
 if (isset($_POST['submit_create'])) 
 {
 
-if(isset($_POST['item_name']) && !empty($_POST['item_name']))
-{
-	$item_name =   	$_POST['item_name'];
-}else
-{
-	$error['error'] = true;
-	$error['item_name'] = 'Field Required';
-}
-
-if(isset($_POST['item_title']) && !empty($_POST['item_title']))
-{
-	$item_title =   $_POST['item_title'];
-}else
-{
-	$error['error'] = true;
-	$error['item_title'] = 'Field Required';
-}
-
-if(isset($_POST['item_description']) && !empty($_POST['item_description']))
-{
-	$item_title =   $_POST['item_description'];
-}else
-{
-	
-}
-
-if(isset($_POST['item_contry']) && !empty($_POST['item_contry']))
-{
-	$item_contry =   $_POST['item_contry'];
-}else
-{
-	$error['error'] = true;
-	$error['item_contry'] = 'Field Required';
-}
-
-if(isset($_POST['item_city']) && !empty($_POST['item_city']))
-{
-	$item_city =   $_POST['item_city'];
-}else
-{
-	$error['error'] = true;
-	$error['item_city'] = 'Field Required';
-}
-
-if(isset($_POST['item_address']) && !empty($_POST['item_address']))
-{
-	$item_address =   $_POST['item_address'];
-}else
-{
-	
-	//$error['item_address'] = 'Field Required';
-}
-
-if(isset($_POST['item_category']) && !empty($_POST['item_category']))
-{
-	$item_category =   $_POST['item_category'];
-}else
-{
-	$error['error'] = true;
-	$error['item_category'] = 'Field Required';
-}
-
-if(isset($_POST['foundlost']) && !empty($_POST['foundlost']))
-{
-	$foundlost =   $_POST['foundlost'];
-}else
-{
-	$error['error'] = true;
-	$error['foundlost'] = 'Field Required';
-}
-/*Terminar de verificar todos los datos*/
-/*Cargamos el id del usuario y las imagenes*/
-$imgs_path = array();
-for($i = 0 ; $i< 5 ;$i++)
-{
-	if(isset($_POST['url_img'][$i]))
-	{	
-		array_push($imgs_path, $_POST['url_img'][$i]);	
-	}
-}
-$item_user;
-
-}
-
- /*	if(strlen($_POST['password']) < 3){
-		$error[] = 'Contraseña muy corta.';
+	if(isset($_POST['item_name']) && !empty($_POST['item_name']))
+	{
+		$item_name =   	$_POST['item_name'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_name'] = 'Field Required';
 	}
 
-	if(strlen($_POST['passwordConfirm']) < 3){
-		$error[] = 'Confirmar Contraseña muy corta.';
+	if(isset($_POST['item_title']) && !empty($_POST['item_title']))
+	{
+		$item_title =   $_POST['item_title'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_title'] = 'Field Required';
 	}
-*/
-/*code
-category
-name
-description
-title
-status
-findlost_address
-type
-photos*/
+
+	if(isset($_POST['item_description']) && !empty($_POST['item_description']))
+	{
+		$item_description =   $_POST['item_description'];
+	}else
+	{
+		
+	}
+
+	if(isset($_POST['item_contry']) && !empty($_POST['item_contry']))
+	{
+		$item_contry =   $_POST['item_contry'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_contry'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_city']) && !empty($_POST['item_city']))
+	{
+		$item_city =   $_POST['item_city'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_city'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_address']) && !empty($_POST['item_address']))
+	{
+		$item_address =   $_POST['item_address'];
+	}else
+	{
+		
+		//$error['item_address'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_category']) && !empty($_POST['item_category']))
+	{
+		$item_category =   $_POST['item_category'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_category'] = 'Field Required';
+	}
+
+	if(isset($_POST['foundlost']) && !empty($_POST['foundlost']))
+	{
+		$foundlost =   $_POST['foundlost'];
+	}else
+	{
+		$error['error'] = true;
+		$error['foundlost'] = 'Field Required';
+	}
+	/*Terminar de verificar todos los datos*/
+	/*Cargamos el id del usuario y las imagenes y generamos el cod del item*/
+	$imgs_path = array();
+	for($i = 0 ; $i< 5 ;$i++)
+	{
+		if(isset($_POST['url_img'][$i]))
+		{	
+			array_push($imgs_path, $_POST['url_img'][$i]);	
+		}
+	}
+	$item_user = $_SESSION['id'];
+
+	$item_code = date("Y").'-'.date('m').date('d').'-';
+	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	for ($i = 0; $i < 8; $i++) 
+	{
+		$item_code = $item_code.$characters[rand(0, strlen($characters))];
+		if($i == 3)
+		{
+			$item_code = $item_code.'-';
+		}
+	}
+
+	/*Guardamos el item en la base de datos*/
+	$sql =  'INSERT INTO item (';
+	$sql =  $sql. 'code' ;
+	$sql =  $sql. ',name' ;
+	$sql =  $sql. ',description' ;
+	$sql =  $sql. ',title' ;
+	$sql =  $sql. ',status' ;
+	$sql =  $sql. ',findlost_address' ;
+	$sql =  $sql. ',type' ;
+	$sql =  $sql. ',id_category' ;
+	$sql =  $sql. ',id_user' ;
+	$sql =  $sql. ')' ;
+	$sql =  $sql. ' VALUES (' ;
+	$sql =  $sql. ' "'.$item_code.'"' ;
+	$sql =  $sql. ',"'.$item_name.'"' ;
+	$sql =  $sql. ',"'.$item_description.'"' ;
+	$sql =  $sql. ',"'.$item_title.'"' ;
+	$sql =  $sql. ',"Active"' ;
+	$sql =  $sql. ',"'.$item_address.'"' ;
+	$sql =  $sql. ',"'.$foundlost.'"' ;
+	$sql =  $sql. ','.$item_category.'' ;
+	$sql =  $sql. ','.$item_user.'' ;
+	$sql =  $sql. ')' ;
+
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());;
+
+	$item_id = mysql_insert_id();
+	for ($i = 0; $i < count($imgs_path); $i++) 
+	{
+		$sql =  'INSERT INTO item_photo (';
+		$sql =  $sql. 'path' ;
+		$sql =  $sql. ',id_item' ;
+		$sql =  $sql. ')' ;
+		$sql =  $sql. ' VALUES (' ;
+		$sql =  $sql. '"'.$imgs_path[$i].'"' ;
+		$sql =  $sql. ','.$item_id.'' ;
+		$sql =  $sql. ')' ;
+		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());;
+	}
+
+}
 
 ?>
 <?php 
@@ -123,10 +156,12 @@ photos*/
 require('layout/header.php'); 
 ?>
 <div id="container" style="padding-bottom: 20px;">
-<form role="form" method="post" action="" autocomplete="off">
-<div class="images_holder">
-
-</div>
+	<form role="form" method="post" action="" autocomplete="off">
+		
+		<div class="images_holder">
+			
+		</div>
+		
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
@@ -498,6 +533,59 @@ require('layout/header.php');
 				</div>	
 </form>
 </div>
+<script>
+ $(document).ready(function()
+ {
+	
+    function previewImgs()
+	{
+		var list = document.getElementById('lista-imagenes');
+		var pre_photos = ["/images/foto 1 wilwif.png", "/images/foto 2 wilwif.png", "/images/foto 3 wilwif.png"];
+		var imgcontw = pre_photos.length*125;
+		if(imgcontw <= 0)
+		{
+			imgcontw = 0;
+		}
+		$(".upload_container_inner").width(imgcontw);
+		for (var i = 0; i < pre_photos.length; i++) {
+			var path_url = pre_photos[i];
+			
+			var eliminar  = document.createElement('div'); 
+			eliminar.innerHTML = "X";	
+			eliminar.className = "uploader_eliminar";
+			eliminar.addEventListener('click', function(e) { 
+			this.parentNode.parentNode.removeChild(this.parentNode);
+			//row_img.parentNode.removeChild(row_img);
+					var lis = document.getElementById('lista-imagenes').getElementsByTagName("li");
+					var imgcontw= lis.length*125;
+					if(imgcontw <= 0)
+					{
+						imgcontw = 0;
+					}
+					$(".upload_container_inner").width(imgcontw);
+			}, false);
+			var	row_img = document.createElement('li');	
+			var upload_img  = document.createElement('div'); 
+			
+			upload_img.style.background = "url('"+ path_url +"')";
+			upload_img.style.backgroundSize = "100px 100px";
+			upload_img.className = "uploader_clasethumb";
+			row_img.appendChild(upload_img);
+			row_img.appendChild(eliminar);	
+			list.appendChild(row_img);
+			// add url value 
+			var input_url = document.createElement('input'); 
+			input_url.type = "hidden";
+			input_url.id = "url_img[]";
+			input_url.name = "url_img[]";
+			input_url.value = "'"+ path_url +"'";
+			row_img.appendChild(input_url);
+		}
+			
+	}
+	previewImgs();
+ });
+</script>
 <?php
 //include header template
 require('layout/footer.php');
