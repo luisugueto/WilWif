@@ -94,7 +94,7 @@ if (isset($_POST['submit_create']))
 			array_push($imgs_path, $_POST['url_img'][$i]);	
 		}
 	}
-	$item_user = $_SESSION['id'];
+	$item_user = "1";//$_SESSION['id'];
 
 	$item_code = date("Y").'-'.date('m').date('d').'-';
 	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -141,12 +141,27 @@ if (isset($_POST['submit_create']))
 		$sql =  $sql. ',id_item' ;
 		$sql =  $sql. ')' ;
 		$sql =  $sql. ' VALUES (' ;
-		$sql =  $sql. '"'.$imgs_path[$i].'"' ;
+		$sql =  $sql. ''.$imgs_path[$i].'' ;
 		$sql =  $sql. ','.$item_id.'' ;
 		$sql =  $sql. ')' ;
 		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());;
 	}
 
+}else if(isset($_GET['item_code'])){
+
+$item = new item($_GET['item_code']);
+
+
+echo 'el nombre del item es'.$item->item_name;
+
+$item_code = $item->item_code;
+$item_name = $item->item_name;
+$item_description = $item->item_description;
+$item_title = $item->item_title;
+$item_address = $item->item_address;
+$foundlost = $item->item_type;
+$item_category = $item->item_category_slug;
+$imgs_path =  $item->item_photos_url;
 }
 
 ?>
@@ -170,7 +185,7 @@ require('layout/header.php');
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="text" name="item_name" id="item_name" class="form-control input-lg" placeholder="Passport Marcos Gonzales" value="<?php if($error['error']){ echo $_POST['item_name']; } ?>" required tabindex="1">
+							<input type="text" name="item_name" id="item_name" class="form-control input-lg" placeholder="Passport Marcos Gonzales" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
 						</div>
 					</div>
 				</div>
@@ -182,7 +197,7 @@ require('layout/header.php');
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="text" name="item_title" id="item_title" class="form-control input-lg" placeholder="Marcos Passport" value="<?php if($error['error']){ echo $_POST['item_title']; } ?>" required tabindex="2">
+							<input type="text" name="item_title" id="item_title" class="form-control input-lg" placeholder="Marcos Passport" value="<?php if(isset($item_title)){ echo $item_title; } ?>" required tabindex="2">
 						</div>
 					</div>
 				</div>
@@ -194,7 +209,7 @@ require('layout/header.php');
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="text" name="item_description" id="item_description" class="form-control input-lg" placeholder="is a new passport from Germany" value="<?php if($error['error']){ echo $_POST['item_description']; } ?>" tabindex="3">
+							<input type="text" name="item_description" id="item_description" class="form-control input-lg" placeholder="is a new passport from Germany" value="<?php if(isset($item_description)){ echo $item_description; } ?>" tabindex="3">
 						</div>
 					</div>
 				</div>
@@ -469,7 +484,7 @@ require('layout/header.php');
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="text" name="item_city" id="item_city" class="form-control input-lg" placeholder="Caracas" value="<?php if($error['error']){ echo $_POST['item_city']; } ?>" required tabindex="4">
+							<input type="text" name="item_city" id="item_city" class="form-control input-lg" placeholder="Caracas" value="<?php if(isset($item_city)){ echo $item_city; } ?>" required tabindex="4">
 						</div>
 					</div>
 				</div>
@@ -481,7 +496,7 @@ require('layout/header.php');
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="text" name="item_address" id="item_address" class="form-control input-lg" placeholder="Fruisof-402, Postal Code 35745" value="<?php if($error['error']){ echo $_POST['item_address']; } ?>" required tabindex="4">
+							<input type="text" name="item_address" id="item_address" class="form-control input-lg" placeholder="Fruisof-402, Postal Code 35745" value="<?php if(isset($item_address)){ echo $item_address; } ?>" required tabindex="4">
 						</div>
 					</div>
 				</div>
@@ -536,52 +551,22 @@ require('layout/header.php');
 <script>
  $(document).ready(function()
  {
-	
     function previewImgs()
 	{
-		var list = document.getElementById('lista-imagenes');
-		var pre_photos = ["/images/foto 1 wilwif.png", "/images/foto 2 wilwif.png", "/images/foto 3 wilwif.png"];
-		var imgcontw = pre_photos.length*125;
-		if(imgcontw <= 0)
-		{
-			imgcontw = 0;
-		}
-		$(".upload_container_inner").width(imgcontw);
+		var pre_photos = <?php $urls_photos='[';
+							for ($i = 0; $i < count($imgs_path); $i++) 
+							{
+								if($i != 0)
+								{
+									$urls_photos= $urls_photos.",";
+								}
+								$urls_photos = $urls_photos.'"'.$imgs_path[$i].'"';
+							}
+							$urls_photos=$urls_photos.']';
+							echo $urls_photos;?>;
 		for (var i = 0; i < pre_photos.length; i++) {
-			var path_url = pre_photos[i];
-			
-			var eliminar  = document.createElement('div'); 
-			eliminar.innerHTML = "X";	
-			eliminar.className = "uploader_eliminar";
-			eliminar.addEventListener('click', function(e) { 
-			this.parentNode.parentNode.removeChild(this.parentNode);
-			//row_img.parentNode.removeChild(row_img);
-					var lis = document.getElementById('lista-imagenes').getElementsByTagName("li");
-					var imgcontw= lis.length*125;
-					if(imgcontw <= 0)
-					{
-						imgcontw = 0;
-					}
-					$(".upload_container_inner").width(imgcontw);
-			}, false);
-			var	row_img = document.createElement('li');	
-			var upload_img  = document.createElement('div'); 
-			
-			upload_img.style.background = "url('"+ path_url +"')";
-			upload_img.style.backgroundSize = "100px 100px";
-			upload_img.className = "uploader_clasethumb";
-			row_img.appendChild(upload_img);
-			row_img.appendChild(eliminar);	
-			list.appendChild(row_img);
-			// add url value 
-			var input_url = document.createElement('input'); 
-			input_url.type = "hidden";
-			input_url.id = "url_img[]";
-			input_url.name = "url_img[]";
-			input_url.value = "'"+ path_url +"'";
-			row_img.appendChild(input_url);
-		}
-			
+			AddImageUploader(pre_photos[i]);
+		}		
 	}
 	previewImgs();
  });

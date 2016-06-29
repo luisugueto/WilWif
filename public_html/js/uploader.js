@@ -280,3 +280,44 @@ function cropFile(){
 	}
 	xhr2.send(formData2);
 }
+
+function AddImageUploader(path_url)
+{
+	var list = document.getElementById('lista-imagenes');
+	var eliminar  = document.createElement('div'); 
+	eliminar.innerHTML = "X";	
+	eliminar.className = "uploader_eliminar";
+	eliminar.addEventListener('click', function(e) 
+	{ 
+		this.parentNode.parentNode.removeChild(this.parentNode);
+		var lis = document.getElementById('lista-imagenes').getElementsByTagName("li");
+		var imgcontw= lis.length*125;
+		if(imgcontw <= 0)
+		{
+			imgcontw = 0;
+		}
+		$(".upload_container_inner").width(imgcontw);
+	}, false);
+	var	row_img = document.createElement('li');	
+	var upload_img  = document.createElement('div'); 
+	upload_img.style.background = "url('"+ path_url +"')";
+	upload_img.style.backgroundSize = "100px 100px";
+	upload_img.className = "uploader_clasethumb";
+	row_img.appendChild(upload_img);
+	row_img.appendChild(eliminar);	
+	list.appendChild(row_img);
+		// add url value 
+	var input_url = document.createElement('input'); 
+	input_url.type = "hidden";
+	input_url.id = "url_img[]";
+	input_url.name = "url_img[]";
+	input_url.value = ""+ path_url +"";
+	row_img.appendChild(input_url);
+	var lis = document.getElementById('lista-imagenes').getElementsByTagName("li");
+	var imgcontw= lis.length*125;
+	if(imgcontw <= 0)
+	{
+		imgcontw = 0;
+	}
+	$(".upload_container_inner").width(imgcontw);
+}

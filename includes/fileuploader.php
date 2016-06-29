@@ -1,5 +1,17 @@
 <?php  
-$target = '../public_html/images/'.$_FILES['file']['name'];
+ $img_code = date("Y").'-'.date('m').date('d').'-';
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		for ($i = 0; $i < 8; $i++) 
+		{
+			$img_code = $img_code.$characters[rand(0, strlen($characters))];
+			if($i == 3)
+			{
+				$img_code = $img_code.'-';
+			}
+		}
+		$img_code = $img_code.'-';
+		
+$target = '../public_html/tmp/'.$img_code.$_FILES['file']['name'];
 $ext = explode('.', $target);
 $type = $ext[count($ext) - 1];
 if ($type=="jpeg"){$type="jpg";}
@@ -38,7 +50,7 @@ $width  = $isImg[0]; $height = $isImg[1];
 			case "gif": $img = imagegif($img_cropped, $target); break;
 		}
 		}
-		$target = 'images/'.$_FILES['file']['name'];
+		$target = '/tmp/'.$img_code.$_FILES['file']['name'];
 		die($target); 
 		} else {
 		echo 'Error, la imagen pesa mas de 2 mb';
