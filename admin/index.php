@@ -23,13 +23,21 @@ switch ($path){
 	case 'listadoUsuarios':
 		include 'view/page_listadoUsuarios.php';
 	break;
-	case 'logout':
-		session_destroy();
-		header('Location: /');
+	case 'bloquearUsuario':
+		include 'view/page-bloquearUsuario.php';
+	break;
+	case 'desbloquearUsuario':
+		include 'view/page-DesbloquearUsuario.php';
 	break;
 	case 'modificarUsuario':
 		include 'view/page-modificarUsuario.php';
 	break;
+
+	case 'logout':
+		session_destroy();
+		header('Location: /');
+	break;
+
 	default:
 	 	include 'view/page-login.php';
 	break;
