@@ -11,32 +11,33 @@ if(isset($_POST['submit'])){
  	$row1 = mysql_num_rows($query1);
 
  	if(strlen($_POST['password']) < 3){
-		$error[] = 'Contraseña muy corta.';
+		$error[] = 'Password too short.';
 	}
 
 	if(strlen($_POST['passwordConfirm']) < 3){
-		$error[] = 'Confirmar Contraseña muy corta.';
+		$error[] = 'Confirm Password short.';
 	}
 
 	if($row==1){
-		$error[] = 'Username ya utilizado.';
+		$error[] = 'Username already used.';
 	}
 
 	if($row1==1){
-		$error[] = 'Email ya utilizado.';
+		$error[] = 'Email already used.';
 	}
 
 	else{
 	 	$name = $_POST['name'];
+	 	$lastname = $_POST['lastname'];
 	 	$password = $_POST['password'];
 	 	$username = $_POST['username'];
 	 	$email = $_POST['email'];
 	 	
-		$stmt = mysql_query('INSERT INTO user (name,username,password,email) VALUES ("'.$name.'","'.$username.'", "'.$password.'", "'.$email.'")');
+		$stmt = mysql_query('INSERT INTO user (name,lastname,username,password,email,create_date, rol_id) VALUES ("'.$name.'","'.$lastname.'","'.$username.'", "'.$password.'", "'.$email.'", NOW(), 3)');
 		echo "<script>
-			alert('Usuario Registrado.');
+			alert('Registered user.');
 		</script>";
-		$mensaje[] = "Registro Exitoso";
+		$mensaje[] = "Successful registration";
 	}
 }
 
@@ -70,29 +71,32 @@ require('layout/header.php');
 				}
 				?>
 				<div class="form-group">
-					<input type="text" name="name" id="name" class="form-control input-lg" placeholder="Nombre" value="<?php if(isset($error)){ echo $_POST['username']; } ?>" required tabindex="1">
+					<input type="text" name="name" id="name" class="form-control input-lg" placeholder="Name" value="<?php if(isset($error)){ echo $_POST['name']; } ?>" required tabindex="1">
 				</div>
 				<div class="form-group">
-					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="Nombre de Usuario" value="<?php if(isset($error)){ echo $_POST['username']; } ?>" required tabindex="2">
+					<input type="text" name="lastname" id="lastname" class="form-control input-lg" placeholder="Last Name" value="<?php if(isset($error)){ echo $_POST['lastname']; } ?>" required tabindex="2">
 				</div>
 				<div class="form-group">
-					<input type="email" name="email" id="email" class="form-control input-lg" placeholder="Correo" value="<?php if(isset($error)){ echo $_POST['email']; } ?>" required tabindex="3">
+					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="Username" value="<?php if(isset($error)){ echo $_POST['username']; } ?>" required tabindex="3">
+				</div>
+				<div class="form-group">
+					<input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email" value="<?php if(isset($error)){ echo $_POST['email']; } ?>" required tabindex="4">
 				</div>
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Contraseña" required tabindex="4">
+							<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" required tabindex="5">
 						</div>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Confirmar Contraseña" required tabindex="5">
+							<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Repeat Password" required tabindex="6">
 						</div>
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Registrar" class="btn btn-primary btn-block btn-lg" required tabindex="6"></div>
+					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Register" class="btn btn-primary btn-block btn-lg" required tabindex="7"></div>
 				</div>
 			</form>
 		</div>
