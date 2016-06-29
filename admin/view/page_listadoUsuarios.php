@@ -39,7 +39,7 @@ require('layout/header.php');
 											echo "<a href='/bloquearUsuario/?id=$sql_assoc[id]'> Lock </a> /";
 										}
 
-								echo "<a href='/modificarUsuario/?id=$sql_assoc[id]'> Articles </a> /
+								echo "<a href='/articlesUsuario/?id=$sql_assoc[id]'> Articles </a> /
 										<a href='/modificarUsuario/?id=$sql_assoc[id]'> History </a>"; ?></td>
 						
 					<?php	 

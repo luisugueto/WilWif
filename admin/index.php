@@ -32,7 +32,9 @@ switch ($path){
 	case 'modificarUsuario':
 		include 'view/page-modificarUsuario.php';
 	break;
-
+	case 'articlesUsuario':
+		include 'view/page_articlesUsuarios.php';
+	break;
 	case 'logout':
 		session_destroy();
 		header('Location: /');
