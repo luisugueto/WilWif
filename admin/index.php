@@ -35,6 +35,9 @@ switch ($path){
 	case 'articlesUsuario':
 		include 'view/page_articlesUsuarios.php';
 	break;
+	case 'historyUsuario':
+		include 'view/page_historyUsuario.php';
+	break;
 	case 'logout':
 		session_destroy();
 		header('Location: /');
