@@ -156,10 +156,12 @@ if (isset($_POST['submit_create']))
 require('layout/header.php'); 
 ?>
 <div id="container" style="padding-bottom: 20px;">
-<form role="form" method="post" action="" autocomplete="off">
-<div class="images_holder">
-
-</div>
+	<form role="form" method="post" action="" autocomplete="off">
+		
+		<div class="images_holder">
+			
+		</div>
+		
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
@@ -531,6 +533,59 @@ require('layout/header.php');
 				</div>	
 </form>
 </div>
+<script>
+ $(document).ready(function()
+ {
+	
+    function previewImgs()
+	{
+		var list = document.getElementById('lista-imagenes');
+		var pre_photos = ["/images/foto 1 wilwif.png", "/images/foto 2 wilwif.png", "/images/foto 3 wilwif.png"];
+		var imgcontw = pre_photos.length*125;
+		if(imgcontw <= 0)
+		{
+			imgcontw = 0;
+		}
+		$(".upload_container_inner").width(imgcontw);
+		for (var i = 0; i < pre_photos.length; i++) {
+			var path_url = pre_photos[i];
+			
+			var eliminar  = document.createElement('div'); 
+			eliminar.innerHTML = "X";	
+			eliminar.className = "uploader_eliminar";
+			eliminar.addEventListener('click', function(e) { 
+			this.parentNode.parentNode.removeChild(this.parentNode);
+			//row_img.parentNode.removeChild(row_img);
+					var lis = document.getElementById('lista-imagenes').getElementsByTagName("li");
+					var imgcontw= lis.length*125;
+					if(imgcontw <= 0)
+					{
+						imgcontw = 0;
+					}
+					$(".upload_container_inner").width(imgcontw);
+			}, false);
+			var	row_img = document.createElement('li');	
+			var upload_img  = document.createElement('div'); 
+			
+			upload_img.style.background = "url('"+ path_url +"')";
+			upload_img.style.backgroundSize = "100px 100px";
+			upload_img.className = "uploader_clasethumb";
+			row_img.appendChild(upload_img);
+			row_img.appendChild(eliminar);	
+			list.appendChild(row_img);
+			// add url value 
+			var input_url = document.createElement('input'); 
+			input_url.type = "hidden";
+			input_url.id = "url_img[]";
+			input_url.name = "url_img[]";
+			input_url.value = "'"+ path_url +"'";
+			row_img.appendChild(input_url);
+		}
+			
+	}
+	previewImgs();
+ });
+</script>
 <?php
 //include header template
 require('layout/footer.php');

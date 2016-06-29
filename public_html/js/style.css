@@ -158,14 +158,14 @@ ul,li {
 	font-weight:bold;
 }
 
-.upload_container_outer{
+.upload_container_outer,.upload_container_outer_2{
 	max-width: 300px;
 	overflow-x: auto;
 	overflow-y: hidden;
 	height: 135px; float: left;
 }
 
-.upload_container_inner{
+.upload_container_inner, .upload_container_inner_2{
 	height: 120px;
 	width: 1px;
 }

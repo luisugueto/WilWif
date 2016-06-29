@@ -11,7 +11,20 @@ $(document).ready(function() {
 
 	if ($(".images_holder")[0]){
 		
+		var containerouter = document.createElement('div'); 
+		containerouter.className= "upload_container_outer";
 		
+		
+		var containerinner = document.createElement('div'); 
+		containerinner.className= "upload_container_inner";
+		containerouter.appendChild(containerinner);
+		
+		var ul_images = document.createElement('ul'); 
+		ul_images.className = "uploader_lista-imagenes";
+		ul_images.id = "lista-imagenes";
+		containerinner.appendChild(ul_images);
+		
+		$(".images_holder").append(containerouter);
 		
 		var containinput = document.createElement('div'); 
 		containinput.className = "upload_container_input";
@@ -43,20 +56,6 @@ $(document).ready(function() {
 		containinput.appendChild(file_input);
 		$(".images_holder").append(containinput);
 		
-		var containerouter = document.createElement('div'); 
-		containerouter.className= "upload_container_outer";
-		
-		
-		var containerinner = document.createElement('div'); 
-		containerinner.className= "upload_container_inner";
-		containerouter.appendChild(containerinner);
-		
-		var ul_images = document.createElement('ul'); 
-		ul_images.className = "uploader_lista-imagenes";
-		ul_images.id = "lista-imagenes";
-		containerinner.appendChild(ul_images);
-		
-		$(".images_holder").append(containerouter);
 		
 		var containcropcontrols = document.createElement('div'); 
 		containcropcontrols.className = "upload_container_crop_controls";
@@ -237,12 +236,12 @@ function cropFile(){
 				eliminar.addEventListener('click', function(e) {  			    
 					row_img.parentNode.removeChild(row_img);
 					var lis = document.getElementById('lista-imagenes').getElementsByTagName("li");
-			var imgcontw= lis.length*125;
-			if(imgcontw <= 0)
-			{
-				imgcontw = 0;
-			}
-			$(".upload_container_inner").width(imgcontw);
+					var imgcontw= lis.length*125;
+					if(imgcontw <= 0)
+					{
+						imgcontw = 0;
+					}
+					$(".upload_container_inner").width(imgcontw);
 				}, false);
 			var	row_img = document.createElement('li');	
 		    var upload_img  = document.createElement('div'); 
