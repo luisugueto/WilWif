@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2016 at 03:49 PM
+-- Generation Time: Jun 30, 2016 at 03:53 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `ap_wilwif`
 --
+CREATE DATABASE IF NOT EXISTS `ap_wilwif` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `ap_wilwif`;
 
 
 --
@@ -38,9 +40,6 @@ INSERT INTO `user` (`id`, `username`, `password`, `email`, `active`, `resetToken
 (2, 'luis', '81dc9bdb52d04dc20036dbd8313ed055', 'blink242@outlook.com', '1', NULL, 'No', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (3, 'omar', 'omar', 'omar@omar.com', '', NULL, 'No', 'omar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (4, 'omar2', 'omar', 'omar2@omar.com', '', NULL, 'No', 'omar2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
-
-
 
 --
 -- Dumping data for table `item_category`
