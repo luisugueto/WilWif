@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2016 at 03:49 PM
+-- Generation Time: Jun 30, 2016 at 09:39 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `ap_wilwif`
 --
+CREATE DATABASE IF NOT EXISTS `ap_wilwif` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `ap_wilwif`;
 
 -- --------------------------------------------------------
 
@@ -87,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `history` (
   `action` varchar(45) NOT NULL,
   `data` varchar(45) DEFAULT NULL,
   `target` varchar(45) DEFAULT NULL,
+  `id_target` int(11) NOT NULL,
   `date` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -135,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `item_photo` (
 `id` int(11) NOT NULL,
   `path` varchar(100) NOT NULL,
   `id_item` int(11) DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
 
 -- --------------------------------------------------------
 
@@ -415,7 +418,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `item_photo`
 --
 ALTER TABLE `item_photo`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=36;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `order`
 --
