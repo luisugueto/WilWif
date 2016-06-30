@@ -14,7 +14,7 @@ session_start();
 //application address
 #define('DIR','http://domain.com/');
 #define('SITEEMAIL','noreply@domain.com');
-$db=mysql_connect("localhost","root","");
+$db=mysql_connect("localhost","appadminzuaru","d)*a-0CDLH]2");
 mysql_select_db("ap_wilwif",$db);
 // try {
 
