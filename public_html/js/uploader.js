@@ -230,7 +230,9 @@ function cropFile(){
 	xhr2.onreadystatechange = function() {
 	 if (xhr2.readyState == 4 && xhr2.status == 200) {		 
 		 if (xhr2.responseText.substring(0, 5) != "Error") {
-			var eliminar  = document.createElement('div'); 
+		 
+			AddImageUploader(xhr2.responseText);
+			/*var eliminar  = document.createElement('div'); 
 				eliminar.innerHTML = "X";	
 				eliminar.className = "uploader_eliminar";
 				eliminar.addEventListener('click', function(e) {  			    
@@ -270,7 +272,8 @@ function cropFile(){
 				imgcontw = 0;
 			}
 			$(".upload_container_inner").width(imgcontw);
-			 $.Jcrop('#modimagen').destroy();	
+			*/			
+			$.Jcrop('#modimagen').destroy();	
 			 $('.jcrop-holder').remove();
 			 $('#modimagencont').html("");
 			 $('#divMod').html("");
