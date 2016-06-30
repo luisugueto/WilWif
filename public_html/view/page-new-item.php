@@ -11,9 +11,13 @@ $foundlost =	$_POST['foundlost'];*/
 $error = array();
 $error['error'] = false;
 /*Verificar todos los datos*/
+$method="";
+if(!$user->is_logged_in() ){
+	header('Location: /register/');
+}
 if (isset($_POST['submit_create'])) 
 {
-
+	
 	if(isset($_POST['item_name']) && !empty($_POST['item_name']))
 	{
 		$item_name =   	$_POST['item_name'];
@@ -40,13 +44,188 @@ if (isset($_POST['submit_create']))
 		
 	}
 
-	if(isset($_POST['item_contry']) && !empty($_POST['item_contry']))
+	if(isset($_POST['item_country']) && !empty($_POST['item_country']))
 	{
-		$item_contry =   $_POST['item_contry'];
+		$item_country =   $_POST['item_country'];
 	}else
 	{
 		$error['error'] = true;
-		$error['item_contry'] = 'Field Required';
+		$error['item_country'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_city']) && !empty($_POST['item_city']))
+	{
+		$item_city =   $_POST['item_city'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_city'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_address']) && !empty($_POST['item_address']))
+	{
+		$item_address =   $_POST['item_address'];
+	}else
+	{
+		
+		//$error['item_address'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_category']) && !empty($_POST['item_category']))
+	{
+		$item_category =   $_POST['item_category'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_category'] = 'Field Required';
+	}
+
+	if(isset($_POST['foundlost']) && !empty($_POST['foundlost']))
+	{
+		$foundlost =   $_POST['foundlost'];
+	}else
+	{
+		$error['error'] = true;
+		$error['foundlost'] = 'Field Required';
+	}
+	
+	if(isset($_POST['foundlost']) && !empty($_POST['foundlost']))
+	{
+		$foundlost =   $_POST['foundlost'];
+	}else
+	{
+		$error['error'] = true;
+		$error['foundlost'] = 'Field Required';
+	}
+	
+	/*Terminar de verificar todos los datos*/
+	/*Cargamos el id del usuario y las imagenes y generamos el cod del item*/
+	$imgs_path = array();
+	for($i = 0 ; $i< 5 ;$i++)
+	{
+		if(isset($_POST['url_img'][$i]))
+		{	
+			array_push($imgs_path, $_POST['url_img'][$i]);	
+		}
+	}
+	if(!$error['error'])
+	{
+	$item_user = "1";//$_SESSION['id'];
+
+	$item_code = date("Y").'-'.date('m').date('d').'-';
+	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	for ($i = 0; $i < 8; $i++) 
+	{
+		$item_code = $item_code.$characters[rand(0, strlen($characters))];
+		if($i == 3)
+		{
+			$item_code = $item_code.'-';
+		}
+	}
+
+	/*Guardamos el item en la base de datos*/
+	$sql =  'INSERT INTO item (';
+	$sql =  $sql. 'code' ;
+	$sql =  $sql. ',name' ;
+	$sql =  $sql. ',description' ;
+	$sql =  $sql. ',title' ;
+	$sql =  $sql. ',status' ;
+	$sql =  $sql. ',findlost_address' ;
+	$sql =  $sql. ',type' ;
+	$sql =  $sql. ',id_category' ;
+	$sql =  $sql. ',id_user' ;
+	$sql =  $sql. ',country' ;
+	$sql =  $sql. ',city' ;
+	$sql =  $sql. ')' ;
+	$sql =  $sql. ' VALUES (' ;
+	$sql =  $sql. ' "'.$item_code.'"' ;
+	$sql =  $sql. ',"'.$item_name.'"' ;
+	$sql =  $sql. ',"'.$item_description.'"' ;
+	$sql =  $sql. ',"'.$item_title.'"' ;
+	$sql =  $sql. ',"Active"' ;
+	$sql =  $sql. ',"'.$item_address.'"' ;
+	$sql =  $sql. ',"'.$foundlost.'"' ;
+	$sql =  $sql. ','.$item_category.'' ;
+	$sql =  $sql. ','.$item_user.'' ;
+	$sql =  $sql. ','.$item_country.'' ;
+	$sql =  $sql. ','.$item_city.'' ;
+	$sql =  $sql. ')' ;
+
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+
+	$item_id = mysql_insert_id();
+	for ($i = 0; $i < count($imgs_path); $i++) 
+	{
+		$sql =  'INSERT INTO item_photo (';
+		$sql =  $sql. 'path' ;
+		$sql =  $sql. ',id_item' ;
+		$sql =  $sql. ')' ;
+		$sql =  $sql. ' VALUES (' ;
+		$sql =  $sql. ''.$imgs_path[$i].'' ;
+		$sql =  $sql. ','.$item_id.'' ;
+		$sql =  $sql. ')' ;
+		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());;
+	}
+	
+	
+$item = new item($item_code);
+
+$item_code = $item->item_code;
+$item_name = $item->item_name;
+$item_description = $item->item_description;
+$item_title = $item->item_title;
+$item_address = $item->item_address;
+$foundlost = $item->item_type;
+$item_category = $item->item_category_slug;
+$imgs_path =  $item->item_photos_url;
+$item_country = $item->item_country;
+$item_city = $item->item_city;
+}
+}else if(isset($_POST['submit_modify'])){
+	$method = 'modify';
+	
+	if(isset($_POST['item_code']) && !empty($_POST['item_code']))
+	{
+		$item_code =   	$_POST['item_code'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_code'] = 'Field Required';
+	}
+	
+	if(isset($_POST['item_name']) && !empty($_POST['item_name']))
+	{
+		$item_name =   	$_POST['item_name'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_name'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_title']) && !empty($_POST['item_title']))
+	{
+		$item_title =   $_POST['item_title'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_title'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_description']) && !empty($_POST['item_description']))
+	{
+		$item_description =   $_POST['item_description'];
+	}else
+	{
+		
+	}
+
+	if(isset($_POST['item_country']) && !empty($_POST['item_country']))
+	{
+		$item_country =   $_POST['item_country'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_country'] = 'Field Required';
 	}
 
 	if(isset($_POST['item_city']) && !empty($_POST['item_city']))
@@ -86,6 +265,7 @@ if (isset($_POST['submit_create']))
 	}
 	/*Terminar de verificar todos los datos*/
 	/*Cargamos el id del usuario y las imagenes y generamos el cod del item*/
+	
 	$imgs_path = array();
 	for($i = 0 ; $i< 5 ;$i++)
 	{
@@ -94,74 +274,105 @@ if (isset($_POST['submit_create']))
 			array_push($imgs_path, $_POST['url_img'][$i]);	
 		}
 	}
-	$item_user = "1";//$_SESSION['id'];
-
-	$item_code = date("Y").'-'.date('m').date('d').'-';
-	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	for ($i = 0; $i < 8; $i++) 
-	{
-		$item_code = $item_code.$characters[rand(0, strlen($characters))];
-		if($i == 3)
+	
+	if(!$error['error'])
+	{	
+		$item_user = $_SESSION['id'];
+		/*Guardamos el item en la base de datos*/
+		$item = new item($item_code);
+		$item_id = $item->item_id;
+		
+		$sql = "UPDATE item SET";
+		$sql = $sql." name = '".$item_name."'";
+		$sql = $sql.", description = '".$item_description."'";
+		$sql = $sql.", title = '".$item_title."'";
+		$sql = $sql.", findlost_address = '".$item_address."'";
+		$sql = $sql.", type = '".$foundlost."'";
+		$sql = $sql.", id_category = ".$item_category."";
+		$sql = $sql.", country = '".$item_country."'";
+		$sql = $sql.", city = '".$item_city."'";
+		$sql = $sql." WHERE id=".$item_id; 
+		
+		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+		
+		$sql = "DELETE FROM item_photo WHERE id_item =".$item_id; 
+		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+		
+		for ($i = 0; $i < count($imgs_path); $i++) 
 		{
-			$item_code = $item_code.'-';
+			$sql =  'INSERT INTO item_photo (';
+			$sql =  $sql. 'path' ;
+			$sql =  $sql. ',id_item' ;
+			$sql =  $sql. ')' ;
+			$sql =  $sql. ' VALUES (' ;
+			$sql =  $sql. ''.$imgs_path[$i].'' ;
+			$sql =  $sql. ','.$item_id.'' ;
+			$sql =  $sql. ')' ;
+			$query = mysql_query($sql)or die('error at try to access data' . mysql_error());;
 		}
+	
+	}else{
+	
+		/*echo 'error';
+		echo 'foundlost'.$error['foundlost'];
+		echo 'item_category'.$error['item_category'];
+		echo 'item_city'.$error['item_city'];
+		echo 'item_country'.$error['item_country'];
+		echo 'item_title'.$error['item_title'];
+		echo 'item_name'.$error['item_name'];
+		echo 'item_code'.$error['item_code'];*/
 	}
+	$item = new item($item_code);
+	$item_code = $item->item_code;
+	$item_name = $item->item_name;
+	$item_description = $item->item_description;
+	$item_title = $item->item_title;
+	$item_address = $item->item_address;
+	$foundlost = $item->item_type;
+	$item_category = $item->item_category_id;
+	$imgs_path =  $item->item_photos_url;
+	$item_country = $item->item_country;
+	$item_city = $item->item_city;
 
-	/*Guardamos el item en la base de datos*/
-	$sql =  'INSERT INTO item (';
-	$sql =  $sql. 'code' ;
-	$sql =  $sql. ',name' ;
-	$sql =  $sql. ',description' ;
-	$sql =  $sql. ',title' ;
-	$sql =  $sql. ',status' ;
-	$sql =  $sql. ',findlost_address' ;
-	$sql =  $sql. ',type' ;
-	$sql =  $sql. ',id_category' ;
-	$sql =  $sql. ',id_user' ;
-	$sql =  $sql. ')' ;
-	$sql =  $sql. ' VALUES (' ;
-	$sql =  $sql. ' "'.$item_code.'"' ;
-	$sql =  $sql. ',"'.$item_name.'"' ;
-	$sql =  $sql. ',"'.$item_description.'"' ;
-	$sql =  $sql. ',"'.$item_title.'"' ;
-	$sql =  $sql. ',"Active"' ;
-	$sql =  $sql. ',"'.$item_address.'"' ;
-	$sql =  $sql. ',"'.$foundlost.'"' ;
-	$sql =  $sql. ','.$item_category.'' ;
-	$sql =  $sql. ','.$item_user.'' ;
-	$sql =  $sql. ')' ;
+}else if(isset($_POST['submit_delete'])){
 
-	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());;
-
-	$item_id = mysql_insert_id();
-	for ($i = 0; $i < count($imgs_path); $i++) 
+	if(isset($_POST['item_code']) && !empty($_POST['item_code']))
 	{
-		$sql =  'INSERT INTO item_photo (';
-		$sql =  $sql. 'path' ;
-		$sql =  $sql. ',id_item' ;
-		$sql =  $sql. ')' ;
-		$sql =  $sql. ' VALUES (' ;
-		$sql =  $sql. ''.$imgs_path[$i].'' ;
-		$sql =  $sql. ','.$item_id.'' ;
-		$sql =  $sql. ')' ;
-		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());;
+			$item_code =   	$_POST['item_code'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_code'] = 'Field Required';
 	}
-
+	
+	if(!$error['error'])
+	{
+	$item = new item($item_code);
+	$item_id = $item->item_id;
+	$sql = "UPDATE item SET";
+	$sql = $sql." status = 'Deleted'";
+	$sql = $sql." WHERE id=".$item_id; 
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	
+	}
 }else if(isset($_GET['item_code'])){
 
 $item = new item($_GET['item_code']);
-
-
-echo 'el nombre del item es'.$item->item_name;
-
+if(!$item->item_id)
+{
+	header('Location: /account/');
+}
+$method = 'modify';
 $item_code = $item->item_code;
 $item_name = $item->item_name;
 $item_description = $item->item_description;
 $item_title = $item->item_title;
 $item_address = $item->item_address;
 $foundlost = $item->item_type;
-$item_category = $item->item_category_slug;
+$item_category = $item->item_category_id;
 $imgs_path =  $item->item_photos_url;
+$item_country = $item->item_country;
+$item_city = $item->item_city;
 }
 
 ?>
@@ -176,7 +387,27 @@ require('layout/header.php');
 		<div class="images_holder">
 			
 		</div>
-		
+				<?php 
+					if($method=='modify')
+					{
+					?>
+						<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+										<label class="form-control input-lg">Item Code</label>
+								</div>
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+									<input type="label" name="item_code" id="item_code" class="form-control input-lg" placeholder="Marcos Passport" value="<?php if(isset($item_code)){ echo $item_code; } ?>" required tabindex="1" readonly>
+								</div>
+							</div>
+						</div>
+					<?php 
+					}
+					?>
+					
+				
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
@@ -185,7 +416,7 @@ require('layout/header.php');
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="text" name="item_name" id="item_name" class="form-control input-lg" placeholder="Passport Marcos Gonzales" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
+							<input type="text" name="item_name" id="item_name" class="form-control input-lg" placeholder="Marcos Passport" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
 						</div>
 					</div>
 				</div>
@@ -204,25 +435,13 @@ require('layout/header.php');
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-								<label for="item_description" class="form-control input-lg">Description</label>
+								<label for="item_country" class="form-control input-lg">Country</label>
 						</div>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="text" name="item_description" id="item_description" class="form-control input-lg" placeholder="is a new passport from Germany" value="<?php if(isset($item_description)){ echo $item_description; } ?>" tabindex="3">
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-								<label for="item_contry" class="form-control input-lg">Country</label>
-						</div>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-							<select class="form-control input-lg" name="item_contry">
-								<option value="">Select a Contry</option>
+							<select class="form-control input-lg" name="item_country" id="item_country">
+								<option value="">Select a Country</option>
 								<option value="AF">Afghanistan</option>
 								<option value="AX">Åland Islands</option>
 								<option value="AL">Albania</option>
@@ -508,8 +727,9 @@ require('layout/header.php');
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<select class="form-control input-lg" name="item_category">	
-								<?php
+							<select class="form-control input-lg" name="item_category" id="item_category">	
+								<option value=""></option>
+									<?php
 									$sql = "select slug,id from item_category";
 									$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
 									while($row = mysql_fetch_assoc($query))
@@ -531,26 +751,47 @@ require('layout/header.php');
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<select class="form-control input-lg" name="foundlost">
+							<select class="form-control input-lg" name="foundlost" id="foundlost">
+								<option value=""></option>
 								<option value="Found">Found</option>
-								<option value="Found">Lost</option>
+								<option value="Lost">Lost</option>
 							</select>
 						</div>
 					</div>
 				</div>
+				<div class="form-group">
+					<textarea rows="4" cols="50" maxlength="200" class="form-control input-lg" style="resize:none" name="item_description" id="item_description" placeholder="Description: is a new passport from Germany"><?php if(isset($item_description)){ echo $item_description; } ?></textarea> 
+				</div>	
 				<div class="row">
-					<div class="col-xs-6 col-md-6">
+					<?php 
+					if(!$method=='modify')
+					{
+					?>
+						<div class="col-xs-6 col-md-6">
 						
-					</div>
-					<div class="col-xs-6 col-md-6">
+						</div>
+						<div class="col-xs-6 col-md-6">
 						<input type="submit" name="submit_create" value="Add" class="btn btn-primary btn-block btn-lg" required tabindex="6">
-					</div>
+						</div>
+					<?php 
+					}
+					else{
+					?>
+						<div class="col-xs-6 col-md-6">
+						<input type="submit" name="submit_delete" value="Delete" class="btn btn-primary btn-block btn-lg" required tabindex="6">
+						</div>
+						<div class="col-xs-6 col-md-6">
+						<input type="submit" name="submit_modify" value="Edit" class="btn btn-primary btn-block btn-lg" required tabindex="6">
+						</div>
+					<?php
+					}
+					?>
 				</div>	
 </form>
 </div>
 <script>
  $(document).ready(function()
- {
+ {	
     function previewImgs()
 	{
 		var pre_photos = <?php $urls_photos='[';
@@ -566,8 +807,14 @@ require('layout/header.php');
 							echo $urls_photos;?>;
 		for (var i = 0; i < pre_photos.length; i++) {
 			AddImageUploader(pre_photos[i]);
-		}		
+		}	
+		$('#foundlost').val('<?php echo $foundlost; ?>');
+		$('#item_category').val('<?php echo $item_category; ?>');
+		$('#item_country').val('<?php echo $item_country; ?>');
+		
 	}
+	
+	
 	previewImgs();
  });
 </script>
