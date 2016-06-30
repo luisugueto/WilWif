@@ -30,7 +30,7 @@ if(isset($_GET['item_code']))
 <div style="height: 200px;">
 	<div style="height: 100px;">
 		<div style="float: left;">
-		  <img src="<?php echo "/".$item->item_photos_url[0]; ?>">
+		  <img src="<?php echo $item->item_photos_url[0]; ?>">
 		</div>
 		<div style="float: left;">
 			<div style="height: 30px;"> tittle object </div>

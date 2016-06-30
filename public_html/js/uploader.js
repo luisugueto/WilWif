@@ -311,7 +311,7 @@ function AddImageUploader(path_url)
 	input_url.type = "hidden";
 	input_url.id = "url_img[]";
 	input_url.name = "url_img[]";
-	input_url.value = ""+ path_url +"";
+	input_url.value = "'"+ path_url +"'";
 	row_img.appendChild(input_url);
 	var lis = document.getElementById('lista-imagenes').getElementsByTagName("li");
 	var imgcontw= lis.length*125;

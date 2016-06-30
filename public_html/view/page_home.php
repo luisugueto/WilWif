@@ -79,7 +79,15 @@ var ajaxData =  "s="+search_value_+filter_value_;
 						var item_code = data.rows[i].item_code;
 						div_content += '<div class="search_item_container" style="height: 200px; background-image: url(/image/cuadro_inicia_732x152.png); background-size: 102% 100%;">';
 						div_content += '<div class="search_item_photo_container" style="float: left; width: 200px; background-image: url(../image/recuadro_imagen_125x132.png); background-repeat: no-repeat; height: 200px; padding: 29px 0px 0px; background-size: 100% 100%;">';
-						div_content += '<img src="'+item_photo_url+'" width="125" height="132" title="item photo">';		
+						
+						if(item_photo_url)
+						{
+							div_content += '<img src="'+item_photo_url+'" width="125" height="132" title="item photo">';	
+						}else{
+							div_content += '<img src="/image/No_image_available_125x132.png" width="125" height="132" title="item photo">';	
+						}
+						
+						
 						div_content += '</div>';
 						div_content += '<div class="search_item_information_container"  style="float: left; width: 80%;">';
 						div_content += '<div>';
