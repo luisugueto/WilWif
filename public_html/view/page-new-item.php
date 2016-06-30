@@ -147,8 +147,8 @@ if (isset($_POST['submit_create']))
 	$sql =  $sql. ',"'.$foundlost.'"' ;
 	$sql =  $sql. ','.$item_category.'' ;
 	$sql =  $sql. ','.$item_user.'' ;
-	$sql =  $sql. ','.$item_country.'' ;
-	$sql =  $sql. ','.$item_city.'' ;
+	$sql =  $sql. ',"'.$item_country.'"' ;
+	$sql =  $sql. ',"'.$item_city.'"' ;
 	$sql =  $sql. ')' ;
 
 	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
@@ -381,6 +381,7 @@ $item_city = $item->item_city;
 //include header template
 require('layout/header.php'); 
 ?>
+
 <div id="container" style="padding-bottom: 20px;">
 	<form role="form" method="post" action="" autocomplete="off">
 		
@@ -682,7 +683,7 @@ require('layout/header.php');
 								<option value="UY">Uruguay</option>
 								<option value="UZ">Uzbekistan</option>
 								<option value="VU">Vanuatu</option>
-								<option value="VE">Venezuela, Bolivarian Republic of</option>
+								<option value="VE">Venezuela</option>
 								<option value="VN">Viet Nam</option>
 								<option value="VG">Virgin Islands, British</option>
 								<option value="VI">Virgin Islands, U.S.</option>
@@ -789,12 +790,8 @@ require('layout/header.php');
 				</div>	
 </form>
 </div>
-<script>
- $(document).ready(function()
- {	
-    function previewImgs()
-	{
-		var pre_photos = <?php $urls_photos='[';
+<script>	
+    var pre_photos = <?php $urls_photos='[';
 							for ($i = 0; $i < count($imgs_path); $i++) 
 							{
 								if($i != 0)
@@ -805,18 +802,15 @@ require('layout/header.php');
 							}
 							$urls_photos=$urls_photos.']';
 							echo $urls_photos;?>;
-		for (var i = 0; i < pre_photos.length; i++) {
-			AddImageUploader(pre_photos[i]);
-		}	
-		$('#foundlost').val('<?php echo $foundlost; ?>');
+	
+ $(document).ready(function()
+ {	
+	$('#foundlost').val('<?php echo $foundlost; ?>');
 		$('#item_category').val('<?php echo $item_category; ?>');
 		$('#item_country').val('<?php echo $item_country; ?>');
-		
-	}
-	
-	
-	previewImgs();
  });
+	
+	
 </script>
 <?php
 //include header template

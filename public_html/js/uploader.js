@@ -321,3 +321,23 @@ function AddImageUploader(path_url)
 	}
 	$(".upload_container_inner").width(imgcontw);
 }
+
+function previewImgs()
+{
+	if (typeof pre_photos === 'undefined' || pre_photos === null) {
+		return;
+	}
+		for (var i = 0; i < pre_photos.length; i++) {
+			AddImageUploader(pre_photos[i]);
+		}	
+		$('#foundlost').val('<?php echo $foundlost; ?>');
+		$('#item_category').val('<?php echo $item_category; ?>');
+		$('#item_country').val('<?php echo $item_country; ?>');
+		
+}
+
+
+ $(document).ready(function()
+ {	
+   previewImgs();
+ });

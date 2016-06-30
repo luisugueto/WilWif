@@ -9,6 +9,8 @@ class DB{
 		$sql = 'SELECT username, password, id FROM user WHERE username = "'.$username.'"';
 		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
 		$row = mysql_fetch_assoc($query);
+		echo $row['password'];
+		echo "user pass:".$password;
 		if(($username == $row['username']) && ($password == $row['password'])){
 		 	    $_SESSION['loggedin'] = true;
 		 	    $_SESSION['username'] = $row['username'];

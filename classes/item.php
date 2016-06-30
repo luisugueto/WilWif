@@ -5,6 +5,8 @@ class item{
   public $item_code;
   public $item_name;
   public $item_description;
+  public $item_country;
+  public $item_city;
   public $item_address;
   public $item_title;
   public $item_type;
@@ -26,6 +28,8 @@ class item{
 			$this->item_address = $row["findlost_address"];
 			$this->item_title = $row["title"];
 			$this->item_type = $row["type"]; //lost   found
+			$this->item_country = $row["country"];
+			$this->item_city = $row["city"];
 			
 			$this->item_category_id  = $row["id_category"];
 			$sql = 'SELECT slug FROM item_category where id ='.$this->item_category_id.'';
@@ -44,8 +48,6 @@ class item{
 				{
 					array_push($this->item_photos_url, $row2["path"]);	
 				}
-			}else{
-				 array_push($this->item_photos_url, '/image/No_image_available_125x132.png');	
 			}
 			$this->item_user_id = $row["id_user"];
 			$sql = 'SELECT username FROM user where id ='.$this->item_user_id.'';
@@ -57,6 +59,8 @@ class item{
 			}
 			
 			
+		}else{
+		
 		}	
    }
    
