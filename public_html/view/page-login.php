@@ -10,19 +10,21 @@ $db = new DB();
 
 //process login form if submitted
 if(isset($_POST['submit'])){
-
-	$username = $_POST['username'];
-	$password = $_POST['password'];
+	$username = htmlentities($_POST['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+	$password = md5($_POST['password']);	
+	if (!ereg("^[a-zA-Z0-9\-_]{3,20}$", $username)) { 
+      $error[] = 'El nombre de usuario tiene caracteres no validos';
+    } else {
 	
-	if($db->login($username,$password)){ 
-		$_SESSION['username'] = $username;
-		header('Location: /');
-		exit;
+		if($db->login($username,$password)){ 
+			$_SESSION['username'] = $username;
+			header('Location: /');
+			exit;
 	
-	} else {
-		$error[] = 'Usuario o Password no ha sido activada.';
+		} else {
+			$error[] = 'Usuario o Password no ha sido activada.';
+		}
 	}
-
 }//end if submit
 
 //define page title
@@ -72,7 +74,7 @@ require('layout/header.php');
 				?>
 
 				<div class="form-group">
-					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="User Name" value="<?php if(isset($error)){ echo $_POST['username']; } ?>" tabindex="1">
+					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="User Name" value="<?php if(isset($error)){ echo $username; } ?>" tabindex="1">
 				</div>
 
 				<div class="form-group">
