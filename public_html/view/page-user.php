@@ -1,4 +1,4 @@
-<?php require('../includes/config.php'); 
+<?php 
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); } 
@@ -9,24 +9,18 @@ $title = 'Inicio';
 //include header template
 require('layout/header.php'); 
 ?>
-
-<div class="container">
-
-	<div class="row">
-
-	    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-			
-				<h2>Bienvenido <?php echo $_SESSION['username']; ?></h2>
-				<p><a href='logout.php'>Salir</a></p>
-				<hr>
-
-				
-		</div>
-	</div>
-
-
+<div id="main-area">
+	<div id="main-content-bg">
+    	<div id="main-content" style="display:table;">
+        	<div style="display:table-cell; vertical-align:middle;">
+        	<a href="info"><div class="item img-shadow"><img style="margin-right:40px;" class="img-shadow" src="../image/icono_info_21x39.png" width="21px" height="39px" />Account info</div></a>
+            <a href="found"><div class="item img-shadow"><img style="margin-right:40px;" class="img-shadow" src="../image/icono_encontrado_25x39.png" width="21px" height="39px" />Found articles</div></a>
+            <a href="lost"><div class="item img-shadow"><img style="margin-right:40px;" class="img-shadow" src="../image/icono_perdido_39x39.png" width="21px" height="39px" />Lost articles</div></a>
+            <a href="send"><div class="item img-shadow"><img style="margin-right:40px;" class="img-shadow" src="../image/icono_enviado_23x38.png" width="21px" height="39px" />Send articles</div></a>
+            </div>
+        </div>
+    </div>
 </div>
-
 <?php 
 //include header template
 require('layout/footer.php'); 

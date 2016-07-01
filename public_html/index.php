@@ -39,6 +39,10 @@ switch ($path){
 	 include 'view/page-newItem.php';
 	break;
 
+	case 'account':
+	 include 'view/page-user.php';
+	break;
+
 	case 'logout':
 
 	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'It closed session.', NOW())";
