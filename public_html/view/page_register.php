@@ -1,6 +1,12 @@
 <?php
 //process login form if submitted
 if(isset($_POST['submit'])){
+	
+	$name = htmlentities($_POST['name'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+	$password = md5($_POST['password']);
+	$passwordConfirm = md5($_POST['passwordConfirm']);
+	$username = htmlentities($_POST['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+	$email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 
  	$sql = "SELECT * FROM user WHERE username = '".$_POST['username']."' ";
  	$query = mysql_query($sql);
@@ -9,28 +15,40 @@ if(isset($_POST['submit'])){
  	$sql1 = "SELECT * FROM user WHERE email = '".$_POST['email']."' ";
  	$query1 = mysql_query($sql1);
  	$row1 = mysql_num_rows($query1);
+	
+	if(strlen($username) < 3){
+		$error[] = 'Usuario muy corto.';
+	}	
+	
+	elseif (!preg_match('/^[a-zA-Z0-9]+$/', $username)) { 
+      $error[] = 'El usuario tiene caracteres no validos.';
+    } 
+	
+	elseif(strlen($name) < 3){
+		$error[] = 'Nombre muy corto.';
+	}
+	
+	elseif (!preg_match('/^[a-zA-Z0-9 ]+$/', $name)) { 
+      $error[] = 'El nombre tiene caracteres no validos.';
+    } 
 
- 	if(strlen($_POST['password']) < 3){
+ 	elseif(strlen($_POST['password']) < 3){
 		$error[] = 'Contraseña muy corta.';
 	}
 
-	if(strlen($_POST['passwordConfirm']) < 3){
-		$error[] = 'Confirmar Contraseña muy corta.';
+	elseif($passwordConfirm != $password){
+		$error[] = 'Las Contraseñas no coinciden.';
 	}
 
-	if($row==1){
+	elseif($row==1){
 		$error[] = 'Username ya utilizado.';
 	}
 
-	if($row1==1){
+	elseif($row1==1){
 		$error[] = 'Email ya utilizado.';
 	}
 
 	else{
-	 	$name = $_POST['name'];
-	 	$password = $_POST['password'];
-	 	$username = $_POST['username'];
-	 	$email = $_POST['email'];
 	 	
 		$stmt = mysql_query('INSERT INTO user (name,username,password,email) VALUES ("'.$name.'","'.$username.'", "'.$password.'", "'.$email.'")');
 		echo "<script>
@@ -70,13 +88,13 @@ require('layout/header.php');
 				}
 				?>
 				<div class="form-group">
-					<input type="text" name="name" id="name" class="form-control input-lg" placeholder="Nombre" value="<?php if(isset($error)){ echo $_POST['username']; } ?>" required tabindex="1">
+					<input type="text" name="name" id="name" class="form-control input-lg" placeholder="Nombre" value="<?php if(isset($error)){ echo $name; } ?>" required tabindex="1">
 				</div>
 				<div class="form-group">
-					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="Nombre de Usuario" value="<?php if(isset($error)){ echo $_POST['username']; } ?>" required tabindex="2">
+					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="Nombre de Usuario" value="<?php if(isset($error)){ echo $username; } ?>" required tabindex="2">
 				</div>
 				<div class="form-group">
-					<input type="email" name="email" id="email" class="form-control input-lg" placeholder="Correo" value="<?php if(isset($error)){ echo $_POST['email']; } ?>" required tabindex="3">
+					<input type="email" name="email" id="email" class="form-control input-lg" placeholder="Correo" value="<?php if(isset($error)){ echo $email; } ?>" required tabindex="3">
 				</div>
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6">
