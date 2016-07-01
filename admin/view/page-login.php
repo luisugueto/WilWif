@@ -16,6 +16,8 @@ if(isset($_POST['submit'])){
 	
 	if($db->loginBackOffice($username,$password)){ 
 		$_SESSION['username'] = $username;
+		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'You are logged.', NOW())";
+		$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
 		header('Location: /');
 		exit;
 	} else {

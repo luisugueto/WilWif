@@ -13,6 +13,8 @@ class DB{
 		 	    $_SESSION['loggedin'] = true;
 		 	    $_SESSION['username'] = $row['username'];
 		 	    $_SESSION['id'] = $row['id'];
+		 	    $history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'You are logged', NOW())";
+				$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
 		 	    return true;
 		 }
 	}
@@ -26,6 +28,8 @@ class DB{
 		 	    $_SESSION['username'] = $row['username'];
 		 	    $_SESSION['id'] = $row['id'];
 		 	    $_SESSION['rol_id'] = $row['rol_id'];
+		 	    $history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'You are logged', NOW())";
+				$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
 		 	    return true;
 		 }
 	}

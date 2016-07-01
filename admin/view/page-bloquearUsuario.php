@@ -17,6 +17,8 @@ if(isset($_POST['submit'])){
 
 	$modifcar = "UPDATE user SET last_mod_date = NOW(), blocked = 1 WHERE id = '".$id."'";
 	$sql_modificar = mysql_query($modifcar);
+	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'It has blocked a user.', NOW())";
+	$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
 		//redirect to index page
 	header('Location: /listadoUsuarios/');
 	exit;

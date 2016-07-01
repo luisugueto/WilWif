@@ -34,6 +34,8 @@ if(isset($_POST['submit'])){
 	 	$email = $_POST['email'];
 	 	
 		$stmt = mysql_query('INSERT INTO user (name,lastname,username,password,email, rol_id, create_date) VALUES ("'.$name.'","'.$apellido.'" ,"'.$username.'", "'.$password.'", "'.$email.'", 2, NOW())');
+		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'He flew am employee.', NOW())";
+		$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
 		echo "<script>
 			alert('Registered user.');
 		</script>";

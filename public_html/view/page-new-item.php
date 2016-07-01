@@ -153,6 +153,9 @@ if (isset($_POST['submit_create']))
 
 	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
 
+	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'You have created an item.', NOW())";
+	$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
+
 	$item_id = mysql_insert_id();
 	for ($i = 0; $i < count($imgs_path); $i++) 
 	{
@@ -295,6 +298,9 @@ $item_city = $item->item_city;
 		
 		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
 		
+		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'You have modified an item.', NOW())";
+		$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
+
 		$sql = "DELETE FROM item_photo WHERE id_item =".$item_id; 
 		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
 		
@@ -353,7 +359,8 @@ $item_city = $item->item_city;
 	$sql = $sql." status = 'Deleted'";
 	$sql = $sql." WHERE id=".$item_id; 
 	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
-	
+	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'You have removed an item.', NOW())";
+	$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
 	}
 }else if(isset($_GET['item_code'])){
 

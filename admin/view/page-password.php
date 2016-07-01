@@ -27,7 +27,8 @@ if(isset($_POST['submit'])){
 	if(!isset($error)){
 		$password = $_POST['password'];
 		$sql = mysql_query("UPDATE members SET password = $password WHERE memberID = $id");
-
+		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'It has changed the password', NOW())";
+		$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
 			//redirect to index page
 			header('Location: index.php?action=resetAccount');
 			exit;
