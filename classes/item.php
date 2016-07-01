@@ -9,6 +9,7 @@ class item{
   public $item_city;
   public $item_address;
   public $item_title;
+  public $item_status;
   public $item_type;
   public $item_user_id;
   public $item_user;
@@ -30,6 +31,7 @@ class item{
 			$this->item_type = $row["type"]; //lost   found
 			$this->item_country = $row["country"];
 			$this->item_city = $row["city"];
+			$this->item_status = $row["status"];
 			
 			$this->item_category_id  = $row["id_category"];
 			$sql = 'SELECT slug FROM item_category where id ='.$this->item_category_id.'';
