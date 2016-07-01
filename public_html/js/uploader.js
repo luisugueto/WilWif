@@ -138,7 +138,7 @@ function showCoords(c){
 function addFile(){
 	location.href = "#cortar";
 	var file = document.getElementById('testinput').files[0];
-	if ((/\.(jpg|png|gif)$/i).test(file.name)) {
+	if ((/\.(jpg|png|gif|jpeg)$/i).test(file.name)) {
 	if (file.size < 1024 * 1024 * 2) {
 	var progresss = document.createElement('div'); 
 		progresss.className = "uploader_progreso";
