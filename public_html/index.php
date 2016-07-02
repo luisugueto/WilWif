@@ -14,7 +14,6 @@ if($path_urls[1])
 }else{
  $path = "";
 }
-
 switch ($path){
 	case 'newitem':
 	   include 'view/page-new-item.php';
@@ -40,9 +39,14 @@ switch ($path){
 	break;
 
 	case 'account':
-	 include 'view/page-user.php';
+		if ($path_urls[2]=='found'){ include 'view/page-user-found.php'; }
+		else{
+	 		include 'view/page-user.php';
+	 	}
 	break;
-
+	case 'foundView':
+		include'view/page-user-found-view.php';
+	break;
 	case 'logout':
 
 	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'It closed session.', NOW())";
