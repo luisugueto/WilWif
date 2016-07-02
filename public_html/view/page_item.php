@@ -18,6 +18,12 @@ if($user->is_logged_in() ){
 			$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
 	 	}
 	}
+
+	if(isset($_POST['send']))
+	{
+
+	}
+
 }
 
 
@@ -48,7 +54,7 @@ if(isset($_GET['item_code']))
 	if($user->is_logged_in() ){ 
 		if($item->item_type == 'Found' && $item->item_status == 'Active'){
 		?>
-			<form action="" method="POST">
+			<form action="/orderItem/" method="POST">
 				<input type="hidden" name="code" id="code" value="<?php echo $item->item_id; ?>">
 				<input type="hidden" name="tipo" id="tipo" value="s">
 				<input onclick="return confirm('¿Send Item?')" class="btn btn-primary" type="submit" name="submit" id="submit" value="Send">
@@ -57,7 +63,7 @@ if(isset($_GET['item_code']))
 		}
 		elseif ($item->item_type == 'Lost' && $item->item_status == 'Active') {
 		?>
-			<form action="" method="POST">
+			<form action="/receiveItem/" method="POST">
 				<input type="hidden" name="code" id="code" value="<?php echo $item->item_id; ?>">
 				<input type="hidden" name="tipo" id="tipo" value="r">
 				<input onclick="return confirm('¿Receive Item?')" class="btn btn-primary" type="submit" name="submit" id="submit" value="Receive">

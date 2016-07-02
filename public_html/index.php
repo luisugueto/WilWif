@@ -38,6 +38,13 @@ switch ($path){
 	 include 'view/page-newItem.php';
 	break;
 
+	case 'orderItem':
+	 include 'view/page-order-submit-item.php';
+	break;
+	case 'receiveItem':
+	 include 'view/page-order-submit-item.php';
+	break;
+
 	case 'account':
 		if ($path_urls[2]=='found'){ include 'view/page-user-found.php'; }
 		else{
