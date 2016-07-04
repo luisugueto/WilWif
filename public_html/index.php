@@ -46,12 +46,30 @@ switch ($path){
 	break;
 
 	case 'account':
-		if ($path_urls[2]=='found'){ include 'view/page-user-found.php'; }
-		elseif ($path_urls[2]=='lost'){ include 'view/page-user-lost-articles.php'; }
-		elseif ($path_urls[2]=='send'){ include 'view/page-user-send-articles.php'; }
-		else{
-	 		include 'view/page-user.php';
-	 	}
+		if($path_urls[1])
+		{
+		 $secundary_path = $path_urls[1];
+		}else{
+		 $secundary_path = "";
+		}
+		switch ($path){
+			case 'found':
+				include'view/page-user-found.php';
+				break;
+				
+			case 'lost':
+				include'view/page-user-lost-articles.php';
+				break;
+			
+			case 'send':
+				include'view/page-user-send-articles.php';
+				break;
+				
+			default:
+				include 'view/page-user.php';
+				break;
+		}
+		
 	break;
 	case 'foundView':
 		include'view/page-user-found-view.php';
