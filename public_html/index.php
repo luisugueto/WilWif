@@ -47,6 +47,8 @@ switch ($path){
 
 	case 'account':
 		if ($path_urls[2]=='found'){ include 'view/page-user-found.php'; }
+		elseif ($path_urls[2]=='lost'){ include 'view/page-user-lost-articles.php'; }
+		elseif ($path_urls[2]=='send'){ include 'view/page-user-send-articles.php'; }
 		else{
 	 		include 'view/page-user.php';
 	 	}

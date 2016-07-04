@@ -6,11 +6,14 @@ $type = $_POST['tipo'];
 $query = "SELECT * FROM item WHERE id = '".$code."'";
 $sql = mysql_query($query);
 $assoc = mysql_fetch_assoc($sql);
-if($user->is_logged_in() ){
+if($user->is_logged_in() )
+{
 	if(isset($_POST['guardar']))
 	{
-		if ($type == 's') {
+		if ($type == 's') 
+		{
 			$code_item = $_POST['code'];
+			$code_submit = "";
 			$code_submit = date("Y").'-'.date('m').date('d').'-';
 			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 			for ($i = 0; $i < 8; $i++) 
@@ -57,13 +60,13 @@ if($user->is_logged_in() ){
 			$user_send = $_SESSION['id'];
 			$user_recive = $_POST['id_user'];
 			$id_item = $_POST['id'];
-
 			$query_item = "UPDATE item SET status = 'Deleted' WHERE id = $id_item";
 		  	$item = mysql_query($query_item);
 		  	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'Send Item.', NOW())";
 			$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
-			$sql_received = "INSERT INTO order (code, message, status, title, address, id_user_send, id_user_recive, id_item, create_date) VALUES ('".$code_submit."','".$message."','".$status."','".$title."','".$address."','".$user_send."','".$user_recive."','".$id_item."', NOW())";
-			$query_received = mysql_query($sql_received);
+			$sql_received = "INSERT INTO `order` (`code`, `id_item`, `status`, `message`, `title`, `address`, `id_user_send`, `id_user_recived`, `create_date`, `last_mod_date`) 
+			VALUES ('".$code_submit."', '".$id_item."', '".$status."', '".$message."', '".$title."', '".$address."', '".$user_send."', '".$user_recive."', NOW(), NOW())";
+			$query_received = mysql_query($sql_received) or die(mysql_error());
 			header('Location: /');
 		}
 	}
