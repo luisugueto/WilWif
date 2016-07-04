@@ -10,20 +10,23 @@ $db = new DB();
 
 //process login form if submitted
 if(isset($_POST['submit'])){
-
-	$username = $_POST['username'];
-	$password = $_POST['password'];
+	$username = htmlentities($_POST['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+	$password = md5($_POST['password']);	
+	if (!ereg("^[a-zA-Z0-9\-_]{3,20}$", $username)) { 
+      $error[] = 'El nombre de usuario tiene caracteres no validos';
+    } else {
 	
-	if($db->loginBackOffice($username,$password)){ 
-		$_SESSION['username'] = $username;
-		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'You are logged.', NOW())";
-		$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
-		header('Location: /');
-		exit;
-	} else {
-		$error[] = 'Usuario o Password incorrectos.';
+		if($db->loginBackOffice($username,$password)){ 
+			$_SESSION['username'] = $username;
+			$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'You are logged.', NOW())";
+			$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
+			header('Location: /');
+			exit;
+	
+		} else {
+			$error[] = 'Usuario o Password no ha sido activada.';
+		}
 	}
-
 }//end if submit
 
 //define page title

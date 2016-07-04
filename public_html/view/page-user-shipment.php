@@ -1,26 +1,45 @@
 <?php
 require('layout/header.php');
 
-$sql = "SELECT * FROM submit WHERE id_user_send = '".$_SESSION['id']."'";
-$query = mysql_query($sql) or die(mysql_error());
+$code = $_POST['code'];
+$type = $_POST['tipo'];
+$query = "SELECT * FROM item WHERE id = '".$code."'";
+$sql = mysql_query($query);
+$assoc = mysql_fetch_assoc($sql);
+if($user->is_logged_in() )
+{
+	if(isset($_POST['guardar']))
+	{
+			$code_item = $_POST['code'];
+			$code_submit = "";
+			$code_submit = date("Y").'-'.date('m').date('d').'-';
+			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			for ($i = 0; $i < 8; $i++) 
+			{
+				$code_submit = $code_submit.$characters[rand(0, strlen($characters))];
+				if($i == 3)
+				{
+					$code_submit = $code_submit.'-';
+				}
+			}
+			$status = $_POST['status'];
+			$message = $_POST['item_message'];
+			$title = $_POST['item_title'];
+			$address = $_POST['item_address'];
+			$user_send = $_SESSION['id'];
+			$user_recive = $_POST['id_user'];
+			$id_item = $_POST['id'];
 
-$type = 'p';
-$id = $_POST['id'];
+			$query_item = "UPDATE item SET status = 'Deleted' WHERE id = $id_item";
+		  	$item = mysql_query($query_item);
+		  	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'Send Item.', NOW())";
+			$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
+			$sql_send = "INSERT INTO submit (code, message, status, title, address, id_user_send, id_user_recive, id_item, create_date) VALUES ('".$code_submit."','".$message."','".$status."','".$title."','".$address."','".$user_send."','".$user_recive."','".$id_item."', NOW())";
+			$query_send = mysql_query($sql_send) or die( mysql_error());
+			header('Location: /');
+	}
+}
 
-if (isset($_POST['view'])) {
-	$type = 'v';
-	$sql_view = "SELECT * FROM submit WHERE id = '".$id."'";
-	$query_view = mysql_query($sql_view);
-	$assoc_view = mysql_fetch_assoc($query_view);
-}
-elseif(isset($_POST['block'])){
-	$sql_block = "UPDATE submit SET status = 'Block' WHERE id = '".$id."'";
-	$query_block = mysql_query($sql_block);
-}
-elseif(isset($_POST['unlock'])){
-	$sql_block = "UPDATE submit SET status = 'Unlock' WHERE id = '".$id."'";
-	$query_block = mysql_query($sql_block);
-}
 ?>
 
 <div class="container">
@@ -28,83 +47,82 @@ elseif(isset($_POST['unlock'])){
 	<div class="row">
 
 	    <div class="table-responsive">
-				<h2>Shipment</h2>
+				<h2>Item</h2>
 				<hr>
-			<?php if ($type == 'p') { ?>
-				<table align="center" class="table table-striped table-hover">
-				<thead>		
-					<tr>
-						<th><p align="center">Code</p></th>
-						<th><p align="center">Status</p></th>
-						<th width="200px"><p align="center">Action</p></th>
-					</tr>
-				</thead>
-					<?php
-						$sql_row = mysql_num_rows($query);
-						if($sql_row == 0)
-						{
-							echo "<tr>
-									<td colspan='4'>No tiene envios.</td>
-								</tr>";
-						}
-						while($sql_assoc = mysql_fetch_assoc($query)){
-					?>
-				<tbody>
-					<tr>
-						<td><?php echo $sql_assoc['code']; ?></td>
-						<td><?php echo $sql_assoc['status']; ?></td>
-						<td>
-							<form action="" method="POST">
-								<input type="hidden" value="<?php echo $sql_assoc['id'] ?>" id="id" name="id">
-								<input class="btn btn-primary" type="submit" id="view" name="view" value="View">
-								<input class="btn btn-danger" onclick="return confirm('¿Block Send?');" type="submit" id="block" name="block" value="Block">
-								<input class="btn btn-secundary" onclick="return confirm('¿Unlock Send?');" type="submit" id="unlock" name="unlock" value="Unlock">
-							</form>
-						</td>
-						
-					<?php	 
-						}
-					?>
-					</tr>
-					</tbody>
-				</table>
-			<?php } ?>
-
-	<!-- VIEW SEND ARTICLE ########################################### -->
-
-			<?php if ($type == 'v') { ?>
-				<table align="center" class="table table-striped table-hover">
-				<thead>		
-					<tr>
-						<th><p align="center">Code</p></th>
-						<th><p align="center">Message</p></th>
-						<th><p align="center">Status</p></th>
-						<th><p align="center">Title</p></th>
-						<th><p align="center">Address</p></th>
-						<th><p align="center">User Recived</p></th>
-						<th><p align="center">Item</p></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><?php echo $assoc_view['code']; ?></td>
-						<td><?php echo $assoc_view['message']; ?></td>
-						<td><?php echo $assoc_view['status']; ?></td>
-						<td><?php echo $assoc_view['title']; ?></td>
-						<td><?php echo $assoc_view['address']; ?></td>
-						<td><?php 
-							$query_user = mysql_query("SELECT * FROM user WHERE id = '".$assoc_view['id_user_recive']."'");
-							$assoc_user = mysql_fetch_assoc($query_user);
-							echo $assoc_user['username']; ?>
-						</td>
-						<td><?php echo $assoc_view['id_item']; ?></td>
-					</tr>
-					</tbody>
-				</table>
-				<input class="btn btn-primary" type="submit" onclick="history.back()" value="To Return">
-
-			<?php } ?>
-
+			<form action="" method="POST">
+				<input type="hidden" name="id_user" id="id_user" value="<?php echo $assoc['id_user']; ?>">
+				<input type="hidden" name="id" id="id" value="<?php echo $assoc['id']; ?>">
+				<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+										<label class="form-control input-lg">Code</label>
+								</div>
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+									<input value="<?php echo $assoc['code']; ?>" type="label" name="code" id="code" class="form-control input-lg" readonly>
+								</div>
+							</div>
+				</div>
+				<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+										<label class="form-control input-lg">Message</label>
+								</div>
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+									<input type="label" name="item_message" id="item_message" class="form-control input-lg">
+								</div>
+							</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						<div class="form-group">
+								<label for="status" class="form-control input-lg">Status</label>
+						</div>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						<div class="form-group">
+							<select class="form-control input-lg" name="status" id="status">
+								<option value=""></option>
+								<option value="Shiped">Shiped</option>
+								<option value="Arrived">Arrived</option>
+								<option value="Cancel">Cancel</option>
+								<option value="Waiting">Waiting</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+										<label class="form-control input-lg">Title</label>
+								</div>
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+									<input type="label" name="item_title" id="item_title" class="form-control input-lg">
+								</div>
+							</div>
+				</div>
+				<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+										<label class="form-control input-lg">Address</label>
+								</div>
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+									<input type="label" name="item_address" id="item_address" class="form-control input-lg">
+								</div>
+							</div>
+				</div>
+				<div class="row">
+					<input onclick="return confirm('¿Receive Item?')" class="btn btn-primary" type="submit" name="guardar" id="guardar" value="Receive">
+					
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

@@ -54,7 +54,7 @@ if(isset($_GET['item_code']))
 	if($user->is_logged_in() ){ 
 		if($item->item_type == 'Found' && $item->item_status == 'Active'){
 		?>
-			<form action="/orderItem/" method="POST">
+			<form action="/account/shipment" method="POST">
 				<input type="hidden" name="code" id="code" value="<?php echo $item->item_id; ?>">
 				<input type="hidden" name="tipo" id="tipo" value="s">
 				<input onclick="return confirm('¿Send Item?')" class="btn btn-primary" type="submit" name="submit" id="submit" value="Send">
@@ -63,7 +63,7 @@ if(isset($_GET['item_code']))
 		}
 		elseif ($item->item_type == 'Lost' && $item->item_status == 'Active') {
 		?>
-			<form action="/receiveItem/" method="POST">
+			<form action="/account/order" method="POST">
 				<input type="hidden" name="code" id="code" value="<?php echo $item->item_id; ?>">
 				<input type="hidden" name="tipo" id="tipo" value="r">
 				<input onclick="return confirm('¿Receive Item?')" class="btn btn-primary" type="submit" name="submit" id="submit" value="Receive">

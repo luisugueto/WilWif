@@ -110,7 +110,7 @@ switch ($path){
 		break;
 	
 	default:
-		include 'view/page_home.php';
+		include 'view/page-home.php';
 		break;
 }
 
