@@ -20,7 +20,7 @@ if(isset($_POST['submit'])){
 	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'It has unlocked a user.', NOW())";
 	$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
 		//redirect to index page
-	header('Location: /listadoUsuarios/');
+	header('Location: /users/');
 	exit;
 }
 

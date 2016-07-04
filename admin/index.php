@@ -46,6 +46,15 @@ switch ($path){
 			case 'user':
 				include 'view/page-user.php';	
 				break;
+			case 'edit':
+				include 'view/page-user-edit.php';	
+				break;
+			case 'block':
+				include 'view/page-user-block.php';	
+				break;
+			case 'unlock':
+				include 'view/page-user-unlock.php';	
+				break;
 			
 			default:
 				include 'view/page-users.php';

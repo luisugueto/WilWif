@@ -30,17 +30,17 @@ require('layout/header.php');
 						<td><?php echo $sql_assoc['name']; ?></td>
 						<td><?php echo $sql_assoc['username']; ?></td>
 						<td><?php echo $sql_assoc['email']; ?></td>
-						<td><?php echo "<a href='/modificarUsuario/?id=$sql_assoc[id]'> Edit </a> /
+						<td><?php echo "<a href='/users/edit/?id=$sql_assoc[id]'> Edit </a> /
 										";
 										if ($sql_assoc['blocked'] == 1) {
-											echo "<a href='/desbloquearUsuario/?id=$sql_assoc[id]'> Unlock </a> /";
+											echo "<a href='/users/unlock/?id=$sql_assoc[id]'> Unlock </a> /";
 										}
 										else{
-											echo "<a href='/bloquearUsuario/?id=$sql_assoc[id]'> Lock </a> /";
+											echo "<a href='/users/block/?id=$sql_assoc[id]'> Lock </a> /";
 										}
 
-								echo "<a href='/articlesUsuario/?id=$sql_assoc[id]'> Articles </a> /
-										<a href='/historyUsuario/?id=$sql_assoc[id]'> History </a>"; ?></td>
+								echo "<a href='/items/?id=$sql_assoc[id]'> Articles </a> /
+										<a href='/records/?id=$sql_assoc[id]'> History </a>"; ?></td>
 						
 					<?php	 
 						}while($sql_assoc = mysql_fetch_assoc($sql));

@@ -51,13 +51,13 @@
          <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Empleados<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/nuevoEmpleado/">Agregar</a></li>
+            <li><a href="/employees/employee">Agregar</a></li>
           </ul>
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/listadoUsuarios/">Listado</a></li>
+            <li><a href="/users/">Listado</a></li>
           </ul>
         </li>
         <?php } ?>
