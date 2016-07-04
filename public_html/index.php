@@ -33,13 +33,13 @@ switch ($path){
 		break;
 
 	case 'account':
-		if($path_urls[1])
+		if($path_urls[2])
 		{
-		 $secundary_path = $path_urls[1];
+		 $secundary_path = $path_urls[2];
 		}else{
 		 $secundary_path = "";
 		}
-		switch ($path){
+		switch ($secundary_path){
 			case 'info':
 				include'view/page-user-information.php';
 				break;

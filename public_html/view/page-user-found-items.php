@@ -35,7 +35,7 @@ require('layout/header.php');
 						<td><?php echo $sql_assoc['code']; ?></td>
 						<td><?php echo $sql_assoc['name']; ?></td>
 						<td><?php echo $sql_assoc['description']; ?></td>
-						<td><?php echo "<a href='/foundView/?code=$sql_assoc[code]&type=v'>View </a>";
+						<td><?php echo "<a href='found-item/?code=$sql_assoc[code]&type=v'>View </a>";
 							?>
 						</td>
 						

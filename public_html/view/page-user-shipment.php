@@ -28,7 +28,7 @@ elseif(isset($_POST['unlock'])){
 	<div class="row">
 
 	    <div class="table-responsive">
-				<h2>Send</h2>
+				<h2>Shipment</h2>
 				<hr>
 			<?php if ($type == 'p') { ?>
 				<table align="center" class="table table-striped table-hover">
