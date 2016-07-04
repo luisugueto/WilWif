@@ -40,7 +40,8 @@ require('layout/header.php');
 										}
 
 								echo "<a href='/items/?id=$sql_assoc[id]'> Articles </a> /
-										<a href='/records/?id=$sql_assoc[id]'> History </a>"; ?></td>
+									  <a href='/records/?id=$sql_assoc[id]'> History / </a>
+									  <a href='/notifications/notification/?id=$sql_assoc[id]'> Add Notification </a>"; ?></td>
 						
 					<?php	 
 						}while($sql_assoc = mysql_fetch_assoc($sql));
