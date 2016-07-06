@@ -90,33 +90,33 @@ require('layout/header.php');
 <div class="contenedorLogin" style="padding-bottom: 20px;">
 	<table style="margin-left: 50px; position:relative; top: -20px;">
 		<tr>
-			<th><p align="right" style="color: white; margin-top: 10px;">Name </p></th>
+			<th><p align="right" style="color: white; margin-top: 40px;">Name </p></th>
 			<td>		
-				<input style="margin-top: 10px" type="text" name="name" id="name" class="form-control input-lg" placeholder="Name" value="<?php if(isset($error)){ echo $name; } ?>" required tabindex="1">
+				<input style="height: 30px; margin-left: 10px; margin-top: 30px" type="text" name="name" id="name" class="form-control input-lg" placeholder="Name" value="<?php if(isset($error)){ echo $name; } ?>" required tabindex="1">
 			</td>
 		</tr>
 		<tr>
-			<th><p align="right" style="color: white; margin-top: 10px;">Username </p></th>
+			<th><p align="right" style="color: white; margin-top: 15px;">Username </p></th>
 			<td>		
-				<input style="margin-top: 10px" type="text" name="username" id="username" class="form-control input-lg" placeholder="Username" value="<?php if(isset($error)){ echo $username; } ?>" required tabindex="2">
+				<input style="height: 30px; margin-left: 10px; margin-top: 10px" type="text" name="username" id="username" class="form-control input-lg" placeholder="Username" value="<?php if(isset($error)){ echo $username; } ?>" required tabindex="2">
 			</td>
 		</tr>
 		<tr>
-			<th><p align="right" style="color: white; margin-top: 10px;">Email </p></th>
+			<th><p align="right" style="color: white; margin-top: 15px;">Email </p></th>
 			<td>		
-				<input style="margin-top: 10px" type="email" name="email" id="email" class="form-control input-lg" placeholder="Email" value="<?php if(isset($error)){ echo $email; } ?>" required tabindex="3">
+				<input style="height: 30px; margin-left: 10px; margin-top: 10px" type="email" name="email" id="email" class="form-control input-lg" placeholder="Email" value="<?php if(isset($error)){ echo $email; } ?>" required tabindex="3">
 			</td>
 		</tr>
 		<tr>
-			<th><p align="right" style="color: white; margin-top: 10px;">Password </p></th>
+			<th><p align="right" style="color: white; margin-top: 15px;">Password </p></th>
 			<td>		
-				<input style="margin-top: 10px" type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" required tabindex="4">
+				<input style="height: 30px; margin-left: 10px; margin-top: 10px" type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" required tabindex="4">
 			</td>
 		</tr>
 		<tr>
-			<th><p align="right" style="color: white; margin-top: 10px;">Repeat Password </p></th>
+			<th><p align="right" style="color: white; margin-top: 15px;">Repeat Password </p></th>
 			<td>		
-				<input style="margin-top: 10px" type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Repeat Password" required tabindex="5">
+				<input style="height: 30px; margin-left: 10px; margin-top: 10px" type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Repeat Password" required tabindex="5">
 			</td>
 		</tr>
 		<input class="submit" style="top: 330px; margin-left: 30px;" type="submit" name="submit" value="" tabindex="6">

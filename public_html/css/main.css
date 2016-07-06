@@ -119,3 +119,16 @@ a {
 	height: 62px; 
 	position: relative;
 }
+
+.edit {
+	background-color: white;
+	background-image: url(../image/boton-modificar-34-34.png); 
+	background-size: 60px; 
+	width: 62px; 
+	height: 62px; 
+	position: relative;
+}
+
+footer{
+	margin-top: 50px;
+}

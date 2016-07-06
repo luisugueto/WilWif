@@ -40,8 +40,8 @@ require('layout/header.php');
 
 	    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 			<form role="form" method="post" action="" autocomplete="off">
-				<h2>Por favor Ingrese</h2>
-				<p><a href='./'>Ir a pagina de inicio</a></p>
+				<h2>Please Enter</h2>
+				<hr>
 
 				<?php
 				//check for any errors
@@ -71,17 +71,17 @@ require('layout/header.php');
 				
 				?>
 <div class="contenedor" style="padding-bottom: 20px; heigth: 500px; width: 600px;">
-		<table style="margin-left: 160px; position:relative; top: -20px; ">
+		<table style="margin-left: 160px; position:relative; top: 0px; ">
 			<tr>
-				<th><p align="right" style="color: white;">User </p></th>
+				<th><p align="right" style="color: white; margin-top: 10px">User </p></th>
 				<td>
-					<input style="margin-left: 10px" type="text" name="username" id="username" class="form-control" placeholder="User Name" value="<?php if(isset($error)){ echo $username; } ?>" tabindex="1">
+					<input style=" height: 30px; margin-left: 10px" type="text" name="username" id="username" class="form-control" placeholder="User Name" value="<?php if(isset($error)){ echo $username; } ?>" tabindex="1">
 				</td>
 			</tr>
 			<tr>
-				<th><p align="right" style="color: white; margin-top: 10px">Password </p></th>
+				<th><p align="right" style="color: white; margin-top: 15px">Password </p></th>
 				<td>
-					<input style="margin-left: 10px; margin-top: 10px" type="password" name="password" id="password" class="form-control" placeholder="Password" tabindex="2">				
+					<input style=" height: 30px; margin-left: 10px; margin-top: 10px" type="password" name="password" id="password" class="form-control" placeholder="Password" tabindex="2">				
 				</td>
 			</tr>
 			<tr>
