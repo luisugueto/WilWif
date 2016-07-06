@@ -35,7 +35,6 @@ require('layout/header.php');
 ?>
 
 	
-<div class="container">
 
 	<div class="row">
 
@@ -43,7 +42,6 @@ require('layout/header.php');
 			<form role="form" method="post" action="" autocomplete="off">
 				<h2>Por favor Ingrese</h2>
 				<p><a href='./'>Ir a pagina de inicio</a></p>
-				<hr>
 
 				<?php
 				//check for any errors
@@ -72,28 +70,38 @@ require('layout/header.php');
 
 				
 				?>
-
-				<div class="form-group">
-					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="User Name" value="<?php if(isset($error)){ echo $username; } ?>" tabindex="1">
-				</div>
-
-				<div class="form-group">
-					<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="3">
-				</div>
-				
+<div class="contenedor" style="padding-bottom: 20px; heigth: 500px; width: 600px;">
+		<table style="margin-left: 160px; position:relative; top: -20px; ">
+			<tr>
+				<th><p align="right" style="color: white;">User </p></th>
+				<td>
+					<input style="margin-left: 10px" type="text" name="username" id="username" class="form-control" placeholder="User Name" value="<?php if(isset($error)){ echo $username; } ?>" tabindex="1">
+				</td>
+			</tr>
+			<tr>
+				<th><p align="right" style="color: white; margin-top: 10px">Password </p></th>
+				<td>
+					<input style="margin-left: 10px; margin-top: 10px" type="password" name="password" id="password" class="form-control" placeholder="Password" tabindex="2">				
+				</td>
+			</tr>
+			<tr>
+				<input style="background-image: url(../image/boton-aceptar3-70-70.png); background-size: 60px; width: 62px; height: 62px; position: relative; top: 170px; margin-left: 30px;" type="submit" name="submit" value="" title="Accept" tabindex="5">
+				<input style="background-image: url(../image/boton-nuevouser-70-70.png); background-size: 60px; width: 62px; height: 62px; position: relative; top: 170px; margin-left: 100px;" type="button" onclick="window.location.href='/register/'" name="submit" value="" title="Register New User" tabindex="6">
+			</tr>
+		</table>
 				<div class="row">
 					<div class="col-xs-9 col-sm-9 col-md-9">
-						 <a href='reset.php'>Perdiste tu contraseña?</a>
 					</div>
 				</div>
 				
-				<hr>
 				<div class="row">
-					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Entrar" class="btn btn-primary btn-block btn-lg" tabindex="5"></div>
+					<div class="col-xs-6 col-md-6"></div>
 				</div>
 			</form>
 		</div>
 	</div>
+						<!--  <a href='reset.php'>Perdiste tu contraseña?</a>-->
+
 
 
 
