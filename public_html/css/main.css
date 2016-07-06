@@ -103,3 +103,19 @@ a {
 	width: 500px;
 	no-repeat;
 }
+
+.submit {
+	background-image: url(../image/boton-aceptar3-70-70.png); 
+	background-size: 60px; 
+	width: 62px; 
+	height: 62px; 
+	position: relative;
+}
+
+.register {
+	background-image: url(../image/boton-nuevouser-70-70.png); 
+	background-size: 60px; 
+	width: 62px; 
+	height: 62px; 
+	position: relative;
+}

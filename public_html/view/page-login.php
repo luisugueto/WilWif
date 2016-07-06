@@ -85,8 +85,8 @@ require('layout/header.php');
 				</td>
 			</tr>
 			<tr>
-				<input style="background-image: url(../image/boton-aceptar3-70-70.png); background-size: 60px; width: 62px; height: 62px; position: relative; top: 170px; margin-left: 30px;" type="submit" name="submit" value="" title="Accept" tabindex="5">
-				<input style="background-image: url(../image/boton-nuevouser-70-70.png); background-size: 60px; width: 62px; height: 62px; position: relative; top: 170px; margin-left: 100px;" type="button" onclick="window.location.href='/register/'" name="submit" value="" title="Register New User" tabindex="6">
+				<input class="submit" style="top: 170px; margin-left: 30px;" type="submit" name="submit" value="" title="Accept" tabindex="5">
+				<input class="register" style="top: 170px; margin-left: 100px;" type="button" onclick="window.location.href='/register/'" name="submit" value="" title="Register New User" tabindex="6">
 			</tr>
 		</table>
 				<div class="row">

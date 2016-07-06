@@ -119,7 +119,7 @@ require('layout/header.php');
 				<input style="margin-top: 10px" type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Repeat Password" required tabindex="5">
 			</td>
 		</tr>
-		<input style="background-image: url(../image/boton-aceptar3-70-70.png); background-size: 60px; width: 62px; height: 62px; position: relative; top: 330px; margin-left: 30px;" type="submit" name="submit" value="" tabindex="6">
+		<input class="submit" style="top: 330px; margin-left: 30px;" type="submit" name="submit" value="" tabindex="6">
 	</table>
 </div>
 			</form>
