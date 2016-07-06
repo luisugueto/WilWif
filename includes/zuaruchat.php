@@ -24,11 +24,11 @@ if($method == "read")
 			$time = strtotime($row['date']);
 			$time = "(".date('h', $time).":".date('i', $time).")";
 			$message = $message.$time."".$row['message']."<br>";
-			if($row['status'] == "unread" && $id_user != $row['id_user'])
+			if($row['status'] == "Unread" && $id_user != $row['id_user'])
 			{
 				$newchat = true;
 				$sql = "UPDATE chat_message SET";
-				$sql = $sql." status = 'read'";
+				$sql = $sql." status = 'Read'";
 				$sql = $sql." WHERE id =".$row['id']; 
 				mysql_query($sql)or die('error at try to access data' . mysql_error());
 			}
@@ -58,7 +58,7 @@ if($method == "read")
 		$sql = 'SELECT id,code FROM chat where id in';
 		$sql = $sql. ' (SELECT id_chat from chat_message where';
 		$sql = $sql. ' id_chat in (SELECT id FROM chat where ((id_user_invited='.$id_user.') or (id_user_create='.$id_user.')) '.$stringchatcodes.')';
-		$sql = $sql. ' and status="unread" and id_user !='.$id_user.')';
+		$sql = $sql. ' and status="Unread" and id_user !='.$id_user.')';
 		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
 		$chats = array();
 		$newchat = false;
@@ -66,9 +66,6 @@ if($method == "read")
 		{
 			$newchat = true;
 			array_push($chats, $row['code']);
-			$sql = "UPDATE chat_message SET";
-			$sql = $sql." status = 'read'";
-			$sql = $sql." WHERE id_chat =".$row['id']; 
 		}
 		$arrayJson = array( 'row' => $chats,'success' => true,'newdata' => $newchat , 'isonline' => true , 'username' => $invited_username );
 		echo json_encode($arrayJson);
@@ -98,7 +95,7 @@ if($method == "read")
 		$sql =  $sql. ',"'.$text.'"' ;
 		$sql =  $sql. ',(select id from chat where code ="'.$code_chat.'")';
 		$sql =  $sql. ', NOW()' ;
-		$sql =  $sql. ', "unread"' ;
+		$sql =  $sql. ', "Unread"' ;
 		$sql =  $sql. ')' ;
 
 		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
