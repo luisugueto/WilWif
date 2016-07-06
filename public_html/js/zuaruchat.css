@@ -1,0 +1,108 @@
+
+
+body{
+    font: 12px arial;
+    color: #222;
+    text-align:center;
+    padding:35px; 
+}
+  
+form, p, span {
+    margin:0;
+    padding:0; }
+  
+input { font:12px arial; }
+  
+a {
+    color:#0000FF;
+    text-decoration:none; }
+  
+a:hover { text-decoration:underline; }
+
+#chat_container
+{
+	bottom: 0;
+    position: fixed;
+    right: 10px;
+    width: 270px;
+	max-height:500px;
+	overflow: auto;
+}
+	
+#chat_container .message_container_open{
+	overflow: hidden;
+	height: 200px;
+	-webkit-transition: height 1s; /* Safari */
+    transition: height 1s;
+}
+
+#chat_container .logouticon{
+	width: 20px; 
+	height: 20px;
+	background-image: url("X-20-x-20.png");
+	background-color : transparent;
+}
+#chat_container .offline{
+	background-image: url("Red-Circle-20-x-20.png");
+	background-color : transparent;
+	height: 20px;
+	float: left;
+	width: 20px;
+	margin-right: 10px;
+}
+
+#chat_container .online{
+	background-image: url("Green-Circle-20-x-20.png");
+	background-color : transparent;
+	height: 20px;
+	float: left;
+	width: 20px;
+	margin-right: 10px;
+}
+#chat_container .message_container_close{
+	-webkit-transition: height 1s; /* Safari */
+    transition: height 1s;
+	overflow: hidden;
+	height: 0;
+}	
+  
+.chat_container{
+    margin:0 auto;
+    padding-bottom:5px;
+    background:#EBF4FB;
+    width:250px;
+    border:1px solid #9fdfff; 
+	margin-bottom: 10px;	
+	}
+  
+  
+#chat_container .chatbox {
+    text-align:left;
+    margin:0 auto;
+    margin-bottom:5px;
+    padding:10px;
+    background:#fff;
+    height:150px;
+    width:200px;
+    border:1px solid #9fdfff;
+    overflow:auto; }
+  
+#chat_container .usermsg {
+    width:168px;
+    border:1px solid #9fdfff; }
+  
+#chat_container #submit { width: 60px; }
+  
+#chat_container .error { color: #ff0000; }
+  
+#chat_container .menu {	padding:12.5px 25px 12.5px 25px;}
+ 
+#chat_container .alert {	background-color: #ed951e;} 
+
+#chat_container .normal{	background-color: #9fdfff;}
+
+#chat_container .welcome { float:left; font-size: 18px;}
+  
+#chat_container .logout { float:right; }
+  
+#chat_container .msgln { margin:0 0 2px 0; }
