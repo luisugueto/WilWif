@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2016 at 09:39 PM
+-- Generation Time: Jul 06, 2016 at 11:03 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -44,11 +44,11 @@ CREATE TABLE IF NOT EXISTS `activation_code` (
 
 CREATE TABLE IF NOT EXISTS `chat` (
 `id` int(11) NOT NULL,
-  `id_user_creator` int(11) NOT NULL,
+  `id_user_create` int(11) NOT NULL,
   `code` varchar(45) NOT NULL,
   `id_user_invited` int(11) NOT NULL,
   `create_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -57,13 +57,14 @@ CREATE TABLE IF NOT EXISTS `chat` (
 --
 
 CREATE TABLE IF NOT EXISTS `chat_message` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `message` varchar(45) NOT NULL,
   `id_chat` int(11) NOT NULL,
   `status` varchar(45) NOT NULL,
   `received` tinyint(1) NOT NULL DEFAULT '0',
-  `id_user` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_user` int(11) NOT NULL,
+  `date` datetime NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -91,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `history` (
   `target` varchar(45) DEFAULT NULL,
   `id_target` int(11) NOT NULL,
   `date` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -114,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `item` (
   `last_mod_date` datetime NOT NULL,
   `id_user` int(11) NOT NULL,
   `type` varchar(40) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -126,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `item_category` (
 `id` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
   `slug` varchar(45) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -138,7 +139,21 @@ CREATE TABLE IF NOT EXISTS `item_photo` (
 `id` int(11) NOT NULL,
   `path` varchar(100) NOT NULL,
   `id_item` int(11) DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notification`
+--
+
+CREATE TABLE IF NOT EXISTS `notification` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `message` varchar(250) NOT NULL,
+  `status` varchar(45) DEFAULT NULL,
+  `date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -171,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `permission` (
   `name` varchar(45) NOT NULL,
   `description` varchar(45) NOT NULL,
   `code` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -196,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `rol` (
   `name` varchar(45) NOT NULL,
   `description` varchar(45) NOT NULL,
   `slug` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -207,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `rol` (
 CREATE TABLE IF NOT EXISTS `security_question` (
 `id` int(11) NOT NULL,
   `label` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -219,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `status` (
 `id` int(11) NOT NULL,
   `status` varchar(45) NOT NULL,
   `description` varchar(45) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -265,7 +280,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `login_attemps` int(3) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   `last_mod_date` datetime DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -293,7 +308,7 @@ ALTER TABLE `activation_code`
 -- Indexes for table `chat`
 --
 ALTER TABLE `chat`
- ADD PRIMARY KEY (`id`), ADD KEY `fk_chat_user_idx` (`id_user_creator`), ADD KEY `fk_chat_user_2_idx` (`id_user_invited`);
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_chat_user_2_idx` (`id_user_invited`);
 
 --
 -- Indexes for table `chat_message`
@@ -330,6 +345,12 @@ ALTER TABLE `item_category`
 --
 ALTER TABLE `item_photo`
  ADD PRIMARY KEY (`id`), ADD KEY `fk_item_photo_item_idx` (`id_item`);
+
+--
+-- Indexes for table `notification`
+--
+ALTER TABLE `notification`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_notification_user_idx` (`id_user`), ADD KEY `fk_notification_status_idx` (`status`);
 
 --
 -- Indexes for table `order`
@@ -393,7 +414,12 @@ ALTER TABLE `user_photo`
 -- AUTO_INCREMENT for table `chat`
 --
 ALTER TABLE `chat`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT for table `chat_message`
+--
+ALTER TABLE `chat_message`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `configuration`
 --
@@ -403,22 +429,22 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `item_category`
 --
 ALTER TABLE `item_category`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `item_photo`
 --
 ALTER TABLE `item_photo`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `order`
 --
@@ -428,22 +454,22 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `rol`
 --
 ALTER TABLE `rol`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `security_question`
 --
 ALTER TABLE `security_question`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `status`
 --
 ALTER TABLE `status`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `submit`
 --
@@ -453,7 +479,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `user_photo`
 --
@@ -470,10 +496,16 @@ ALTER TABLE `activation_code`
 ADD CONSTRAINT `fk_activation_code_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `notification`
+--
+ALTER TABLE `notification`
+ADD CONSTRAINT `fk_notification_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_notification_status` FOREIGN KEY (`status`) REFERENCES `status` (`status`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `chat`
 --
 ALTER TABLE `chat`
-ADD CONSTRAINT `fk_chat_user` FOREIGN KEY (`id_user_creator`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 ADD CONSTRAINT `fk_chat_user_2` FOREIGN KEY (`id_user_invited`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
