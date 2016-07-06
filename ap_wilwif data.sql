@@ -621,7 +621,7 @@ VALUES ( (select id from permission where code ="422"),(select id from rol where
 
 /* end  permitions to tol */
 
-/* create admin user */
+/* create admin user clave admin2016in*/
 
 INSERT INTO `ap_wilwif`.`user` (`name`,`username`,`password`,`email`)
 VALUES ("Administrator","Admin", "7c4927148c45e356a9a93231a595cd50", "info@zuaru.com");
