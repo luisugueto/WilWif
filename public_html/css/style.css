@@ -7,6 +7,27 @@
 * {
     box-sizing: border-box;
 }
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+a{
+	text-decoration: none;
+	color : white;
+}
+
+
 /* 1440*/
 body{
 	text-align: center;
@@ -23,90 +44,78 @@ body{
  width: 148px;
  display: inline-block;
  cursor: pointer;
+ background-color:transparent;
 }
 
-#home_config_div{
-	background-image: url('/image/boton-off-configuraciones-148-148.png');
+#home_account_info_div{
+	background-image: url('/image/boton-off-accountinfo-148-148.png');
 }
 
-#home_config_div:hover{
-	background-image: url('/image/boton-on-configuraciones-148-148.png');
+#home_account_info_div:hover{
+	background-image: url('/image/boton-on-accountinfo-148-148.png');
 }
 
-#home_chat_div{
-	background-image: url('/image/boton-chat-off-148-148.png');
+#home_account_found_div{
+	background-image: url('/image/boton-off-founditem-148-148.png');
 }
 
-#home_chat_div:hover{
-	background-image: url('/image/boton-chat-on-148-148.png');
-}
-
-
-#home_employee_div{
-	background-image: url('/image/boton-empleado-off-148-148.png');
-}
-
-#home_employee_div:hover{
-	background-image: url('/image/boton-empleado-on-148-148.png');
+#home_account_found_div:hover{
+	background-image: url('/image/boton-on-founditem-148-148.png');
 }
 
 
-#home_stadistic_div{
-	background-image: url('/image/boton-off-estadisticas-148-148.png');
+#home_account_lost_div{
+	background-image: url('/image/boton-off-lostitem-148-148.png');
 }
 
-#home_stadistic_div:hover{
-	background-image: url('/image/boton-on-estadisticas-148-148.png');
+#home_account_lost_div:hover{
+	background-image: url('/image/boton-on-lostitem-148-148.png');
 }
 
 
-#home_record_div{
-	background-image: url('/image/boton-historial-off-148-148.png');
+#home_account_request_div{
+	background-image: url('/image/boton-off-founditem-148-148.png');
 }
 
-#home_record_div:hover{
-	background-image: url('/image/boton-historial-on-148-148.png');
+#home_account_request_div:hover{
+	background-image: url('/image/boton-on-founditem-148-148.png');
 }
 
-#home_item_div{
-	background-image: url('/image/boton-off-items-144-144.png');
+
+#home_account_order_div{
+	background-image: url('/image/boton-off-orders-148-148.png');
 }
 
-#home_item_div:hover{
-	background-image: url('/image/boton-on-items-144-144.png');
+#home_account_order_div:hover{
+	background-image: url('/image/boton-on-orders-148-148.png');
 }
 
-#home_shipment_div{
-	background-image: url('/image/boton-orders-off-148-148.png');
+#home_account_shipments_div{
+	background-image: url('/image/boton-off-sumits-148-148.png');
 }
 
-#home_shipment_div:hover{
-	background-image: url('/image/boton-orders-on-148-148.png');
+#home_account_shipments_div:hover{
+	background-image: url('/image/boton-on-sumits-148-148.png');
 }
 
-#home_notification_div{
-	background-image: url('/image/boton-notificaciones-off-148-148.png');
+#home_account_notifications_div{
+	background-image: url('/image/boton-off-notifications-148-148.png');
 }
 
-#home_notification_div:hover{
-	background-image: url('/image/boton-on-notificaciones-148-148.png');
+#home_account_notifications_div:hover{
+	background-image: url('/image/boton-on-notifications-148-148.png');
 }
 
-#home_order_div{
-	background-image: url('/image/boton-pedidos-off-148-148.png');
+#home_account_help_div{
+	background-image: url('/image/boton-off-notifications-148-148.png');
 }
 
-#home_order_div:hover{
-	background-image: url('/image/boton-pedidos-on-148-148.png');
+#home_account_help_div:hover{
+	background-image: url('/image/boton-on-notifications-148-148.png');
 }
 
-#home_user_div{
-	background-image: url('/image/boton-off-usuario-148-148.png');
-}
 
-#home_user_div:hover{
-	background-image: url('/image/boton-on-usuario-148-148.png');
-}
-}
+
+
 
 /* End Home page*/

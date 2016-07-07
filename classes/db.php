@@ -20,6 +20,7 @@ class DB{
 	}
 
 	public function loginBackOffice($username, $password){
+		echo $password;
 		$sql = 'SELECT username, password, id, rol_id FROM user WHERE username = "'.$username.'"';
 		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
 		$row = mysql_fetch_assoc($query);

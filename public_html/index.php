@@ -18,7 +18,11 @@ switch ($path){
 	case 'item':
 	   include 'view/page-item.php';
 		break;
-	
+		
+	case 'itemnews':
+	   include 'view/page-new-item.php';
+		break;
+		
 	case 'login':
 	  include 'view/page-login.php';
 		break;
@@ -89,6 +93,10 @@ switch ($path){
 			
 			case 'notifications':
 				include'view/page-user-notifications.php';
+				break;
+			
+			case 'help':
+				include'view/page-user-help.php';
 				break;
 				
 			default:

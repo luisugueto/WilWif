@@ -16,7 +16,8 @@ class item{
   public $item_photos_url;
   public $item_category_id;
   public $item_category_slug;
-  
+  public $item_date;
+   
   function __construct($item_code_) {
 		$sql = 'SELECT * FROM item where code ="'.$item_code_.'"';
 		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
@@ -32,7 +33,7 @@ class item{
 			$this->item_country = $row["country"];
 			$this->item_city = $row["city"];
 			$this->item_status = $row["status"];
-			
+			$this->item_date = $row["create_date"];
 			$this->item_category_id  = $row["id_category"];
 			$sql = 'SELECT slug FROM item_category where id ='.$this->item_category_id.'';
 			$query = mysql_query($sql) or die('error at try to access data' . mysql_error());

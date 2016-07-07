@@ -1,4 +1,5 @@
 <?php 
+require('layout/header.php'); 
 /*	
 $item_name =   	$_POST['item_name'];
 $item_title =	$_POST['item_title'];
@@ -110,7 +111,7 @@ if (isset($_POST['submit_create']))
 	}
 	if(!$error['error'])
 	{
-	$item_user = "1";//$_SESSION['id'];
+	$item_user = $_SESSION['id'];
 
 	$item_code = date("Y").'-'.date('m').date('d').'-';
 	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -153,10 +154,13 @@ if (isset($_POST['submit_create']))
 
 	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
 
+	//$item_id = mysql_insert_id();
+	
 	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'You have created an item.', NOW())";
 	$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
 
-	$item_id = mysql_insert_id();
+	$item = new item($item_code);
+
 	for ($i = 0; $i < count($imgs_path); $i++) 
 	{
 		$sql =  'INSERT INTO item_photo (';
@@ -165,22 +169,22 @@ if (isset($_POST['submit_create']))
 		$sql =  $sql. ')' ;
 		$sql =  $sql. ' VALUES (' ;
 		$sql =  $sql. ''.$imgs_path[$i].'' ;
-		$sql =  $sql. ','.$item_id.'' ;
+		$sql =  $sql. ','.$item->item_id.'' ;
 		$sql =  $sql. ')' ;
 		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());;
 	}
-	
-	
 $item = new item($item_code);
-
+$method = 'modify';
 $item_code = $item->item_code;
 $item_name = $item->item_name;
 $item_description = $item->item_description;
 $item_title = $item->item_title;
 $item_address = $item->item_address;
 $foundlost = $item->item_type;
-$item_category = $item->item_category_slug;
+$item_category = $item->item_category_id;
+echo "Aqui van ".count($imgs_path);
 $imgs_path =  $item->item_photos_url;
+echo "Aqui quedaron ".count($imgs_path);
 $item_country = $item->item_country;
 $item_city = $item->item_city;
 }
@@ -383,16 +387,12 @@ $item_city = $item->item_city;
 }
 
 ?>
-<?php 
-
-//include header template
-require('layout/header.php'); 
-?>
 <div id="content">
 <div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
 	<div style="width: 1440px; display: inline-block; text-align: left;">
-		<form style="height: 0px; float: right;">
-			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="float: right; border-width: 0px; margin-top: 10px; background-image: url('	/image/barra-generica-478-47.png'); background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 70px; padding-left: 90px; width: 386px; height: 51px;">
+		<form method="get" action="/" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
+			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
+			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
 		</form>
 	</div>
 </div>
@@ -406,7 +406,7 @@ require('layout/header.php');
 			
 		</div>
 				<?php 
-					if($method=='modify')
+					if($method=='	')
 					{
 					?>
 						<div class="row">
@@ -811,7 +811,11 @@ require('layout/header.php');
 	</div>
 </div>
 <script>	
-    var pre_photos = <?php $urls_photos='[';
+
+    var pre_photos = <?php
+						if(isset($imgs_path))
+						{
+							$urls_photos='[';
 							for ($i = 0; $i < count($imgs_path); $i++) 
 							{
 								if($i != 0)
@@ -821,13 +825,16 @@ require('layout/header.php');
 								$urls_photos = $urls_photos.'"'.$imgs_path[$i].'"';
 							}
 							$urls_photos=$urls_photos.']';
-							echo $urls_photos;?>;
+							echo $urls_photos;
+						}else echo "[]" 
+						?>;
+							
 	
  $(document).ready(function()
  {	
-	$('#foundlost').val('<?php echo $foundlost; ?>');
-		$('#item_category').val('<?php echo $item_category; ?>');
-		$('#item_country').val('<?php echo $item_country; ?>');
+		$('#foundlost').val('<?php if(isset($foundlost)){echo $foundlost;} ?>');
+		$('#item_category').val('<?php if(isset($item_category)){echo $item_category;} ?>');
+		$('#item_country').val('<?php if(isset($item_country)){echo $item_country;} ?>');
  });
 	
 	

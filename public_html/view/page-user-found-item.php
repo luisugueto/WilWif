@@ -1,303 +1,458 @@
-<?php
-require('layout/header.php');
-
-$code = mysql_real_escape_string($_GET['code']);
-$type = mysql_real_escape_string($_GET['type']);
-$query = "SELECT * FROM item WHERE code = '".$code."'";
-$sql = mysql_query($query);
-$assoc = mysql_fetch_assoc($sql);
-
-if(isset($_POST['guardar']))
+<?php 
+require('layout/header.php'); 
+/*	
+$item_name =   	$_POST['item_name'];
+$item_title =	$_POST['item_title'];
+$item_description =	$_POST['item_description'];
+$item_contry =	$_POST['item_contry'];
+$item_city =	$_POST['item_city'];
+$item_address =	$_POST['item_address'];
+$item_category =	$_POST['item_category'];
+$foundlost =	$_POST['foundlost'];*/
+$error = array();
+$error['error'] = false;
+/*Verificar todos los datos*/
+$method="";
+if(!$user->is_logged_in() ){
+	header('Location: /register/');
+}
+if (isset($_POST['submit_create'])) 
 {
-	$name = htmlentities($_POST['name']);
-	$description = htmlentities($_POST['description']);
-	$title = htmlentities($_POST['title']);
-	$address = htmlentities($_POST['address']);
-	$category = htmlentities($_POST['category']);
-	$foundlost = htmlentities($_POST['foundlost']);
-	$country = htmlentities($_POST['country']);
-	$city = htmlentities($_POST['city']);
-	if(empty($name)){ $error[] = 'The name cant be empty.'; }	
-	elseif(empty($description)){ $error[] = 'The description cant be empty.'; }	
-	elseif(empty($title)){ $error[] = 'The title cant be empty.'; }	
-	elseif(empty($address)){ $error[] = 'The address cant be empty.'; }	
-	elseif(empty($category)){ $error[] = 'The category cant be empty.'; }	
-	elseif(empty($foundlost)){ $error[] = 'You must select if you found it or if you lost it.'; }	
-	elseif(empty($country)){ $error[] = 'You must select a country.'; }	
-	elseif(empty($city)){ $error[] = 'The city cant be empty.'; }	
-    else {
-		$query = "UPDATE item SET name = '".$name."', description = '".$description."', title = '".$title."', country = '".$country."', city = '".$city."', findlost_address = '".$address."', type = '".$foundlost."', id_category = '".$category."', last_mod_date = NOW() WHERE code = '".$code."'";
-		$edit = mysql_query($query);
-		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'It has changed an item.', NOW())";
-		$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
-		$type = 'v';
-		echo("<meta http-equiv='refresh' content='1'>");
+	
+	if(isset($_POST['item_name']) && !empty($_POST['item_name']))
+	{
+		$item_name =   	$_POST['item_name'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_name'] = 'Field Required';
 	}
-}
 
+	if(isset($_POST['item_title']) && !empty($_POST['item_title']))
+	{
+		$item_title =   $_POST['item_title'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_title'] = 'Field Required';
+	}
 
-if (isset($_POST['delete'])) {
-	$query = "UPDATE item SET status = 'Deleted', last_mod_date = NOW() WHERE code = '".$code."'";
-	$edit = mysql_query($query);
-	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'It has removed an item.', NOW())";
+	if(isset($_POST['item_description']) && !empty($_POST['item_description']))
+	{
+		$item_description =   $_POST['item_description'];
+	}else
+	{
+		
+	}
+
+	if(isset($_POST['item_country']) && !empty($_POST['item_country']))
+	{
+		$item_country =   $_POST['item_country'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_country'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_city']) && !empty($_POST['item_city']))
+	{
+		$item_city =   $_POST['item_city'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_city'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_address']) && !empty($_POST['item_address']))
+	{
+		$item_address =   $_POST['item_address'];
+	}else
+	{
+		
+		//$error['item_address'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_category']) && !empty($_POST['item_category']))
+	{
+		$item_category =   $_POST['item_category'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_category'] = 'Field Required';
+	}
+
+	if(isset($_POST['foundlost']) && !empty($_POST['foundlost']))
+	{
+		$foundlost =   $_POST['foundlost'];
+	}else
+	{
+		$error['error'] = true;
+		$error['foundlost'] = 'Field Required';
+	}
+	
+	if(isset($_POST['foundlost']) && !empty($_POST['foundlost']))
+	{
+		$foundlost =   $_POST['foundlost'];
+	}else
+	{
+		$error['error'] = true;
+		$error['foundlost'] = 'Field Required';
+	}
+	
+	/*Terminar de verificar todos los datos*/
+	/*Cargamos el id del usuario y las imagenes y generamos el cod del item*/
+	$imgs_path = array();
+	for($i = 0 ; $i< 5 ;$i++)
+	{
+		if(isset($_POST['url_img'][$i]))
+		{	
+			array_push($imgs_path, $_POST['url_img'][$i]);	
+		}
+	}
+	if(!$error['error'])
+	{
+	$item_user = $_SESSION['id'];
+
+	$item_code = date("Y").'-'.date('m').date('d').'-';
+	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	for ($i = 0; $i < 8; $i++) 
+	{
+		$item_code = $item_code.$characters[rand(0, strlen($characters))];
+		if($i == 3)
+		{
+			$item_code = $item_code.'-';
+		}
+	}
+
+	/*Guardamos el item en la base de datos*/
+	$sql =  'INSERT INTO item (';
+	$sql =  $sql. 'code' ;
+	$sql =  $sql. ',name' ;
+	$sql =  $sql. ',description' ;
+	$sql =  $sql. ',title' ;
+	$sql =  $sql. ',status' ;
+	$sql =  $sql. ',findlost_address' ;
+	$sql =  $sql. ',type' ;
+	$sql =  $sql. ',id_category' ;
+	$sql =  $sql. ',id_user' ;
+	$sql =  $sql. ',country' ;
+	$sql =  $sql. ',city' ;
+	$sql =  $sql. ')' ;
+	$sql =  $sql. ' VALUES (' ;
+	$sql =  $sql. ' "'.$item_code.'"' ;
+	$sql =  $sql. ',"'.$item_name.'"' ;
+	$sql =  $sql. ',"'.$item_description.'"' ;
+	$sql =  $sql. ',"'.$item_title.'"' ;
+	$sql =  $sql. ',"Active"' ;
+	$sql =  $sql. ',"'.$item_address.'"' ;
+	$sql =  $sql. ',"'.$foundlost.'"' ;
+	$sql =  $sql. ','.$item_category.'' ;
+	$sql =  $sql. ','.$item_user.'' ;
+	$sql =  $sql. ',"'.$item_country.'"' ;
+	$sql =  $sql. ',"'.$item_city.'"' ;
+	$sql =  $sql. ')' ;
+
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+
+	//$item_id = mysql_insert_id();
+	
+	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'You have created an item.', NOW())";
 	$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
-	header('Location: /account/found');
+
+	$item = new item($item_code);
+
+	for ($i = 0; $i < count($imgs_path); $i++) 
+	{
+		$sql =  'INSERT INTO item_photo (';
+		$sql =  $sql. 'path' ;
+		$sql =  $sql. ',id_item' ;
+		$sql =  $sql. ')' ;
+		$sql =  $sql. ' VALUES (' ;
+		$sql =  $sql. ''.$imgs_path[$i].'' ;
+		$sql =  $sql. ','.$item->item_id.'' ;
+		$sql =  $sql. ')' ;
+		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());;
+	}
+$item = new item($item_code);
+$method = 'modify';
+$item_code = $item->item_code;
+$item_name = $item->item_name;
+$item_description = $item->item_description;
+$item_title = $item->item_title;
+$item_address = $item->item_address;
+$foundlost = $item->item_type;
+$item_category = $item->item_category_id;
+$imgs_path =  $item->item_photos_url;
+$item_country = $item->item_country;
+$item_city = $item->item_city;
 }
-if (isset($_POST['edit'])) {
-	$type = 'e';
+}else if(isset($_POST['submit_modify'])){
+	$method = 'modify';
+	
+	if(isset($_POST['item_code']) && !empty($_POST['item_code']))
+	{
+		$item_code =   	$_POST['item_code'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_code'] = 'Field Required';
+	}
+	
+	if(isset($_POST['item_name']) && !empty($_POST['item_name']))
+	{
+		$item_name =   	$_POST['item_name'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_name'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_title']) && !empty($_POST['item_title']))
+	{
+		$item_title =   $_POST['item_title'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_title'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_description']) && !empty($_POST['item_description']))
+	{
+		$item_description =   $_POST['item_description'];
+	}else
+	{
+		
+	}
+
+	if(isset($_POST['item_country']) && !empty($_POST['item_country']))
+	{
+		$item_country =   $_POST['item_country'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_country'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_city']) && !empty($_POST['item_city']))
+	{
+		$item_city =   $_POST['item_city'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_city'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_address']) && !empty($_POST['item_address']))
+	{
+		$item_address =   $_POST['item_address'];
+	}else
+	{
+		
+		//$error['item_address'] = 'Field Required';
+	}
+
+	if(isset($_POST['item_category']) && !empty($_POST['item_category']))
+	{
+		$item_category =   $_POST['item_category'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_category'] = 'Field Required';
+	}
+
+	if(isset($_POST['foundlost']) && !empty($_POST['foundlost']))
+	{
+		$foundlost =   $_POST['foundlost'];
+	}else
+	{
+		$error['error'] = true;
+		$error['foundlost'] = 'Field Required';
+	}
+	/*Terminar de verificar todos los datos*/
+	/*Cargamos el id del usuario y las imagenes y generamos el cod del item*/
+	
+	$imgs_path = array();
+	for($i = 0 ; $i< 5 ;$i++)
+	{
+		if(isset($_POST['url_img'][$i]))
+		{	
+			array_push($imgs_path, $_POST['url_img'][$i]);	
+		}
+	}
+	
+	if(!$error['error'])
+	{	
+		$item_user = $_SESSION['id'];
+		/*Guardamos el item en la base de datos*/
+		$item = new item($item_code);
+		$item_id = $item->item_id;
+		
+		$sql = "UPDATE item SET";
+		$sql = $sql." name = '".$item_name."'";
+		$sql = $sql.", description = '".$item_description."'";
+		$sql = $sql.", title = '".$item_title."'";
+		$sql = $sql.", findlost_address = '".$item_address."'";
+		$sql = $sql.", type = '".$foundlost."'";
+		$sql = $sql.", id_category = ".$item_category."";
+		$sql = $sql.", country = '".$item_country."'";
+		$sql = $sql.", city = '".$item_city."'";
+		$sql = $sql." WHERE id=".$item_id; 
+		
+		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+		
+		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'You have modified an item.', NOW())";
+		$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
+
+		$sql = "DELETE FROM item_photo WHERE id_item =".$item_id; 
+		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+		
+		for ($i = 0; $i < count($imgs_path); $i++) 
+		{
+			$sql =  'INSERT INTO item_photo (';
+			$sql =  $sql. 'path' ;
+			$sql =  $sql. ',id_item' ;
+			$sql =  $sql. ')' ;
+			$sql =  $sql. ' VALUES (' ;
+			$sql =  $sql. ''.$imgs_path[$i].'' ;
+			$sql =  $sql. ','.$item_id.'' ;
+			$sql =  $sql. ')' ;
+			$query = mysql_query($sql)or die('error at try to access data' . mysql_error());;
+		}
+	
+	}else{
+	
+		/*echo 'error';
+		echo 'foundlost'.$error['foundlost'];
+		echo 'item_category'.$error['item_category'];
+		echo 'item_city'.$error['item_city'];
+		echo 'item_country'.$error['item_country'];
+		echo 'item_title'.$error['item_title'];
+		echo 'item_name'.$error['item_name'];
+		echo 'item_code'.$error['item_code'];*/
+	}
+	$item = new item($item_code);
+	$item_code = $item->item_code;
+	$item_name = $item->item_name;
+	$item_description = $item->item_description;
+	$item_title = $item->item_title;
+	$item_address = $item->item_address;
+	$foundlost = $item->item_type;
+	$item_category = $item->item_category_id;
+	$imgs_path =  $item->item_photos_url;
+	$item_country = $item->item_country;
+	$item_city = $item->item_city;
+
+}else if(isset($_POST['submit_delete'])){
+
+	if(isset($_POST['item_code']) && !empty($_POST['item_code']))
+	{
+			$item_code =   	$_POST['item_code'];
+	}else
+	{
+		$error['error'] = true;
+		$error['item_code'] = 'Field Required';
+	}
+	
+	if(!$error['error'])
+	{
+	$item = new item($item_code);
+	$item_id = $item->item_id;
+	$sql = "UPDATE item SET";
+	$sql = $sql." status = 'Deleted'";
+	$sql = $sql." WHERE id=".$item_id; 
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'You have removed an item.', NOW())";
+	$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
+	}
+}else if(isset($_GET['item_code'])){
+
+$item = new item($_GET['item_code']);
+if(!$item->item_id)
+{
+	header('Location: /account/');
+}
+$method = 'modify';
+$item_code = $item->item_code;
+$item_name = $item->item_name;
+$item_description = $item->item_description;
+$item_title = $item->item_title;
+$item_address = $item->item_address;
+$foundlost = $item->item_type;
+$item_category = $item->item_category_id;
+$imgs_path =  $item->item_photos_url;
+$item_country = $item->item_country;
+$item_city = $item->item_city;
 }
 
 ?>
-
 <div id="content">
 <div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
 	<div style="width: 1440px; display: inline-block; text-align: left;">
-		<form style="height: 0px; float: right;">
-			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="float: right; border-width: 0px; margin-top: 10px; background-image: url('	/image/barra-generica-478-47.png'); background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 70px; padding-left: 90px; width: 386px; height: 51px;">
+		<form method="get" action="/" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
+			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
+			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
 		</form>
 	</div>
 </div>
 <div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
 	
 	
-	<div class="row">
-
-	    <div class="table-responsive">
-	    		<?php
-				//check for any errors
-				if(isset($error)){
-					foreach($error as $error){
-						echo '<p class="bg-danger">'.$error.'</p>';
-						$type = 'e';
+	
+	<form role="form" method="post" action="" autocomplete="off">
+		
+		<div class="images_holder">
+			
+		</div>
+				<?php 
+					if($method=='	')
+					{
+					?>
+						<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+										<label class="form-control input-lg">Item Code</label>
+								</div>
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+									<input type="label" name="item_code" style="padding-top: 0px; padding-left: 20px; border-width: 0px; width: 440px; padding-right: 20px; height: 50px; background-color: transparent; text-align: center;"  id="item_code" class="form-control input-lg" placeholder="Marcos Passport" value="<?php if(isset($item_code)){ echo $item_code; } ?>" required tabindex="1" readonly>
+								</div>
+							</div>
+						</div>
+					<?php 
 					}
-				}
-				?>
-				<h2>Item</h2>
-				<hr>
-				<?php if($type == 'v'){ ?>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Code</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input value="<?php echo $assoc['code']; ?>" type="label" name="item_code" id="item_code" class="form-control input-lg" readonly>
-								</div>
-							</div>
-				</div>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Name</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input value="<?php echo $assoc['name']; ?>" type="label" name="item_code" id="item_code" class="form-control input-lg" readonly>
-								</div>
-							</div>
-				</div>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Description</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input value="<?php echo $assoc['description']; ?>" type="label" name="item_code" id="item_code" class="form-control input-lg" readonly>
-								</div>
-							</div>
-				</div>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Title</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input value="<?php echo $assoc['title']; ?>" type="label" name="item_code" id="item_code" class="form-control input-lg" readonly>
-								</div>
-							</div>
-				</div>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Type</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input value="<?php echo $assoc['type']; ?>" type="label" name="item_code" id="item_code" class="form-control input-lg" readonly>
-								</div>
-							</div>
-				</div>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Country</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input value="<?php echo $assoc['country']; ?>" type="label" name="item_code" id="item_code" class="form-control input-lg" readonly>
-								</div>
-							</div>
-				</div>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">City</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input value="<?php echo $assoc['city']; ?>" type="label" name="item_code" id="item_code" class="form-control input-lg" readonly>
-								</div>
-							</div>
-				</div>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Create date</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input value="<?php echo $assoc['create_date']; ?>" type="label" name="item_code" id="item_code" class="form-control input-lg" readonly>
-								</div>
-							</div>
-				</div>
-				<div class="row">
-							<form action="" method="POST">
-								<input type="hidden" name="code" id="code" value="<?php echo $code; ?>">
-								<input onclick="return confirm('¿Edit Item?')" class="btn btn-primary" type="submit" name="edit" id="edit" value="Edit">
-								<input onclick="return confirm('¿Delete Item?')" class="btn btn-danger" type="submit" name="delete" id="delete" value="Delete">
-					</form>
-				</div>
-				<?php } ?>
-				<br>
-				<?php if($type == 'e'){ ?>
-			<form action="" method="post">
-				<div class="row"> 
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Code</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input value="<?php echo $assoc['code']; ?>" type="label" class="form-control input-lg" readonly>
-								</div>
-							</div>
-				</div>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Name</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input value="<?php echo $assoc['name']; ?>" type="label" name="name" id="name" class="form-control input-lg">
-								</div>
-							</div>
-				</div>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Description</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input value="<?php echo $assoc['description']; ?>" type="label" name="description" id="description" class="form-control input-lg">
-								</div>
-							</div>
-				</div>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Title</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input value="<?php echo $assoc['title']; ?>" type="label" name="title" id="title" class="form-control input-lg">
-								</div>
-							</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-								<label for="item_address" class="form-control input-lg">Address</label>
+					?>
+					
+				
+				<div class="row">	
+					<div style="width: 580px; background-size: 100% 100%; height: 50px; background-image: url('/image/barra-register-405-26.png'); display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 137px; padding-top: 15px;">
+							<label for="item_name" class="form-control input-lg">Item Name</label>
 						</div>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-							<input type="text" name="address" id="address" class="form-control input-lg" placeholder="Fruisof-402, Postal Code 35745" value="<?php echo $assoc['findlost_address']; ?>" required tabindex="4">
+						<div class="form-group" style="float: left; height: 50px; width: 442px; ">
+							<input type="text" name="item_name" style="padding-top: 0px; padding-left: 20px; border-width: 0px; width: 440px; padding-right: 20px; height: 50px; background-color: transparent; text-align: center;" id="item_name" class="form-control input-lg" placeholder="Marcos Passport" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-								<label for="item_category" class="form-control input-lg">Category</label>
+				
+				<div class="row">	
+					<div style="width: 580px; background-size: 100% 100%; height: 50px; background-image: url('/image/barra-register-405-26.png');  display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 137px; padding-top: 15px;">
+							<label for="item_title" class="form-control input-lg">Title</label>
 						</div>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6">								
-						<div class="form-group">
-							<select class="form-control input-lg" name="category" id="category">	
-									<?php
-									$defaultCatID = $assoc['id_category'];
-									$sql = "select slug,id from item_category";
-									$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
-									$rowFirst = mysql_fetch_assoc(mysql_query($sqlFirst = "select slug,id from item_category WHERE id = '".$defaultCatID."'"));
-									echo "<option value='".$rowFirst['id']."'>".$rowFirst['slug']."</option>"; 
-									while($row = mysql_fetch_assoc($query))
-									{
-										if ($row['id'] != $defaultCatID){
-										echo "<option value='".$row['id']."'>".$row['slug']."</option>"; 
-										}			
-									}
-									?>
-								
-							</select>
+						<div class="form-group" style="float: left; height: 50px; width: 442px; ">
+							<input type="text" name="item_title" style="padding-top: 0px; padding-left: 20px; border-width: 0px; width: 440px; padding-right: 20px; height: 50px; background-color: transparent; text-align: center;"  id="item_title" class="form-control input-lg" placeholder="Marcos Passport" value="<?php if(isset($item_title)){ echo $item_title; } ?>" required tabindex="2">
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-								<label for="foundlost" class="form-control input-lg">You Lost/Found the Item</label>
+				
+				<div class="row">	
+					<div style="width: 580px; background-size: 100% 100%; height: 50px; background-image: url('/image/barra-register-405-26.png'); display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 137px; padding-top: 15px;">
+							<label for="item_country" class="form-control input-lg">Country</label>
 						</div>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-							<select class="form-control input-lg" name="foundlost" id="foundlost">
-							<?php if ($assoc['type'] == "Found") { ?>
-								<option value="Found">Found</option>
-								<option value="Lost">Lost</option>
-							<?php } else { ?>
-								<option value="Lost">Lost</option>
-								<option value="Found">Found</option>
-							<?php } ?>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-								<label for="item_country" class="form-control input-lg">Country</label>
-						</div>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-							<select class="form-control input-lg" name="country" id="country">
+						<div class="form-group" style="float: left; height: 50px; width: 442px; overflow: hidden;">
+							<select class="form-control input-lg" name="item_country" id="item_country" style="padding: 0px; background-color: transparent; height: 50px; width: 460px; border-width: 0px; text-align: center;">
 								<option value="">Select a Country</option>
 								<option value="AF">Afghanistan</option>
 								<option value="AX">Åland Islands</option>
@@ -552,30 +707,133 @@ if (isset($_POST['edit'])) {
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-								<label for="item_city" class="form-control input-lg">City</label>
+				
+				
+				<div class="row">	
+					<div style="width: 580px; background-size: 100% 100%; height: 50px; background-image: url('/image/barra-register-405-26.png'); display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 137px; padding-top: 15px;">
+							<label for="item_city" class="form-control input-lg">City</label>
 						</div>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-							<input type="text" name="city" id="city" class="form-control input-lg" placeholder="Caracas" value="<?php echo $assoc['city']; ?>" required tabindex="4">
+						<div class="form-group" style="float: left; height: 50px; width: 442px; ">
+							<input type="text" name="item_city" style="padding-top: 0px; padding-left: 20px; border-width: 0px; width: 440px; padding-right: 20px; height: 50px; background-color: transparent; text-align: center;" id="item_city" class="form-control input-lg" placeholder="Caracas" value="<?php if(isset($item_city)){ echo $item_city; } ?>" required tabindex="4">
 						</div>
 					</div>
 				</div>
-				<div class="row">
-							<input onclick="return confirm('¿Edit Item?')" class="btn btn-primary" type="submit" name="guardar" id="guardar" value="Edit">
+				
+				<div class="row">	
+					<div style="width: 580px; background-size: 100% 100%; height: 50px; background-image: url('/image/barra-register-405-26.png');  display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 137px; padding-top: 15px;">
+							<label for="item_address" class="form-control input-lg">Address</label>
+						</div>
+						<div class="form-group" style="float: left; height: 50px; width: 442px; ">
+							<input type="text" name="item_address" style="padding-top: 0px; padding-left: 20px; border-width: 0px; width: 440px; padding-right: 20px; height: 50px; background-color: transparent; text-align: center;" id="item_address" class="form-control input-lg" placeholder="Fruisof-402, Postal Code 35745" value="<?php if(isset($item_address)){ echo $item_address; } ?>" required tabindex="5">
+						</div>
+					</div>
 				</div>
-			</form>	
-				<?php } ?>
-		</div>
-	</div>
+				
+				<div class="row">	
+					<div style="width: 580px; background-size: 100% 100%; height: 50px; background-image: url('/image/barra-register-405-26.png');  display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 137px; padding-top: 15px;">
+							<label for="item_category" class="form-control input-lg">Category</label>
+						</div>
+						<div class="form-group" style="float: left; height: 50px; width: 442px;overflow: hidden;">
+							<select class="form-control input-lg" name="item_category" id="item_category" style="padding: 0px; background-color: transparent; height: 50px; width: 460px; border-width: 0px; text-align: center;">	
+								<option value=""></option>
+									<?php
+									$sql = "select slug,id from item_category";
+									$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
+									while($row = mysql_fetch_assoc($query))
+									{
+										echo "<option value=".$row['id'].">".$row['slug']."</option>"; 
+													
+									}
+								?>
+								
+							</select>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">	
+					<div style="width: 580px; background-size: 100% 100%; height: 50px; background-image: url('/image/barra-register-405-26.png');  display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 137px; padding-top: 15px;">
+							<label for="foundlost" class="form-control input-lg">Lost/Found?</label>
+						</div>
+						<div class="form-group" style="float: left; height: 50px; width: 442px; overflow: hidden;">
+							<select class="form-control input-lg" name="foundlost" id="foundlost" style="padding: 0px; background-color: transparent; height: 50px; width: 460px; border-width: 0px; text-align: center;">
+								<option value=""></option>
+								<option value="Found">Found</option>
+								<option value="Lost">Lost</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">	
+					<div style="width: 580px; background-size: 100% 100%; height: 130px; background-image: url('/image/barra-reset-718-62.png'); display: inline-block; padding: 15px;">
+						<textarea rows="4" cols="50" maxlength="200"  style="resize: none; border-width: 0px; margin-top: 0px; background-color: transparent; height: 100px; width: 550px;" class="form-control input-lg" style="resize:none" name="item_description" id="item_description" placeholder="Description: is a new passport from Germany"><?php if(isset($item_description)){ echo $item_description; } ?></textarea> 
+					</div>
+				</div>
+				
+				<div class="row">
+					<?php 
+					if(!$method=='modify')
+					{
+					?>
+						<div class="col-xs-6 col-md-6">
+						
+						</div>
+						<div class="col-xs-6 col-md-6">
+						<input type="submit" name="submit_create" value="Add" class="btn btn-primary btn-block btn-lg" required tabindex="6">
+						</div>
+					<?php 
+					}
+					else{
+					?>
+						<div class="col-xs-6 col-md-6">
+						<input type="submit" name="submit_delete" value="Delete" class="btn btn-primary btn-block btn-lg" required tabindex="6">
+						</div>
+						<div class="col-xs-6 col-md-6">
+						<input type="submit" name="submit_modify" value="Edit" class="btn btn-primary btn-block btn-lg" required tabindex="6">
+						</div>
+					<?php
+					}
+					?>
+				</div>	
+</form>
 </div>
-	
 
 	</div>
 </div>
+<script>	
+
+    var pre_photos = <?php
+						if(isset($imgs_path))
+						{
+							$urls_photos='[';
+							for ($i = 0; $i < count($imgs_path); $i++) 
+							{
+								if($i != 0)
+								{
+									$urls_photos= $urls_photos.",";
+								}
+								$urls_photos = $urls_photos.'"'.$imgs_path[$i].'"';
+							}
+							$urls_photos=$urls_photos.']';
+							echo $urls_photos;
+						}else echo "[]" 
+						?>;
+							
+	
+ $(document).ready(function()
+ {	
+		$('#foundlost').val('<?php if(isset($foundlost)){echo $foundlost;} ?>');
+		$('#item_category').val('<?php if(isset($item_category)){echo $item_category;} ?>');
+		$('#item_country').val('<?php if(isset($item_country)){echo $item_country;} ?>');
+ });
+	
+	
+</script>
 <?php
 //include header template
 require('layout/footer.php');

@@ -1,9 +1,9 @@
 <?php  
  $img_code = date("Y").'-'.date('m').date('d').'-';
-		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZZZ';
 		for ($i = 0; $i < 8; $i++) 
 		{
-			$img_code = $img_code.$characters[rand(0, strlen($characters))];
+			$img_code = $img_code.$characters[rand(0, strlen($characters)-2)];
 			if($i == 3)
 			{
 				$img_code = $img_code.'-';
@@ -18,6 +18,11 @@ if ($type=="jpeg"){$type="jpg";}
 if ($type=="JPEG"){$type="JPG";}
 $isImg = getimagesize($_FILES["file"]["tmp_name"]);
 $width  = $isImg[0]; $height = $isImg[1]; 
+if($width > 6*$height or $width*6 < $height)
+{
+	die("image scale is to big");
+	
+}
 	if($isImg !== false) {
 		if(($type == "png") or ($type == "gif") or ($type == "jpg") or ($type == "JPG")) {
 		if($_FILES['file']['size'] < 2*1048576) {

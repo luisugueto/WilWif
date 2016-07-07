@@ -7,11 +7,7 @@
     
 	<link rel="stylesheet" href="/css/style.css">
     <script src="/js/jquery-1.11.3.min.js"></script>
-  <!--
-	<link rel="stylesheet" href="/css/main.css">
-	  <script src="/js/bootstrap.min.js"></script>
-		<link href="/css/bootstrap.min.css" rel="stylesheet">
-  -->
+ 
 
 	<link type="text/css" rel="stylesheet" href="/js/style.css" />
 	<link rel="stylesheet" href="/js/jquery.Jcrop.css" type="text/css" />
@@ -28,4 +24,4 @@
   </div>
 </div>	
 </header>
- <div id="main-area" style="height: 720px; background-repeat: no-repeat; background-size: 100% 100%; background-image: url('/image/fondo-1440-620.png');">
+ <div id="main-area" style=" background-repeat: no-repeat; background-size: 100% 100%; background-image: url('/image/fondo-1440-620.png'); min-height:700px">
