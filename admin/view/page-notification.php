@@ -7,10 +7,10 @@ $db = new DB();
 
 //check if already logged in move to home page
 #if( $db->is_logged_in() ){ header('Location: index.php'); } 
-//$id = $_GET['id'];
-//$sql = "SELECT * FROM user WHERE id = '".$id."'";
-//$query = mysql_query($sql);
-//$query_assoc = mysql_fetch_assoc($query) or die(mysql_error());
+$id = $_GET['id'];
+$sql = "SELECT * FROM user WHERE id = '".$id."'";
+$query = mysql_query($sql);
+$query_assoc = mysql_fetch_assoc($query) or die(mysql_error());
 
 
 if(isset($_POST['submit'])){
