@@ -24,7 +24,13 @@ require('layout/header.php');
 </div> -->
 <div align="center">
     <div class="contenedorLogin" style="padding-bottom: 20px; width: 800px ">
-        <input class="submit" style="top: 330px; margin-left: 30px;" type="submit" name="submit" value="" tabindex="6">
+        <input class="img-account-info" type="submit" value="" onclick="window.location.href='info'">
+        <input class="img-account-found-items" type="submit" value="" onclick="window.location.href='found-items'">
+        <input class="img-account-lost-items" type="submit" value="" onclick="window.location.href='lost-items'">
+        <input class="img-account-orders" type="submit" value="" onclick="window.location.href='found-orders'">
+        <input class="img-account-notifications" type="submit" value="" onclick="window.location.href='notifications'">
+        <input class="img-account-submits" type="submit" value="" onclick="window.location.href='shipments'">
+
     </div>
 </div>
 <?php 

@@ -129,6 +129,74 @@ a {
 	position: relative;
 }
 
-footer{
+.img-account-notifications{
+	background-image: url(../image/boton-on-notifications-148-148.png); 
+	background-size: 100px;
+	position: relative;
+	margin-top: 230px;
+	float: left;
+	margin-left: -300px;
+	width: 101px;
+	height: 101px;
+	border-radius: 50px;
+}
+
+.img-account-submits {
+	background-image: url(../image/boton-on-sumits-148-148.png); 
+	background-size: 100px;
+	position: relative;
+	margin-top: 230px;
+	float: left;
+	margin-left: -100px;
+	width: 101px;
+	height: 101px;
+	border-radius: 50px;
+}
+
+.img-account-info {
+	background-image: url(../image/boton-on-accountinfo-148-148.png); 
+	background-size: 100px;
+	position: relative;
+	float: left;
+	margin-left: 150px;
 	margin-top: 50px;
+	width: 101px;
+	height: 101px;
+	border-radius: 50px;
+}
+
+.img-account-found-items {
+	background-image: url(../image/boton-on-founditem-148-148.png); 
+	background-size: 100px; 
+	position: relative;
+	margin-top: 50px;
+	float: left;
+	margin-left: 100px;
+	width: 101px;
+	height: 101px;
+	border-radius: 50px;
+}
+
+.img-account-lost-items {
+	background-image: url(../image/boton-on-lostitem-148-148.png); 
+	background-size: 100px; 
+	position: relative;
+	margin-top: 50px;
+	float: left;
+	margin-left: 100px;
+	width: 101px;
+	height: 101px;
+	border-radius: 50px;
+}
+
+.img-account-orders {
+	background-image: url(../image/boton-on-orders-148-148.png); 
+	background-size: 100px;
+	position: relative;
+	margin-top: 230px;
+	margin-left: -500px;
+	float: left;
+	width: 101px;
+	height: 101px;
+	border-radius: 50px;
 }
