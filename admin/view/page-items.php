@@ -19,9 +19,14 @@ elseif(isset($_POST['unlock'])){
 }
 
 ?>
-
-<div class="container">
-
+<div id="content">
+<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
+	<div style="background-image: url('/image/barra-items-534-78-01.png'); background-repeat: no-repeat; width: 540px; height: 82px; display: inline-block; margin-left: -425px; margin-top: 15px;">
+		<h1 style="height: 38px; color: white; width: 220px; font-family: arial,rial;margin-left: 83px;">ITEMS</h1>
+	</div>
+</div>
+<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
+	
 	<div class="row">
 
 	    <div class="table-responsive">
@@ -129,7 +134,10 @@ elseif(isset($_POST['unlock'])){
 	</div>
 </div>
 
-<?php
+</div>
+</div>
+
+<?php 
 //include header template
 require('layout/footer.php');
 ?>

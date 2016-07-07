@@ -18,7 +18,7 @@ if($path_urls[1])
 
 switch ($path){	
 	case 'employees':
-		if($path_urls[2])
+		if(isset($path_urls[2]))
 		{
 		 $secundary_path = $path_urls[2];
 		}else{
@@ -36,7 +36,7 @@ switch ($path){
 		break;
 	
 	case 'users':
-		if($path_urls[2])
+		if(isset($path_urls[2]))
 		{
 		 $secundary_path = $path_urls[2];
 		}else{
@@ -63,7 +63,7 @@ switch ($path){
 		break;
 
 	case 'items':
-		if($path_urls[2])
+		if(isset($path_urls[2]))
 		{
 		 $secundary_path = $path_urls[2];
 		}else{
@@ -71,7 +71,7 @@ switch ($path){
 		}
 		switch ($secundary_path){	
 			case 'found':
-				if($path_urls[3])
+				if(isset($path_urls[3]))
 				{
 				 $third_path = $path_urls[3];
 				}else{
@@ -88,7 +88,7 @@ switch ($path){
 				break;
 			
 			case 'lost':
-				if($path_urls[3])
+				if(isset($path_urls[3]))
 				{
 				 $third_path = $path_urls[3];
 				}else{
@@ -112,7 +112,7 @@ switch ($path){
 		break;
 	
 	case 'orders':
-		if($path_urls[2])
+		if(isset($path_urls[2]))
 		{
 		 $secundary_path = $path_urls[2];
 		}else{
@@ -130,7 +130,7 @@ switch ($path){
 		break;
 	
 	case 'shipments':
-		if($path_urls[2])
+		if(isset($path_urls[2]))
 		{
 		 $secundary_path = $path_urls[2];
 		}else{
@@ -148,7 +148,7 @@ switch ($path){
 		break;
 	
 	case 'notifications':
-		if($path_urls[2])
+		if(isset($path_urls[2]))
 		{
 		 $secundary_path = $path_urls[2];
 		}else{
@@ -166,7 +166,7 @@ switch ($path){
 		break;
 	
 	case 'records':
-		if($path_urls[2])
+		if(isset($path_urls[2]))
 		{
 		 $secundary_path = $path_urls[2];
 		}else{
@@ -184,14 +184,14 @@ switch ($path){
 		break;
 	
 	case 'chats':
-		if($path_urls[2])
+		if(isset($path_urls[2]))
 		{
 		 $secundary_path = $path_urls[2];
 		}else{
 		 $secundary_path = "";
 		}
 		switch ($secundary_path){	
-			case 'chats':
+			case 'chat':
 				include 'view/page-chat.php';	
 				break;
 			
@@ -206,7 +206,7 @@ switch ($path){
 		break;
 	
 	case 'configurations':
-		if($path_urls[2])
+		if(isset($path_urls[2]))
 		{
 		 $secundary_path = $path_urls[2];
 		}else{
@@ -221,7 +221,7 @@ switch ($path){
 		break;
 	
 	case 'statistics':
-		if($path_urls[2])
+		if(isset($path_urls[2]))
 		{
 		 $secundary_path = $path_urls[2];
 		}else{
@@ -233,6 +233,10 @@ switch ($path){
 				include 'view/page-statistics.php';
 				break;
 		}
+		break;
+		
+	case 'reset':
+			include 'view/page-reset.php';
 		break;
 		
 	default:

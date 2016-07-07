@@ -55,6 +55,15 @@ if(isset($_GET['item_code']))
 	
 }
 ?>
+
+<div id="content">
+<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
+	<div style="background-image: url('/image/barra-items-534-78-01.png'); background-repeat: no-repeat; width: 540px; height: 82px; display: inline-block; margin-left: -425px; margin-top: 15px;">
+		<h1 style="height: 38px; color: white; width: 220px; font-family: arial,rial;margin-left: 83px;">ITEM LOST</h1>
+	</div>
+</div>
+<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
+
 <div style="height: 150px; background-color: lightblue;">
 	<div style="height: 100px;">
 		<div style="float: left;">
@@ -115,7 +124,8 @@ if($user->is_logged_in() ){
 	</div>
 	
 </div>
-
+</div>
+</div>
 <script>
 var currentIndex = 0,
   items = $('.slider-images-container div'),
@@ -192,7 +202,9 @@ button {
   left: -80px;
 }
 </style>
-<?php
+
+
+<?php 
 //include header template
 require('layout/footer.php');
 ?>
