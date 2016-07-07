@@ -1,5 +1,19 @@
 <?php
 require('layout/header.php');
+
+if(isset($_POST['id'])){ $id = $_POST['id']; }
+
+if(isset($_POST['block']))
+{
+	$query = mysql_query("UPDATE user SET blocked = '1' WHERE id = '".$id."'");
+	header('Location = ./');
+}
+elseif(isset($_POST['unlock']))
+{
+	$query = mysql_query("UPDATE user SET blocked = 'NULL' WHERE id = '".$id."'");
+	header('Location = ./');
+}
+
 ?>
 
 <div id="content">
@@ -37,19 +51,20 @@ require('layout/header.php');
 						<td><?php echo $sql_assoc['name']; ?></td>
 						<td><?php echo $sql_assoc['username']; ?></td>
 						<td><?php echo $sql_assoc['email']; ?></td>
-						<td><?php echo "<a href='/users/edit/?id=$sql_assoc[id]'> Edit </a> /
-										";
-										if ($sql_assoc['blocked'] == 1) {
-											echo "<a href='/users/unlock/?id=$sql_assoc[id]'> Unlock </a> /";
-										}
-										else{
-											echo "<a href='/users/block/?id=$sql_assoc[id]'> Lock </a> /";
-										}
-
-								echo "<a href='/items/?id=$sql_assoc[id]'> Articles </a> /
-									  <a href='/records/?id=$sql_assoc[id]'> History / </a>
-									  <a href='/notifications/notification/?id=$sql_assoc[id]'> Add Notification </a>"; ?></td>
-						
+					<form action="" method="post">
+						<td>
+							<input type="hidden" value="<?php echo $sql_assoc['id']; ?>" id="id" name="id">
+							<input type="submit" value="Edit" id="edit" name="edit">
+							<?php if($sql_assoc['blocked'] == 1) { ?>
+							<input onclick="return confirm('¿Unlock User?')" type="submit" value="Unlock" id="unlock" name="unlock">
+							<?php } else { ?>
+							<input onclick="return confirm('Block User?')" type="submit" value="Block" id="block" name="block">
+							<?php } ?>
+							<input type="button" value="Items" id="items" name="items" onclick="window.location.href='/items/?id=<?php echo $sql_assoc['id']; ?>'">
+							<input type="button" value="History" id="records" name="history" onclick="window.location.href='/records/?id=<?php echo $sql_assoc['id']; ?>'">
+							<input type="button" value="Notifications" id="notifications" name="notifications" onclick="window.location.href='/notifications/notification/?id=<?php echo $sql_assoc['id']; ?>'">
+						</td>
+					</form>
 					<?php	 
 						}while($sql_assoc = mysql_fetch_assoc($sql));
 					?>

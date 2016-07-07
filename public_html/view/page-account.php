@@ -24,6 +24,7 @@ require('layout/header.php');
 </div> -->
 <div align="center">
     <div class="contenedorLogin" style="padding-bottom: 20px; width: 800px ">
+    
         <input class="img-account-info" type="submit" value="" onclick="window.location.href='info'">
         <input class="img-account-found-items" type="submit" value="" onclick="window.location.href='found-items'">
         <input class="img-account-lost-items" type="submit" value="" onclick="window.location.href='lost-items'">
