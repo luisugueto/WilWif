@@ -196,11 +196,15 @@ switch ($path){
 				break;
 			
 			case 'chats':
-				include 'view/page-chats.php';	
+				include 'view/page-chats-chats.php';	
+				break;
+			
+			case 'users':
+				include 'view/page-chat-users.php';	
 				break;
 			
 			default:
-				include 'view/page-chat-users.php';
+				include 'view/page-chats.php';
 				break;
 		}
 		break;
