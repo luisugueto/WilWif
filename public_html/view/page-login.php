@@ -34,13 +34,24 @@ $title = 'Login';
 require('layout/header.php'); 
 ?>
 
+<div id="content">
+<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
+	<div style="width: 1440px; display: inline-block; text-align: left;">
+		<form style="height: 0px; float: right;">
+			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="float: right; border-width: 0px; margin-top: 10px; background-image: url('	/image/barra-generica-478-47.png'); background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 70px; padding-left: 90px; width: 386px; height: 51px;">
+		</form>
+	</div>
+</div>
+<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
+	
 	
 
 	<div class="row">
 
 	    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 			<form role="form" method="post" action="" autocomplete="off">
-				<h2>Please Enter</h2>
+				<h2>Por favor Ingrese</h2>
+				<p><a href='./'>Ir a pagina de inicio</a></p>
 				<hr>
 
 				<?php
@@ -70,43 +81,34 @@ require('layout/header.php');
 
 				
 				?>
-<div class="contenedor" style="padding-bottom: 20px; heigth: 500px; width: 600px;">
-		<table style="margin-left: 160px; position:relative; top: 0px; ">
-			<tr>
-				<th><p align="right" style="color: white; margin-top: 10px">User </p></th>
-				<td>
-					<input style=" height: 30px; margin-left: 10px" type="text" name="username" id="username" class="form-control" placeholder="User Name" value="<?php if(isset($error)){ echo $username; } ?>" tabindex="1">
-				</td>
-			</tr>
-			<tr>
-				<th><p align="right" style="color: white; margin-top: 15px">Password </p></th>
-				<td>
-					<input style=" height: 30px; margin-left: 10px; margin-top: 10px" type="password" name="password" id="password" class="form-control" placeholder="Password" tabindex="2">				
-				</td>
-			</tr>
-			<tr>
-				<input class="submit" style="top: 170px; margin-left: 30px;" type="submit" name="submit" value="" title="Accept" tabindex="5">
-				<input class="register" style="top: 170px; margin-left: 100px;" type="button" onclick="window.location.href='/register/'" name="submit" value="" title="Register New User" tabindex="6">
-			</tr>
-		</table>
-				<div class="row">
-					<div class="col-xs-9 col-sm-9 col-md-9">
-					</div>
+
+				<div class="form-group">
+					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="User Name" value="<?php if(isset($error)){ echo $username; } ?>" tabindex="1">
+				</div>
+
+				<div class="form-group">
+					<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="3">
 				</div>
 				
 				<div class="row">
-					<div class="col-xs-6 col-md-6"></div>
+					<div class="col-xs-9 col-sm-9 col-md-9">
+						 <a href='reset.php'>Perdiste tu contraseña?</a>
+					</div>
+				</div>
+				
+				<hr>
+				<div class="row">
+					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Entrar" class="btn btn-primary btn-block btn-lg" tabindex="5"></div>
 				</div>
 			</form>
 		</div>
 	</div>
-						<!--  <a href='reset.php'>Perdiste tu contraseña?</a>-->
-
 
 
 
 </div>
-
+	</div>
+</div>
 
 <?php 
 //include header template

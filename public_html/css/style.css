@@ -1,0 +1,112 @@
+*::before, *::after {
+    box-sizing: border-box;
+}
+*::before, *::after {
+    box-sizing: border-box;
+}
+* {
+    box-sizing: border-box;
+}
+/* 1440*/
+body{
+	text-align: center;
+	margin: 0px;
+	min-width:1440px;
+}
+
+/*Home page */
+
+.home_div{
+ background-repeat: no-repeat;
+ background-size: 100% 100%;
+ height: 148px;
+ width: 148px;
+ display: inline-block;
+ cursor: pointer;
+}
+
+#home_config_div{
+	background-image: url('/image/boton-off-configuraciones-148-148.png');
+}
+
+#home_config_div:hover{
+	background-image: url('/image/boton-on-configuraciones-148-148.png');
+}
+
+#home_chat_div{
+	background-image: url('/image/boton-chat-off-148-148.png');
+}
+
+#home_chat_div:hover{
+	background-image: url('/image/boton-chat-on-148-148.png');
+}
+
+
+#home_employee_div{
+	background-image: url('/image/boton-empleado-off-148-148.png');
+}
+
+#home_employee_div:hover{
+	background-image: url('/image/boton-empleado-on-148-148.png');
+}
+
+
+#home_stadistic_div{
+	background-image: url('/image/boton-off-estadisticas-148-148.png');
+}
+
+#home_stadistic_div:hover{
+	background-image: url('/image/boton-on-estadisticas-148-148.png');
+}
+
+
+#home_record_div{
+	background-image: url('/image/boton-historial-off-148-148.png');
+}
+
+#home_record_div:hover{
+	background-image: url('/image/boton-historial-on-148-148.png');
+}
+
+#home_item_div{
+	background-image: url('/image/boton-off-items-144-144.png');
+}
+
+#home_item_div:hover{
+	background-image: url('/image/boton-on-items-144-144.png');
+}
+
+#home_shipment_div{
+	background-image: url('/image/boton-orders-off-148-148.png');
+}
+
+#home_shipment_div:hover{
+	background-image: url('/image/boton-orders-on-148-148.png');
+}
+
+#home_notification_div{
+	background-image: url('/image/boton-notificaciones-off-148-148.png');
+}
+
+#home_notification_div:hover{
+	background-image: url('/image/boton-on-notificaciones-148-148.png');
+}
+
+#home_order_div{
+	background-image: url('/image/boton-pedidos-off-148-148.png');
+}
+
+#home_order_div:hover{
+	background-image: url('/image/boton-pedidos-on-148-148.png');
+}
+
+#home_user_div{
+	background-image: url('/image/boton-off-usuario-148-148.png');
+}
+
+#home_user_div:hover{
+	background-image: url('/image/boton-on-usuario-148-148.png');
+}
+}
+
+/* End Home page*/

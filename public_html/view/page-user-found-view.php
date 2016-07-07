@@ -1,38 +1,27 @@
 <?php
 require('layout/header.php');
 
-$code = mysql_real_escape_string($_GET['code']);
-$type = mysql_real_escape_string($_GET['type']);
+$code = $_GET['code'];
+$type = $_GET['type'];
 $query = "SELECT * FROM item WHERE code = '".$code."'";
 $sql = mysql_query($query);
 $assoc = mysql_fetch_assoc($sql);
 
 if(isset($_POST['guardar']))
 {
-	$name = htmlentities($_POST['name']);
-	$description = htmlentities($_POST['description']);
-	$title = htmlentities($_POST['title']);
-	$address = htmlentities($_POST['address']);
-	$category = htmlentities($_POST['category']);
-	$foundlost = htmlentities($_POST['foundlost']);
-	$country = htmlentities($_POST['country']);
-	$city = htmlentities($_POST['city']);
-	if(empty($name)){ $error[] = 'The name cant be empty.'; }	
-	elseif(empty($description)){ $error[] = 'The description cant be empty.'; }	
-	elseif(empty($title)){ $error[] = 'The title cant be empty.'; }	
-	elseif(empty($address)){ $error[] = 'The address cant be empty.'; }	
-	elseif(empty($category)){ $error[] = 'The category cant be empty.'; }	
-	elseif(empty($foundlost)){ $error[] = 'You must select if you found it or if you lost it.'; }	
-	elseif(empty($country)){ $error[] = 'You must select a country.'; }	
-	elseif(empty($city)){ $error[] = 'The city cant be empty.'; }	
-    else {
-		$query = "UPDATE item SET name = '".$name."', description = '".$description."', title = '".$title."', country = '".$country."', city = '".$city."', findlost_address = '".$address."', type = '".$foundlost."', id_category = '".$category."', last_mod_date = NOW() WHERE code = '".$code."'";
-		$edit = mysql_query($query);
-		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'It has changed an item.', NOW())";
-		$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
-		$type = 'v';
-		echo("<meta http-equiv='refresh' content='1'>");
-	}
+	$name = $_POST['name'];
+	$description = $_POST['description'];
+	$title = $_POST['title'];
+	$address = $_POST['address'];
+	$category = $_POST['category'];
+	$foundlost = $_POST['foundlost'];
+	$country = $_POST['country'];
+	$city = $_POST['city'];
+	$query = "UPDATE item SET name = '".$name."', description = '".$description."', title = '".$title."', country = '".$country."', city = '".$city."', findlost_address = '".$address."', type = '".$foundlost."', id_category = '".$category."', last_mod_date = NOW() WHERE code = '".$code."'";
+	$edit = mysql_query($query);
+	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'It has changed an item.', NOW())";
+	$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
+	$type = 'v';
 }
 
 
@@ -48,7 +37,6 @@ if (isset($_POST['edit'])) {
 }
 
 ?>
-
 <div id="content">
 <div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
 	<div style="width: 1440px; display: inline-block; text-align: left;">
@@ -60,18 +48,15 @@ if (isset($_POST['edit'])) {
 <div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
 	
 	
+	
+
+	<div><?php
+         $defaultCatID = $assoc['id_category'];
+         echo $defaultCatID;
+         ?></div>
 	<div class="row">
 
 	    <div class="table-responsive">
-	    		<?php
-				//check for any errors
-				if(isset($error)){
-					foreach($error as $error){
-						echo '<p class="bg-danger">'.$error.'</p>';
-						$type = 'e';
-					}
-				}
-				?>
 				<h2>Item</h2>
 				<hr>
 				<?php if($type == 'v'){ ?>
@@ -238,7 +223,7 @@ if (isset($_POST['edit'])) {
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="text" name="address" id="address" class="form-control input-lg" placeholder="Fruisof-402, Postal Code 35745" value="<?php echo $assoc['findlost_address']; ?>" required tabindex="4">
+							<input type="text" name="address" id="address" class="form-control input-lg" placeholder="Fruisof-402, Postal Code 35745" value="<?php echo $assoc['findlost_address'] ?>" required tabindex="4">
 						</div>
 					</div>
 				</div>
@@ -248,22 +233,19 @@ if (isset($_POST['edit'])) {
 								<label for="item_category" class="form-control input-lg">Category</label>
 						</div>
 					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6">								
+					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
 							<select class="form-control input-lg" name="category" id="category">	
+								<option value=""></option>
 									<?php
-									$defaultCatID = $assoc['id_category'];
 									$sql = "select slug,id from item_category";
 									$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
-									$rowFirst = mysql_fetch_assoc(mysql_query($sqlFirst = "select slug,id from item_category WHERE id = '".$defaultCatID."'"));
-									echo "<option value='".$rowFirst['id']."'>".$rowFirst['slug']."</option>"; 
 									while($row = mysql_fetch_assoc($query))
 									{
-										if ($row['id'] != $defaultCatID){
-										echo "<option value='".$row['id']."'>".$row['slug']."</option>"; 
-										}			
+										echo "<option value=".$row['id'].">".$row['slug']."</option>"; 
+													
 									}
-									?>
+								?>
 								
 							</select>
 						</div>
@@ -278,13 +260,9 @@ if (isset($_POST['edit'])) {
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
 							<select class="form-control input-lg" name="foundlost" id="foundlost">
-							<?php if ($assoc['type'] == "Found") { ?>
+								<option value=""></option>
 								<option value="Found">Found</option>
 								<option value="Lost">Lost</option>
-							<?php } else { ?>
-								<option value="Lost">Lost</option>
-								<option value="Found">Found</option>
-							<?php } ?>
 							</select>
 						</div>
 					</div>
@@ -572,9 +550,7 @@ if (isset($_POST['edit'])) {
 		</div>
 	</div>
 </div>
-	
-
-	</div>
+</div>
 </div>
 <?php
 //include header template

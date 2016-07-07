@@ -11,7 +11,10 @@ require('layout/header.php');
 	</div>
 </div>
 <div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-		<div class="row">
+	
+	
+	
+	<div class="row">
 
 	    <div class="table-responsive">
 				<h2>Articles</h2>
@@ -42,7 +45,7 @@ require('layout/header.php');
 						<td><?php echo $sql_assoc['code']; ?></td>
 						<td><?php echo $sql_assoc['name']; ?></td>
 						<td><?php echo $sql_assoc['description']; ?></td>
-						<td><?php echo "<a href='found-item/?code=$sql_assoc[code]&type=v'>View </a>";
+						<td><?php echo "<a href='/foundView/?code=$sql_assoc[code]&type=v'>View </a>";
 							?>
 						</td>
 						

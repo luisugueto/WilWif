@@ -6,10 +6,10 @@ $type = $_POST['tipo'];
 $query = "SELECT * FROM item WHERE id = '".$code."'";
 $sql = mysql_query($query);
 $assoc = mysql_fetch_assoc($sql);
-if($user->is_logged_in() )
-{
+if($user->is_logged_in() ){
 	if(isset($_POST['guardar']))
 	{
+		if ($type == 's') {
 			$code_item = $_POST['code'];
 			$code_submit = date("Y").'-'.date('m').date('d').'-';
 			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -28,19 +28,48 @@ if($user->is_logged_in() )
 			$user_send = $_SESSION['id'];
 			$user_recive = $_POST['id_user'];
 			$id_item = $_POST['id'];
+
 			$query_item = "UPDATE item SET status = 'Deleted' WHERE id = $id_item";
 		  	$item = mysql_query($query_item);
 		  	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'Send Item.', NOW())";
 			$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
-			$sql_received = "INSERT INTO `order` (`code`, `id_item`, `status`, `message`, `title`, `address`, `id_user_send`, `id_user_recived`, `create_date`, `last_mod_date`) 
-			VALUES ('".$code_submit."', '".$id_item."', '".$status."', '".$message."', '".$title."', '".$address."', '".$user_send."', '".$user_recive."', NOW(), NOW())";
-			$query_received = mysql_query($sql_received) or die(mysql_error());
+			$sql_send = "INSERT INTO submit (code, message, status, title, address, id_user_send, id_user_recive, id_item, create_date) VALUES ('".$code_submit."','".$message."','".$status."','".$title."','".$address."','".$user_send."','".$user_recive."','".$id_item."', NOW())";
+			$query_send = mysql_query($sql_send) or die( mysql_error());
 			header('Location: /');
+		}
+		elseif($type == 'r')
+		{
+			$code_item = $_POST['code'];
+			$code_submit = date("Y").'-'.date('m').date('d').'-';
+			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			for ($i = 0; $i < 8; $i++) 
+			{
+				$code_submit = $code_submit.$characters[rand(0, strlen($characters))];
+				if($i == 3)
+				{
+					$code_submit = $code_submit.'-';
+				}
+			}
+			$status = $_POST['status'];
+			$message = $_POST['item_message'];
+			$title = $_POST['item_title'];
+			$address = $_POST['item_address'];
+			$user_send = $_SESSION['id'];
+			$user_recive = $_POST['id_user'];
+			$id_item = $_POST['id'];
+
+			$query_item = "UPDATE item SET status = 'Deleted' WHERE id = $id_item";
+		  	$item = mysql_query($query_item);
+		  	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'Send Item.', NOW())";
+			$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
+			$sql_received = "INSERT INTO order (code, message, status, title, address, id_user_send, id_user_recive, id_item, create_date) VALUES ('".$code_submit."','".$message."','".$status."','".$title."','".$address."','".$user_send."','".$user_recive."','".$id_item."', NOW())";
+			$query_received = mysql_query($sql_received);
+			header('Location: /');
+		}
 	}
 }
 
 ?>
-
 <div id="content">
 <div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
 	<div style="width: 1440px; display: inline-block; text-align: left;">
@@ -50,6 +79,8 @@ if($user->is_logged_in() )
 	</div>
 </div>
 <div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
+	
+	
 
 	<div class="row">
 
@@ -57,6 +88,12 @@ if($user->is_logged_in() )
 				<h2>Item</h2>
 				<hr>
 			<form action="" method="POST">
+			<?php
+			if($type == 's') {  ?>
+				<input type="hidden" name="tipo" id="tipo" value="s">
+			<?php } elseif($type == 'r') {	?>
+				<input type="hidden" name="tipo" id="tipo" value="r">
+			<?php } ?>
 				<input type="hidden" name="id_user" id="id_user" value="<?php echo $assoc['id_user']; ?>">
 				<input type="hidden" name="id" id="id" value="<?php echo $assoc['id']; ?>">
 				<div class="row">

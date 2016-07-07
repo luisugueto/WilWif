@@ -32,7 +32,7 @@ switch ($path){
 		break;
 
 	case 'account':
-		if($path_urls[2])
+		if(isset($path_urls[2]))
 		{
 		 $secundary_path = $path_urls[2];
 		}else{

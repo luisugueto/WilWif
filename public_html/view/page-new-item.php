@@ -388,8 +388,18 @@ $item_city = $item->item_city;
 //include header template
 require('layout/header.php'); 
 ?>
-
-<div id="container" style="padding-bottom: 20px;">
+<div id="content">
+<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
+	<div style="width: 1440px; display: inline-block; text-align: left;">
+		<form style="height: 0px; float: right;">
+			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="float: right; border-width: 0px; margin-top: 10px; background-image: url('	/image/barra-generica-478-47.png'); background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 70px; padding-left: 90px; width: 386px; height: 51px;">
+		</form>
+	</div>
+</div>
+<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
+	
+	
+	
 	<form role="form" method="post" action="" autocomplete="off">
 		
 		<div class="images_holder">
@@ -796,6 +806,9 @@ require('layout/header.php');
 					?>
 				</div>	
 </form>
+</div>
+
+	</div>
 </div>
 <script>	
     var pre_photos = <?php $urls_photos='[';
