@@ -228,7 +228,7 @@ elseif (isset($_POST['s'])) {
 			<div style="clear: both; content: ''; display: table; float: right;">
 				<div style="float: left; margin-right: 20px;">
 					<?php echo "<a href='/shipments/' style='text-decoration: none;'>";?>
-						<img width="50" height="50" src="/image/boton-volver-50-50.png" style="cursor: pointer;">
+						<img width="50" height="50" src="/image/boton-volver-57-57.png" style="cursor: pointer;">
 						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px; color:white;">Return</p>
 					</a>
 				</div>
