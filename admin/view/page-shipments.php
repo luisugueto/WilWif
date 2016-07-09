@@ -7,6 +7,7 @@ $query = mysql_query($sql) or die(mysql_error());
 $type = 'p';
 $id = isset($_POST['id']) ? $_POST['id'] : '';
 
+
 if (isset($_POST['view'])) {
 	$type = 'v';
 	$sql_view = "SELECT * FROM submit WHERE id = '".$id."'";
@@ -21,6 +22,13 @@ elseif(isset($_POST['unlock'])){
 	$sql_block = "UPDATE submit SET status = 'Unlock' WHERE id = '".$id."'";
 	$query_block = mysql_query($sql_block);
 }
+
+elseif (isset($_POST['s'])) {
+	$s = $_POST['s'];
+	$query_busqueda = mysql_query("SELECT * FROM submit WHERE message LIKE '$s%' || title LIKE '$s%' ");
+	$assoc_busqueda = mysql_fetch_assoc($query_busqueda);
+	$num_busqueda = mysql_num_rows($query_busqueda);
+}
 ?>
 
 <div id="content">
@@ -29,7 +37,7 @@ elseif(isset($_POST['unlock'])){
 		<div style="background-image: url('/image/barra-envios-534-78.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
 			<h1 style="height: 38px; color: white; width: 270px; font-family: arial,rial;">SHIPMENTS</h1>
 		</div>
-		<form method="get" action="" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
+		<form method="post" action="" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
 			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
 			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
 		</form>
@@ -59,11 +67,47 @@ elseif(isset($_POST['unlock'])){
 							if($sql_row == 0)
 							{
 								echo "<tr>
-										<td colspan='4'>No tiene envios.</td>
+										<td colspan='7'><p style='color: white;'>No exist.</td>
 									</tr>";
+									break;
 							}
+							elseif ($num_busqueda == 0) {
+								echo "<tr>
+										<td colspan='7'><p style='color: white;'>No exist.</p></td>
+									</tr>";
+									break;
+							}
+							elseif($num_busqueda != 0)
+							{
+								while($assoc_busqueda = mysql_fetch_assoc($query_busqueda)){
+
+							?>
+								<tbody style="border: 5px solid; border-color: white;">
+									<tr>
+										<td style="border: 5px solid; border-color: white;"><p style="color: white"><?php echo $assoc_busqueda['code']; ?></td>
+										<td style="border: 5px solid; border-color: white;"><p style="color: white"><?php echo $assoc_busqueda['message']; ?></td>
+										<td style="border: 5px solid; border-color: white;"><p style="color: white"><?php echo $assoc_busqueda['status']; ?></td>
+										<td style="border: 5px solid; border-color: white;"><p style="color: white"><?php echo $assoc_busqueda['id_user_send']; ?></td>
+										<td style="border: 5px solid; border-color: white;"><p style="color: white"><?php echo $assoc_busqueda['id_user_recive']; ?></td>
+										<td style="border: 5px solid; border-color: white;"><p style="color: white"><?php echo $assoc_busqueda['address']; ?></td>
+										<td>
+											<form action="" method="POST">
+												<input type="hidden" value="<?php echo $sql_assoc['id'] ?>" id="id" name="id">
+												<input class="btn btn-primary" type="submit" id="view" name="view" value="View">
+												<input class="btn btn-danger" onclick="return confirm('¿Block Send?');" type="submit" id="block" name="block" value="Block">
+												<input class="btn btn-secundary" onclick="return confirm('¿Unlock Send?');" type="submit" id="unlock" name="unlock" value="Unlock">
+											</form>
+										</td>
+								</tbody>
+							<?php
+
+								}
+							die();
+								
+							}
+
 							while($sql_assoc = mysql_fetch_assoc($query)){
-						?>
+					?>
 					<tbody style="border: 5px solid; border-color: white;">
 						<tr>
 							<td style="border: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['code']; ?></td>
@@ -135,7 +179,7 @@ elseif(isset($_POST['unlock'])){
 
 
 
-<?php 
+<?php
 //include header template
 require('layout/footer.php');
 ?>
