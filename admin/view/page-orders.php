@@ -27,12 +27,15 @@ if (isset($_POST['view'])) {
 	$assoc_view = mysql_fetch_assoc($query_view);
 }
 elseif(isset($_POST['block'])){
+	echo "si";
 	$sql_block = "UPDATE `order` SET status = 'Block' WHERE id = '".$id."'";
 	$query_block = mysql_query($sql_block);
+	header('Location: /orders/');
 }
 elseif(isset($_POST['unlock'])){
 	$sql_block = "UPDATE `order` SET status = 'Unlock' WHERE id = '".$id."'";
 	$query_block = mysql_query($sql_block);
+	header('Location: /orders/');
 }
 
 elseif (isset($_POST['s'])) {
@@ -48,7 +51,7 @@ elseif (isset($_POST['s'])) {
 <div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
 	<div style="width: 1440px; display: inline-block; padding-right: 81px; padding-left: 221px; text-align: left;">
 		<div style="background-image: url('/image/barra-envios-534-78.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
-			<h1 style="height: 38px; color: white; width: 270px; font-family: arial,rial;">SHIPMENTS</h1>
+			<h1 style="height: 38px; color: white; width: 270px; font-family: arial,rial;">ORDERS</h1>
 		</div>
 		<form method="post" action="" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
 			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
@@ -107,8 +110,8 @@ elseif (isset($_POST['s'])) {
 											<form action="" method="POST">
 												<input type="hidden" value="<?php echo $sql_assoc['id'] ?>" id="id" name="id">
 												<input class="btn btn-primary" type="submit" id="view" name="view" value="View">
-												<input class="btn btn-danger" onclick="return confirm('¿Block Send?');" type="submit" id="block" name="block" value="Block">
-												<input class="btn btn-secundary" onclick="return confirm('¿Unlock Send?');" type="submit" id="unlock" name="unlock" value="Unlock">
+												<input class="btn btn-danger"  type="submit" id="block" name="block" value="Block">
+												<input class="btn btn-secundary"  type="submit" id="unlock" name="unlock" value="Unlock">
 											</form>
 										</td>
 								</tbody>
@@ -129,9 +132,12 @@ elseif (isset($_POST['s'])) {
 							<td>
 								<form action="" method="POST">
 									<input type="hidden" value="<?php echo $sql_assoc['id'] ?>" id="id" name="id">
-									<input class="btn btn-primary" type="submit" id="view" name="view" value="View">
-									<input class="btn btn-danger" onclick="return confirm('¿Block Send?');" type="submit" id="block" name="block" value="Block">
-									<input class="btn btn-secundary" onclick="return confirm('¿Unlock Send?');" type="submit" id="unlock" name="unlock" value="Unlock">
+									<input class="btn btn-primary" type="submit" id="view" name="view" value="" style="background:url('/image/ver-56-56-02.png'); width: 60px; height: 60px; border: 0px">
+									<?php if($sql_assoc['status']!='Block') { ?>
+									<input class="btn btn-danger" onclick="return confirm('¿Block Send?');" type="submit" id="block" name="block" value="" style="background:url('/image/boton-bloquear-57-57.png'); width: 60px; height: 60px; border: 0px">
+									<?php } else { ?>
+									<input class="btn btn-secundary" onclick="return confirm('¿Unlock Send?');" type="submit" id="unlock" name="unlock" value="" style="background:url('/image/desbloquear-56-56.png'); width: 60px; height: 60px; border: 0px">
+									<?php } ?>
 								</form>
 							</td>
 							
@@ -227,7 +233,7 @@ elseif (isset($_POST['s'])) {
 		
 			<div style="clear: both; content: ''; display: table; float: right;">
 				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a href='/shipments/' style='text-decoration: none;'>";?>
+					<?php echo "<a href='/orders/' style='text-decoration: none;'>";?>
 						<img width="50" height="50" src="/image/boton-volver-57-57.png" style="cursor: pointer;">
 						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px; color:white;">Return</p>
 					</a>
