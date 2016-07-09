@@ -173,14 +173,14 @@ elseif (isset($_POST['s'])) {
 
 					<td>
 						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-							<p style="float: left; text-align: center; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Code</p>
-							<input type="text" value="<?php echo $assoc_view['code']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Code</p>
+							<input type="text" value="	<?php echo $assoc_view['code']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
 						</form>
 					</td>
 					<td>
 						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
 							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 13px;">Message</p>
-							<input type="text" value="<?php echo $assoc_view['message']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+							<input type="text" value="	<?php echo $assoc_view['message']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
 						</form>
 					</td>
 
@@ -190,13 +190,13 @@ elseif (isset($_POST['s'])) {
 					<td>
 						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
 							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 13px;">Status</p>
-							<input type="text" value="<?php echo $assoc_view['status']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+							<input type="text" value="	<?php echo $assoc_view['status']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
 						</form>
 					</td>
 					<td>
 						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
 							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Title</p>
-							<input type="text" value="<?php echo $assoc_view['title']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+							<input type="text" value="	<?php echo $assoc_view['title']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
 						</form>
 					</td>
 
@@ -205,13 +205,13 @@ elseif (isset($_POST['s'])) {
 					<td>
 						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
 							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 13px;">Address</p>
-							<input type="text" value="<?php echo $assoc_view['address']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+							<input type="text" value="	<?php echo $assoc_view['address']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
 						</form>
 					</td>						
 					<td>
 						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
 							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Code</p>
-							<input type="text" value="<?php echo $assoc_view['code']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+							<input type="text" value="	<?php echo $assoc_view['code']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
 						</form>
 					</td>
 				</tr>
@@ -223,7 +223,7 @@ elseif (isset($_POST['s'])) {
 								$query_user_send = mysql_query("SELECT * FROM user WHERE id = '".$assoc_view['id_user_send']."'"); 
 								$assoc_user_send = mysql_fetch_assoc($query_user_send);
 							?>
-							<input type="text" value="<?php echo $assoc_user_send['username']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+							<input type="text" value="	<?php echo $assoc_user_send['username']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
 						</form>
 					</td>
 					<td>
@@ -233,7 +233,7 @@ elseif (isset($_POST['s'])) {
 								$query_user_recived = mysql_query("SELECT * FROM user WHERE id = '".$assoc_view['id_user_recive']."'"); 
 								$assoc_user_recived = mysql_fetch_assoc($query_user_recived);
 							?>
-							<input type="text" value="<?php echo $assoc_user_recived['username'];?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+							<input type="text" value="	<?php echo $assoc_user_recived['username'];?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
 						</form>
 					</td>						
 				</tr>
