@@ -28,4 +28,4 @@
   </div>
 </div>	
 </header>
- <div id="main-area" style="height: 720px; background-repeat: no-repeat; background-size: 100% 100%; background-image: url('/image/fondo-1440-620.png');">
+ <div id="main-area" style="height: 780px; background-repeat: no-repeat; background-size: 100% 100%; background-image: url('/image/fondo-1440-620.png');">
