@@ -19,7 +19,7 @@ require('layout/header.php');
 		
 		<div class="rows" style=" display: block;">
 			<?php
-				$query = "SELECT code FROM item WHERE id_user = '".$_SESSION['id']."' AND status != 'Deleted'";
+				$query = "SELECT code FROM item WHERE id_user = '".$_SESSION['id']."' AND type='Found' AND status != 'Deleted'";
 				$sql = mysql_query($query);
 				$sql_row = mysql_num_rows($sql);
 				if($sql_row == 0)
@@ -73,7 +73,7 @@ require('layout/header.php');
 							</div>
 							<div style="float: left; height: 137px; width: 100px; padding-top: 40px;">
 								<div>
-									<?php echo "<a href='/item/?code=".$item->item_code."&type=v'>";?>
+									<?php echo "<a href='/account/found-item/?code=".$item->item_code."&type=v'>";?>
 										<img width="34" height="34" src="/image/boton-modificar-34-34.png" style="cursor: pointer;">
 										<p style="width: 62px; float: right; margin-top: 7px;margin-bottom: 0px;">Modify</p>
 									</a>

@@ -2,6 +2,8 @@
 require('../includes/config.php');
 require('../classes/db.php');
 require('../classes/item.php');
+require('../classes/functions.php');
+require('../classes/errorCode.php');
 $db = new DB();
 //define page title
 $title = 'Lost Object';

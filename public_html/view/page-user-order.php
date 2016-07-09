@@ -1,44 +1,36 @@
-<?php
-require('layout/header.php');
+<?php 
 
-$code = $_POST['code'];
-$type = $_POST['tipo'];
-$query = "SELECT * FROM item WHERE id = '".$code."'";
-$sql = mysql_query($query);
-$assoc = mysql_fetch_assoc($sql);
-if($user->is_logged_in() )
-{
-	if(isset($_POST['guardar']))
+//include header template
+require('layout/header.php'); 
+if($user->is_logged_in() ){
+	if(isset($_POST['code']))
 	{
-			$code_item = $_POST['code'];
-			$code_submit = date("Y").'-'.date('m').date('d').'-';
-			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-			for ($i = 0; $i < 8; $i++) 
-			{
-				$code_submit = $code_submit.$characters[rand(0, strlen($characters))];
-				if($i == 3)
-				{
-					$code_submit = $code_submit.'-';
-				}
-			}
-			$status = $_POST['status'];
-			$message = $_POST['item_message'];
-			$title = $_POST['item_title'];
-			$address = $_POST['item_address'];
-			$user_send = $_SESSION['id'];
-			$user_recive = $_POST['id_user'];
-			$id_item = $_POST['id'];
-			$query_item = "UPDATE item SET status = 'Deleted' WHERE id = $id_item";
-		  	$item = mysql_query($query_item);
-		  	$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'Send Item.', NOW())";
-			$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
-			$sql_received = "INSERT INTO `order` (`code`, `id_item`, `status`, `message`, `title`, `address`, `id_user_send`, `id_user_recived`, `create_date`, `last_mod_date`) 
-			VALUES ('".$code_submit."', '".$id_item."', '".$status."', '".$message."', '".$title."', '".$address."', '".$user_send."', '".$user_recive."', NOW(), NOW())";
-			$query_received = mysql_query($sql_received) or die(mysql_error());
-			header('Location: /');
+		$code = $_POST['code'];
 	}
+	
+	if (isset($_POST['submit'])) {
+	 	$query_send = "UPDATE item SET status = 'Deleted' WHERE id = $code";
+	 	$send = mysql_query($query_send);
+	 	if($_POST['tipo']=='s')
+	 	{
+	 		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'Send Item.', NOW())";
+			$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
+	 	}
+	 	elseif($_POST['tipo']=='r')
+	 	{
+	 		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'Receive Item.', NOW())";
+			$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
+	 	}
+	}
+
+	if(isset($_POST['send']))
+	{
+
+	}
+
 }
 
+$item = new item($_GET['code']);
 ?>
 
 <div id="content">
@@ -50,91 +42,133 @@ if($user->is_logged_in() )
 		</form>
 	</div>
 </div>
-<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-
-	<div class="row">
-
-	    <div class="table-responsive">
-				<h2>Item</h2>
-				<hr>
-			<form action="" method="POST">
-				<input type="hidden" name="id_user" id="id_user" value="<?php echo $assoc['id_user']; ?>">
-				<input type="hidden" name="id" id="id" value="<?php echo $assoc['id']; ?>">
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Code</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input value="<?php echo $assoc['code']; ?>" type="label" name="code" id="code" class="form-control input-lg" readonly>
-								</div>
-							</div>
+	<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
+		<div style="width: 890px; height: 400px; display: inline-block; border-radius: 20px; overflow: auto; padding: 80px 70px; background-image: url('/image/cuadro-generico3-1014-487.png'); background-size: 100% 100%;color:white">
+			<div style="float: left; border-radius: 10px; height: 240px;width: 300px;">
+				<div style="background-color: rgba(240, 240, 240, 0.8);">					
+								<?php if($item->HasPhoto())
+								{
+									echo  '<img src="'.$item->item_photos_url[0].'" width="90" height="90" title="item photo" style="height: 90px; border-radius: 20px;">';	
+								}else{
+									echo '<img src="/image/No_image_available_125x132.png" width="90" height="90" title="item photo" style="height: 90px; border-radius: 20px;">';	
+								}
+								?>
 				</div>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Message</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input type="label" name="item_message" id="item_message" class="form-control input-lg">
-								</div>
-							</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-								<label for="status" class="form-control input-lg">Status</label>
+				
+				<div class="row">	
+					<div style="width: 420px; background-size: 100% 100%; height: 40px; background-image: url('/image/barra-register-405-26.png'); display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 100px; padding-top: 10px;">
+							<label for="item_name" class="form-control input-lg">Item Name</label>
 						</div>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-							<select class="form-control input-lg" name="status" id="status">
-								<option value=""></option>
-								<option value="Shiped">Shiped</option>
-								<option value="Arrived">Arrived</option>
-								<option value="Cancel">Cancel</option>
-								<option value="Waiting">Waiting</option>
-							</select>
+						<div class="form-group" style="float: left; ">
+							<input type="text" name="item_name" style="padding-top: 0px; padding-left: 20px; border-width: 0px; padding-right: 20px; height: 40px; background-color: transparent; text-align: center; width: 300px;" id="item_name" placeholder="Marcos Passport" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
 						</div>
 					</div>
 				</div>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Title</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input type="label" name="item_title" id="item_title" class="form-control input-lg">
-								</div>
-							</div>
+				<div class="row">	
+					<div style="width: 420px; background-size: 100% 100%; height: 40px; background-image: url('/image/barra-register-405-26.png'); display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 100px; padding-top: 10px;">
+							<label for="item_name" class="form-control input-lg">Item Name</label>
+						</div>
+						<div class="form-group" style="float: left; ">
+							<input type="text" name="item_name" style="padding-top: 0px; padding-left: 20px; border-width: 0px; padding-right: 20px; height: 40px; background-color: transparent; text-align: center; width: 300px;" id="item_name" placeholder="Marcos Passport" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
+						</div>
+					</div>
 				</div>
-				<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-										<label class="form-control input-lg">Address</label>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<div class="form-group">
-									<input type="label" name="item_address" id="item_address" class="form-control input-lg">
-								</div>
-							</div>
+				<div class="row">	
+					<div style="width: 420px; background-size: 100% 100%; height: 40px; background-image: url('/image/barra-register-405-26.png'); display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 100px; padding-top: 10px;">
+							<label for="item_name" class="form-control input-lg">Item Name</label>
+						</div>
+						<div class="form-group" style="float: left; ">
+							<input type="text" name="item_name" style="padding-top: 0px; padding-left: 20px; border-width: 0px; padding-right: 20px; height: 40px; background-color: transparent; text-align: center; width: 300px;" id="item_name" placeholder="Marcos Passport" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
+						</div>
+					</div>
 				</div>
-				<div class="row">
-					<input onclick="return confirm('¿Receive Item?')" class="btn btn-primary" type="submit" name="guardar" id="guardar" value="Receive">
-					
+				<div class="row">	
+					<div style="width: 420px; background-size: 100% 100%; height: 40px; background-image: url('/image/barra-register-405-26.png'); display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 100px; padding-top: 10px;">
+							<label for="item_name" class="form-control input-lg">Item Name</label>
+						</div>
+						<div class="form-group" style="float: left; ">
+							<input type="text" name="item_name" style="padding-top: 0px; padding-left: 20px; border-width: 0px; padding-right: 20px; height: 40px; background-color: transparent; text-align: center; width: 300px;" id="item_name" placeholder="Marcos Passport" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
+						</div>
+					</div>
 				</div>
-			</form>
+			</div>
+			<div style="float: left; width: 400px; height: 240px; padding-left: 10px; padding-right: 10px;">
+				<div class="row">	
+					<div style="width: 420px; background-size: 100% 100%; height: 40px; background-image: url('/image/barra-register-405-26.png'); display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 100px; padding-top: 10px;">
+							<label for="item_name" class="form-control input-lg">Item Name</label>
+						</div>
+						<div class="form-group" style="float: left; ">
+							<input type="text" name="item_name" style="padding-top: 0px; padding-left: 20px; border-width: 0px; padding-right: 20px; height: 40px; background-color: transparent; text-align: center; width: 300px;" id="item_name" placeholder="Marcos Passport" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
+						</div>
+					</div>
+				</div>
+				<div class="row">	
+					<div style="width: 420px; background-size: 100% 100%; height: 40px; background-image: url('/image/barra-register-405-26.png'); display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 100px; padding-top: 10px;">
+							<label for="item_name" class="form-control input-lg">Item Name</label>
+						</div>
+						<div class="form-group" style="float: left; ">
+							<input type="text" name="item_name" style="padding-top: 0px; padding-left: 20px; border-width: 0px; padding-right: 20px; height: 40px; background-color: transparent; text-align: center; width: 300px;" id="item_name" placeholder="Marcos Passport" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
+						</div>
+					</div>
+				</div>
+				<div class="row">	
+					<div style="width: 420px; background-size: 100% 100%; height: 40px; background-image: url('/image/barra-register-405-26.png'); display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 100px; padding-top: 10px;">
+							<label for="item_name" class="form-control input-lg">Item Name</label>
+						</div>
+						<div class="form-group" style="float: left; ">
+							<input type="text" name="item_name" style="padding-top: 0px; padding-left: 20px; border-width: 0px; padding-right: 20px; height: 40px; background-color: transparent; text-align: center; width: 300px;" id="item_name" placeholder="Marcos Passport" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
+						</div>
+					</div>
+				</div>
+				<div class="row">	
+					<div style="width: 420px; background-size: 100% 100%; height: 40px; background-image: url('/image/barra-register-405-26.png'); display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 100px; padding-top: 10px;">
+							<label for="item_name" class="form-control input-lg">Item Name</label>
+						</div>
+						<div class="form-group" style="float: left; ">
+							<input type="text" name="item_name" style="padding-top: 0px; padding-left: 20px; border-width: 0px; padding-right: 20px; height: 40px; background-color: transparent; text-align: center; width: 300px;" id="item_name" placeholder="Marcos Passport" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
+						</div>
+					</div>
+				</div>
+				<div class="row">	
+					<div style="width: 420px; background-size: 100% 100%; height: 40px; background-image: url('/image/barra-register-405-26.png'); display: inline-block;">
+						<div class="form-group" style="float: left; height: 50px; width: 100px; padding-top: 10px;">
+							<label for="item_name" class="form-control input-lg">Item Name</label>
+						</div>
+						<div class="form-group" style="float: left; ">
+							<input type="text" name="item_name" style="padding-top: 0px; padding-left: 20px; border-width: 0px; padding-right: 20px; height: 40px; background-color: transparent; text-align: center; width: 300px;" id="item_name" placeholder="Marcos Passport" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div style="width: 890px; display: inline-block; padding-top: 10px; padding-bottom: 10px;">
+		
+			<div style="clear: both; content: ''; display: table; float: right;">
+				<div style="float: left; margin-right: 20px;">
+					<?php echo "<a href='/account/'>";?>
+						<img width="50" height="50" src="/image/boton-volver-50-50.png" style="cursor: pointer;">
+						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
+					</a>
+				</div>
+				<div style="float: left; margin-right: 20px;">
+					<?php echo "<a href='/account/found-item/'>";?>
+						<img width="50" height="50" src="/image/boton-aceptar-39-39.png" style="cursor: pointer;">
+						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Request</p>
+					</a>
+				</div>
+			</div>
+		
 		</div>
 	</div>
-</div>
-</div>
 </div>
 <?php
 //include header template

@@ -14,7 +14,23 @@ $(document).ready(function() {
 		var containerouter = document.createElement('div'); 
 		containerouter.className= "upload_container_outer";
 		
+		var controlcarucel = document.createElement('div');
+		controlcarucel.className = "control_lista-imagenes";
 		
+		var controlpreview = document.createElement('a');
+		controlpreview.id = "prev";
+		controlpreview.onclick = function() { 
+		CarrucelPrevClick(); };
+		
+		var controlnext = document.createElement('a');
+		controlnext.id = "next";
+		controlnext.onclick = function() { 
+		CarrucelNextClick(); };
+		
+		controlcarucel.appendChild(controlpreview);
+		controlcarucel.appendChild(controlnext);
+		//containerouter.appendChild(controlcarucel);
+		$(".images_holder").append(controlcarucel);
 		var containerinner = document.createElement('div'); 
 		containerinner.className= "upload_container_inner";
 		containerouter.appendChild(containerinner);
@@ -23,6 +39,9 @@ $(document).ready(function() {
 		ul_images.className = "uploader_lista-imagenes";
 		ul_images.id = "lista-imagenes";
 		containerinner.appendChild(ul_images);
+		
+		
+		
 		
 		$(".images_holder").append(containerouter);
 		
@@ -140,8 +159,14 @@ function addFile(){
 	var file = document.getElementById('testinput').files[0];
 	if ((/\.(jpg|png|gif|jpeg)$/i).test(file.name)) {
 	if (file.size < 1024 * 1024 * 2) {
+	if($('#progreso').length)
+	{
+		progresss = document.getElementById('uploader_progreso');
+	}else
+	{
 	var progresss = document.createElement('div'); 
 		progresss.className = "uploader_progreso";
+		progresss.id = "uploader_progreso";
     var progressBarr = document.createElement('div'); 
 		progressBarr.className = "uploader_barra";
 		progressBarr.appendChild(progresss);
@@ -151,6 +176,7 @@ function addFile(){
 		progreso.appendChild(progressBarr);
 	var inSide = document.getElementById('inSide');
 		inSide.appendChild(progreso);
+	}
 	var xhr = new XMLHttpRequest();
 	var formData = new FormData();
 	formData.append('file', file);
@@ -232,47 +258,6 @@ function cropFile(){
 		 if (xhr2.responseText.substring(0, 5) != "Error") {
 		 
 			AddImageUploader(xhr2.responseText);
-			/*var eliminar  = document.createElement('div'); 
-				eliminar.innerHTML = "X";	
-				eliminar.className = "uploader_eliminar";
-				eliminar.addEventListener('click', function(e) {  			    
-					row_img.parentNode.removeChild(row_img);
-					var lis = document.getElementById('lista-imagenes').getElementsByTagName("li");
-					var imgcontw= lis.length*125;
-					if(imgcontw <= 0)
-					{
-						imgcontw = 0;
-					}
-					$(".upload_container_inner").width(imgcontw);
-				}, false);
-			var	row_img = document.createElement('li');	
-		    var upload_img  = document.createElement('div'); 
-			var d = new Date();
-			upload_img.style.background = "url('"+ xhr2.responseText +"?"+ d.getTime();"')";
-			upload_img.style.backgroundSize = "100px 100px";
-			upload_img.className = "uploader_clasethumb";
-			row_img.appendChild(upload_img);
-			row_img.appendChild(eliminar);	
-			list = document.getElementById('lista-imagenes');
-			list.appendChild(row_img);
-			// add url value 
-			var input_url = document.createElement('input'); 
-			input_url.type = "hidden";
-			input_url.id = "url_img[]";//+list.getElementsByTagName("li").length;
-			input_url.name = "url_img[]";//+list.getElementsByTagName("li").length;
-			input_url.value = "'"+ xhr2.responseText +"'";
-			row_img.appendChild(input_url);
-			
-			
-			// add width depending of the nume of image
-			var lis = document.getElementById('lista-imagenes').getElementsByTagName("li");
-			var imgcontw= lis.length*125;
-			if(imgcontw <= 0)
-			{
-				imgcontw = 0;
-			}
-			$(".upload_container_inner").width(imgcontw);
-			*/			
 			$.Jcrop('#modimagen').destroy();	
 			 $('.jcrop-holder').remove();
 			 $('#modimagencont').html("");
@@ -293,13 +278,10 @@ function AddImageUploader(path_url)
 	eliminar.addEventListener('click', function(e) 
 	{ 
 		this.parentNode.parentNode.removeChild(this.parentNode);
-		var lis = document.getElementById('lista-imagenes').getElementsByTagName("li");
-		var imgcontw= lis.length*125;
-		if(imgcontw <= 0)
+		if(parseFloat($( "#lista-imagenes" ).css('top')) < 0)
 		{
-			imgcontw = 0;
+			$( "#lista-imagenes" ).css('top', (parseFloat($( "#lista-imagenes" ).css('top')) + 120) + 'px');
 		}
-		$(".upload_container_inner").width(imgcontw);
 	}, false);
 	var	row_img = document.createElement('li');	
 	var upload_img  = document.createElement('div'); 
@@ -316,13 +298,7 @@ function AddImageUploader(path_url)
 	input_url.name = "url_img[]";
 	input_url.value = "'"+ path_url +"'";
 	row_img.appendChild(input_url);
-	var lis = document.getElementById('lista-imagenes').getElementsByTagName("li");
-	var imgcontw= lis.length*125;
-	if(imgcontw <= 0)
-	{
-		imgcontw = 0;
-	}
-	$(".upload_container_inner").width(imgcontw);
+	
 }
 
 function previewImgs()
@@ -339,7 +315,55 @@ function previewImgs()
 		
 }
 
+function CarrucelNextClick()
+{
+	
+	var count = $("#lista-imagenes li").size();
+	var p = parseInt( $( "#lista-imagenes" ).css('top'));
+	var topp = 0;
+	if(count > 1)
+	{
+	if(p<= (count-1) * -120)
+	{
+		$('#lista-imagenes').animate({
+		top: "+="+(count-1) * 120 }, 200, function() {
+		// Animation complete.
+			});
+		}else
+		{
+			$('#lista-imagenes').animate({
+		top: "-=120" }, 200, function() {
+		// Animation complete.
+	  });
+		}
+	}
+}
 
+function CarrucelPrevClick()
+{
+	var count = $("#lista-imagenes li").size();
+	var p = parseInt( $( "#lista-imagenes" ).css('top'));
+	var topp = 0;
+	if(count > 1)
+	{
+		if(p>=0)
+		{
+			topp = -(count-1) * 120;
+			$('#lista-imagenes').animate({
+			top: "+="+topp }, 200, function() {
+		// Animation complete.
+			});
+		}else
+		{
+			$('#lista-imagenes').animate({
+		top: "+=120" }, 200, function() {
+		// Animation complete.
+		});
+		}
+	}
+	
+	 
+}
  $(document).ready(function()
  {	
    previewImgs();

@@ -18,8 +18,17 @@ class item{
   public $item_category_slug;
   public $item_date;
    
-  function __construct($item_code_) {
-		$sql = 'SELECT * FROM item where code ="'.$item_code_.'"';
+  function __construct($item_code_,$especial = false) {
+	
+		if($especial)
+		{
+			$sql = 'SELECT * FROM item where code ="'.$item_code_.'" ';
+		
+		}else
+		{
+			$sql = 'SELECT * FROM item where code ="'.$item_code_.'" and status !="Erased"';
+		
+		}
 		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
 		if($row = mysql_fetch_assoc($query))
 		{
