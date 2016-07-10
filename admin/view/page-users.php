@@ -66,11 +66,6 @@ $rows = mysql_num_rows($resultado);
 						<form action="/users/user" method="post">
 							<input type="hidden" value="<?php echo $sql_assoc['id']; ?>" name="id" id="id">
 							<input class="btn btn-primary" type="submit" id="view" name="view" value="" style="background:url('/image/ver-56-56-02.png'); width: 60px; height: 60px; border: 0px">
-							<?php if($sql_assoc['status']!='Block') { ?>
-							<input class="btn btn-danger" onclick="return confirm('¿Block User?')" type="submit" id="block" name="block" value="" style="background:url('/image/boton-bloquear-57-57.png'); width: 60px; height: 60px; border: 0px">
-							<?php } else { ?>
-							<input class="btn btn-secundary" onclick="return confirm('¿Unlock User?');" type="submit" id="unlock" name="unlock" value="" style="background:url('/image/desbloquear-56-56.png'); width: 60px; height: 60px; border: 0px">
-							<?php } ?>
 						</form>
 						</p></td>
 					</tr>
