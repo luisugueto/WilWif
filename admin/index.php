@@ -28,7 +28,9 @@ switch ($path){
 			case 'employee':
 				include 'view/page-employee.php';	
 				break;
-			
+			case 'viewemployee':
+				include 'view/page-view-employee.php';	
+				break;
 			default:
 				include 'view/page-employees.php';
 				break;

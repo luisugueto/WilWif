@@ -62,23 +62,42 @@ $rows = mysql_num_rows($resultado);
 						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 0px solid; border-right: 0px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['username']; ?></p></td>
 						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['email']; ?></p></td>
 						<td width="300px" style="border-bottom: 0px solid; border-top: 5px solid; border-left: 5px; border-right: 5px solid; border-color: white"><p style="color: white"><?php echo $sql_assoc['status']; ?></p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">x</p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">
+						<form action="/users/user" method="post">
+							<input type="hidden" value="<?php echo $sql_assoc['id']; ?>" name="id" id="id">
+							<input class="btn btn-primary" type="submit" id="view" name="view" value="" style="background:url('/image/ver-56-56-02.png'); width: 60px; height: 60px; border: 0px">
+							<?php if($sql_assoc['status']!='Block') { ?>
+							<input class="btn btn-danger" onclick="return confirm('¿Block User?')" type="submit" id="block" name="block" value="" style="background:url('/image/boton-bloquear-57-57.png'); width: 60px; height: 60px; border: 0px">
+							<?php } else { ?>
+							<input class="btn btn-secundary" onclick="return confirm('¿Unlock User?');" type="submit" id="unlock" name="unlock" value="" style="background:url('/image/desbloquear-56-56.png'); width: 60px; height: 60px; border: 0px">
+							<?php } ?>
+						</form>
+						</p></td>
 					</tr>
 					<?php } ?>
 			
 				</tbody>
 			</table>
 			
-			<div style="width: 890px; display: inline-block; padding-top: 10px; padding-bottom: 10px;">
-
-			<div style="clear: both; content: ''; display: table;">
-				<div style="float: center; margin-left: 450px">
-					<?php echo "<a href='/' style='text-decoration: none;'>";?>
+		<div style="width: 890px; display: inline-block; padding-top: 10px; padding-bottom: 10px;">
+		
+			<div style="clear: both; content: ''; display: table; float: left; margin-left: 400px">
+				<div style="float: left; margin-right: 20px;">
+					<?php echo "<a style='text-decoration: none;' href='/'>";?>
 						<img width="50" height="50" src="/image/boton-volver-57-57.png" style="cursor: pointer;">
-						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px; color:white;">Return</p>
+						<p style="color: white; width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
+					</a>
+				</div>
+				<div style="float: left; margin-right: 20px;">
+					<?php echo "<a style='text-decoration: none;'>";?>
+						<img width="50" height="50" src="/image/boton-crear-40-40.png" style="cursor: pointer;">
+						<p style="color: white; width: 62px; margin-top: 0px; margin-bottom: 0px;">Add</p>
 					</a>
 				</div>
 			</div>
+		
+		</div>
+
 			<div style="postion:relative; float: right; margin-top: -80px; margin-right: 0px">
 					<form action="" method="post">
 						<input type="hidden" value="<?php echo $npagina ?>" id="npag">
@@ -91,7 +110,6 @@ $rows = mysql_num_rows($resultado);
 			</div>
 		</div>
 </div>
-
 <?php 
 //include header template
 require('layout/footer.php');
