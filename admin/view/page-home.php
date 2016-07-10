@@ -111,75 +111,7 @@ require('layout/header.php');
 </div>
 </div>
 <style>
-.header_div_1
-{
-	height: 112px;
-	background-image: url('/image/header2-1440-112.png');
-	background-repeat: no-repeat;
-	background-size: 100% auto;
-	width: 100%;"
 
-}
-.header_div_2
-{
-	width: 1440px;
-	display: inline-block;
-	padding-right: 81px;
-	padding-left: 221px;
-	text-align: left;
-}
-.header_div_3
-{
-	background-repeat: no-repeat;
-	height: 82px;
-	display: inline-block;
-	margin-left: 0px;
-	margin-top: 15px;
-	width: 540px;
-	padding-left: 90px;
-}
-
-.header_div_home{
-	background-image: url('/image/barra-home-534-78.png');
-}
-.header_title_1{
-	height: 38px;
-	color: white;
-	width: 220px;
-	font-family: arial,rial;
-	margin-left: 83px;
-}
-
-#content_containter{
-	margin-top: 50px;
-	margin-bottom: 50px;
-	width: 1440px;
-	display: inline-block;
-}
-
-.content_div_1{
-	display: inline-block;
-	width: 1176px;
-	height: 567px;
-	background-image: url('/image/cuadro-home-1176-567.png');
-	padding: 58px 54px 54px 58px;"
-}
-
-.div_inline{
-	display: inline-block;
-}
-
-.home_option{
-	height: 232px;
-	width: 20%; 
-	float: left;
-	padding-top: 30px;
-	color:white;	
-}
-
-.margin_top_0{
-	margin-top: 0px;
-}
 </style>
 <?php 
 //include header template
