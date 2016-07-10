@@ -39,24 +39,29 @@ elseif(isset($_POST['unlock'])){
 <div id="content">
 <div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
 	<div style="width: 1440px; display: inline-block; padding-right: 81px; padding-left: 221px; text-align: left;">
-		<div style="background-image: url('/image/barra-items-534-78-01.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
+		<div style="background-image: url('/image/barra-notificaciones-534-78.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
 			<h1 style="height: 38px; color: white; width: 270px; font-family: arial,rial;">ITEMS</h1>
 		</div>
+		<form method="get" action="/" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
+			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
+			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+		</form>
 	</div>
-</div>	
-<div id="content_containter" style="margin-top: 40px; margin-left: -120px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-		
-		<div style="border-radius: 50px; margin-left: -60px;">
+</div>
+<div id="content_containter">
+	<div class="content_div_1">
+		<div class="div_inline-block">
+		<div>
 <?php if ($type == 'i') { ?>
-			<table style="border-color: white; border-radius: 50px; width: 1100px; display: inline-block; background-color: rgba(096,111,140,0.3); " border="4px">
-				<thead style="border: 5px;" >
+			<table>
+				<thead>
 					<tr>
-						<td width="400px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">Item Code</p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 0px; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white">Name</p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Status</p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">User Holder</p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Type</p></td>
-						<td width="300px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white"><p style="color: white">Options</p></td>
+						<td width="400px" style="border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">Item Code</p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white">Name</p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Status</p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">User Holder</p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Type</p></td>
+						<td width="300px" style="border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white"><p style="color: white">Options</p></td>
 					</tr>
 				</thead>
 				<tbody>
@@ -65,18 +70,18 @@ elseif(isset($_POST['unlock'])){
 						if($sql_row == 0)
 						{
 							echo "<tr>
-									<td colspan='6' style='border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;'><p style='color: white'>No have.</p></td>
+									<td colspan='6' style='border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 0px solid; border-color: white;'><p style='color: white'>No have.</p></td>
 								</tr>";
 						}
 						while($sql_assoc = mysql_fetch_assoc($resultado)){
 					?>
 					<tr>
-						<td width="400px" style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['code']; ?></p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['name']; ?></p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['status']; ?></p></td>
-						<td width="300px" style="border-bottom: 0px solid; border-top: 5px solid; border-left: 5px; border-right: 5px solid; border-color: white"><p style="color: white"><?php echo $sql_assoc['id_user']; ?></p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['type']; ?></p></td>
-						<td width="300px" style="border-bottom: 0px solid; border-top: 5px solid; border-left: 5px; border-right: 0px solid; border-color: white"><p style="color: white">x</p></td>
+						<td width="400px" style="border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['code']; ?></p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px solid; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['name']; ?></p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['status']; ?></p></td>
+						<td width="300px" style="border-bottom: 5px solid; border-top: 0px solid; border-left: 5px; border-right: 5px solid; border-color: white"><p style="color: white"><?php echo $sql_assoc['id_user']; ?></p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['type']; ?></p></td>
+						<td width="300px" style="border-bottom: 5px solid; border-top: 0px solid; border-left: 5px; border-right: 0px solid; border-color: white"><p style="color: white">x</p></td>
 					</tr>
 					<?php } ?>
 			

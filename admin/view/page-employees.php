@@ -20,11 +20,10 @@ $rows = mysql_num_rows($resultado);
 ############################################
 
 ?>
-
 <div id="content">
 <div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
 	<div style="width: 1440px; display: inline-block; padding-right: 81px; padding-left: 221px; text-align: left;">
-		<div style="background-image: url('/image/barra-usuarios-534-78.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
+		<div style="background-image: url('/image/barra-notificaciones-534-78.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
 			<h1 style="height: 38px; color: white; width: 270px; font-family: arial,rial;">EMPLOYEES</h1>
 		</div>
 		<form method="get" action="/" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
@@ -33,18 +32,18 @@ $rows = mysql_num_rows($resultado);
 		</form>
 	</div>
 </div>
-	
-<div id="content_containter" style="margin-top: 40px; margin-left: -120px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-
+<div id="content_containter">
+	<div class="content_div_1">
+		<div class="div_inline-block">
 		
-		<div style="border-radius: 50px; margin-left: 0px; margin-top: 20px;">
-			<table style="border-color: white; border-radius: 50px; width: 1100px; display: inline-block; background-color: rgba(096,111,140,0.3); " border="4px">
-				<thead style="border: 5px;" >
+		<div>
+			<table>
+				<thead>
 					<tr>
-						<td width="400px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">User Name</p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 0px; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white">Email</p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Status</p></td>
-						<td width="300px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white"><p style="color: white">Options</p></td>
+						<td width="400px" style="border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">User Name</p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white">Email</p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Status</p></td>
+						<td width="300px" style="border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white"><p style="color: white">Options</p></td>
 					</tr>
 				</thead>
 				<tbody>
@@ -53,16 +52,16 @@ $rows = mysql_num_rows($resultado);
 						if($sql_row == 0)
 						{
 							echo "<tr>
-									<td colspan='6' style='border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;'><p style='color: white'>No have.</p></td>
+									<td colspan='6' style='border-bottom: 5px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;'><p style='color: white'>No have.</p></td>
 								</tr>";
 						}
 						while($sql_assoc = mysql_fetch_assoc($resultado)){
 					?>
 					<tr>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 0px solid; border-right: 0px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['username']; ?></p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['email']; ?></p></td>
-						<td width="300px" style="border-bottom: 0px solid; border-top: 5px solid; border-left: 5px; border-right: 5px solid; border-color: white"><p style="color: white"><?php echo $sql_assoc['status']; ?></p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px solid; border-left: 0px solid; border-right: 0px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['username']; ?></p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px solid; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['email']; ?></p></td>
+						<td width="300px" style="border-bottom: 5px solid; border-top: 0px solid; border-left: 5px; border-right: 5px solid; border-color: white"><p style="color: white"><?php echo $sql_assoc['status']; ?></p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">
 						<form action="/employees/viewemployee" method="post">
 							<input type="hidden" value="<?php echo $sql_assoc['id']; ?>" name="id" id="id">
 							<input class="btn btn-primary" type="submit" id="view" name="view" value="" style="background:url('/image/ver-56-56-02.png'); width: 60px; height: 60px; border: 0px">
