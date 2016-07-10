@@ -14,8 +14,8 @@ require('layout/header.php');
 	
 	
 	
-	<div style="width: 1280px; height: 508px; display: inline-block; background-color: rgba(096,111,140,0.3); border-radius: 50px;">
-		<div style="display: inline-block; background-color: transparent; border-radius: 50px; height: 468px; width: 1240px; border-style: solid; border-color: white; margin-top: 20px;">
+	<div style="display: inline-block; width: 1176px; height: 567px; background-image: url('/image/cuadro-home-1176-567.png'); padding: 58px 54px 54px 58px;">
+		<div style="display: inline-block;">
 			<div style="height: 232px; width: 20%; float: left; padding-top: 30px;color:white">
 				<a href="/configurations/" title="Configurations">
 					<div id="home_config_div" class="home_div">
