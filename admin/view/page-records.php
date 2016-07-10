@@ -32,9 +32,6 @@ $rows = mysql_num_rows($resultado);
 		</form>
 	</div>
 </div>
-<div style="margin-top: 30px; width: 1176px; height: 600px; display: inline-block; background-color: rgba(096,111,140,0.3); border-radius: 50px;">
-<div style="display: inline-block; background-color: transparent; border-radius: 50px; height: 550px; width: 1140px; border-style: solid; border-color: white; margin-top: 20px;">
-	
 	<div id="content_containter" style="margin-top: 40px; margin-left: -120px; margin-bottom: 50px; width: 1440px; display: inline-block;">
 		
 		<div style="border-radius: 50px; margin-left: -70px;">
@@ -95,9 +92,6 @@ $rows = mysql_num_rows($resultado);
 		
 		</div>
 		</div>	
-</div>
-</div>
-
 <?php 
 //include header template
 require('layout/footer.php');
