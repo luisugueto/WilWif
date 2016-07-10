@@ -1,6 +1,25 @@
 <?php
-
 require('layout/header.php');
+
+$query = "SELECT * FROM notifications";
+$sql = mysql_query($query);
+$sql_assoc = mysql_fetch_assoc($sql);
+$sql_row = mysql_num_rows($sql);
+
+
+######### PAGINACIONN ###############
+$nregistros = 4;
+$nfilas = mysql_num_rows($sql);
+$numpags = $nfilas / $nregistros;
+if (isset($_POST['pagina']))	$npagina = $_POST['pagina']; else $npagina = 1;
+
+$query .= " LIMIT ".((($npagina*$nregistros)-($nregistros-1))-1).", ".$nregistros;
+$resultado = mysql_query($query);
+$rows = mysql_num_rows($resultado);
+
+############################################
+
+
 ?>
 <div id="content">
 <div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
@@ -14,51 +33,62 @@ require('layout/header.php');
 		</form>
 	</div>
 </div>
-<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-	
+<div id="content_containter" style="margin-top: 40px; margin-left: -120px; margin-bottom: 50px; width: 1440px; display: inline-block;">
 
-	<div class="row">
-
-	    <div class="table-responsive">
-				<h2>Notifications</h2>
-				<hr>
-				<table align="center" class="table table-striped table-hover">
-				<thead>		
+		
+		<div style="border-radius: 50px; margin-left: 0px; margin-top: 20px;">
+			<table style="border-color: white; border-radius: 50px; width: 1100px; display: inline-block; background-color: rgba(096,111,140,0.3); " border="4px">
+				<thead style="border: 5px;" >
 					<tr>
-						<th><p align="center">Username</p></th>
-						<th><p align="center">Message</p></th>
-						<th><p align="center">Status</p></th>
-						<th width="200px"><p align="center">Actions</p></th>
+						<td width="400px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">User Name</p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 0px; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white">Email</p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Status</p></td>
+						<td width="300px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white"><p style="color: white">Options</p></td>
 					</tr>
 				</thead>
-					<?php
-						$query = "SELECT * FROM notifications";
-						$sql = mysql_query($query);
-						$sql_assoc = mysql_fetch_assoc($sql);
-						do{
-					?>
 				<tbody>
-					<tr>
-						<td><?php 
-						$query_user = mysql_query("SELECT * FROM user WHERE id = '".$sql_assoc['id_user']."'");
-						$assoc_user = mysql_fetch_assoc($query_user);
-						echo $assoc_user['username']; ?>
-						</td>
-						<td><?php echo $sql_assoc['message']; ?></td>
-						<td><?php echo $sql_assoc['status']; ?></td>
-						<td>x</td>
+				<?php
 						
-					<?php	 
-						}while($sql_assoc = mysql_fetch_assoc($sql));
+						if($sql_row == 0)
+						{
+							echo "<tr>
+									<td colspan='6' style='border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;'><p style='color: white'>No have.</p></td>
+								</tr>";
+						}
+						while($sql_assoc = mysql_fetch_array($resultado)){
 					?>
+					<tr>
+						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 0px solid; border-right: 0px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_user']; ?></p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['message']; ?></p></td>
+						<td width="300px" style="border-bottom: 0px solid; border-top: 5px solid; border-left: 5px; border-right: 5px solid; border-color: white"><p style="color: white"><?php echo $sql_assoc['status']; ?></p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">x</p></td>
 					</tr>
-					</tbody>
-				</table>
-		</div>
-	</div>
-</div>
+					<?php } ?>
+			
+				</tbody>
+			</table>
+			
+			<div style="width: 890px; display: inline-block; padding-top: 10px; padding-bottom: 10px;">
 
-</div>
+			<div style="clear: both; content: ''; display: table;">
+				<div style="float: center; margin-left: 450px">
+					<?php echo "<a href='/' style='text-decoration: none;'>";?>
+						<img width="50" height="50" src="/image/boton-volver-57-57.png" style="cursor: pointer;">
+						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px; color:white;">Return</p>
+					</a>
+				</div>
+			</div>
+			<div style="postion:relative; float: right; margin-top: -80px; margin-right: 0px">
+					<form action="" method="post">
+						<input type="hidden" value="<?php echo $npagina ?>" id="npag">
+					<?php
+						for ($i=1; $i <= $numpags; $i++) { 
+							echo '<input type="submit" value="'.$i.'" name="pagina" id="pagina">';
+						}
+					?>
+					</form>
+			</div>
+		</div>
 </div>
 
 <?php 
