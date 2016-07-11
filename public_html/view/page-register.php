@@ -73,63 +73,55 @@ require('layout/header.php');
 </div>
 <div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
 	
-	
-	
-
-	<div class="row">
-
-	    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-			<form role="form" method="post" action="" autocomplete="off">
-				<h2>Por favor registrese</h2>
-				<p>Ya eres miembro? <a href='/login/'>Entrar</a></p>
-				<hr>
-
 				<?php
 				//check for any errors
 				if(isset($error)){
 					foreach($error as $error){
 						echo '<p class="bg-danger">'.$error.'</p>';
 					}
-				}
+				} ?>
 
-				//if action is joined show sucess
-				if(isset($mensaje)){
-					foreach($mensaje as $mensaje){
-						echo "<h2 class='bg-success'>".$mensaje."</h2>";
-					}
-				}
-				?>
-				<div class="form-group">
-					<input type="text" name="name" id="name" class="form-control input-lg" placeholder="Nombre" value="<?php if(isset($error)){ echo $name; } ?>" required tabindex="1">
-				</div>
-				<div class="form-group">
-					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="Nombre de Usuario" value="<?php if(isset($error)){ echo $username; } ?>" required tabindex="2">
-				</div>
-				<div class="form-group">
-					<input type="email" name="email" id="email" class="form-control input-lg" placeholder="Correo" value="<?php if(isset($error)){ echo $email; } ?>" required tabindex="3">
-				</div>
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-							<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Contraseña" required tabindex="4">
-						</div>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-							<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Confirmar Contraseña" required tabindex="5">
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Registrar" class="btn btn-primary btn-block btn-lg" required tabindex="6"></div>
-				</div>
-			</form>
-		</div>
+<div id="content_containter">
+	<div class="content_div_1">
+		<div class="div_inline-block">
+		<table style="border-color: white; display: inline-block; " border="0px;">
+				<tr >
+					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
+						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">User Name</p>
+						<input type="text" name="username" id="username" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+					</td>
+				</tr>
+				<tr >
+					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
+						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">Email Name</p>
+						<input type="text" name="email" id="email" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+					</td>
+				</tr>
+				<tr >
+					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
+						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">Name</p>
+						<input type="text" name="name" id="name" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+					</td>
+				</tr>
+				<tr>
+					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
+						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">Password</p>
+						<input type="password" name="password" id="password" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+					</td>
+				</tr>
+				<tr>
+					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
+						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">Retry-Password</p>
+						<input type="password" name="passwordConfirm" id="passwordConfirm" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+					</td>
+				</tr>
+				
+		</table>
+			<br>
+			<button type="submit" id="submit" name="submit" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
+			<p style="margin-top: 50px; margin-left: -40px; color:white">Accept</p>
+		</form>
 	</div>
-
-</div>
-
 	</div>
 </div>
 <?php

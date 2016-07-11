@@ -79,9 +79,7 @@ require('layout/header.php');
 		</table>
 			<br>
 			<button type="submit" id="submit" name="submit" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-			<p style="color:white">Accept</p>
-			<button type="button" onclick="window.location='/register/'" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-			<p style="color:white">Register New User</p>
+			<button type="button" onclick="window.location='/register/'" style="background:url('/image/boton-nuevouser-70-70.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
 		</form>
 <?php } ?>
 		</div>
