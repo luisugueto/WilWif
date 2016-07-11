@@ -13,7 +13,7 @@ if(isset($_POST['submit'])){
 	$username = htmlentities($_POST['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
 	$password = md5($_POST['password']);	
 	if (!ereg("^[a-zA-Z0-9\-_]{3,20}$", $username)) { 
-      $error[] = 'El nombre de usuario tiene caracteres no validos';
+      $error[] = 'Error.';
     } else {
 	
 		if($db->loginBackOffice($username,$password)){ 
@@ -24,7 +24,7 @@ if(isset($_POST['submit'])){
 			exit;
 	
 		} else {
-			$error[] = 'Usuario o Password no ha sido activada.';
+			$error[] = 'Error.';
 		}
 	}
 }//end if submit
@@ -54,49 +54,36 @@ require('layout/header.php');
 <?php if( !$user->is_logged_in() ){ ?>
 
 			<form role="form" method="post" action="" autocomplete="off">
-				<h2>Por favor Ingrese</h2>
-				<hr>
-
 				<?php
 				//check for any errors
 				if(isset($error)){
 					foreach($error as $error){
 						echo '<p class="bg-danger">'.$error.'</p>';
 					}
-				}
-
-				if(isset($_GET['action'])){
-
-					//check the action
-					switch ($_GET['action']) {
-						case 'active':
-							echo "<h2 class='bg-success'>Su cuenta está activa ahora se puede iniciar sesión.</h2>";
-							break;
-						case 'reset':
-							echo "<h2 class='bg-success'>Por favor, compruebe su bandeja de entrada para un enlace de restablecimiento.</h2>";
-							break;
-						case 'resetAccount':
-							echo "<h2 class='bg-success'>Contraseña cambiado, ahora puede iniciar sesión.</h2>";
-							break;
-					}
-
-				}
-
-				
+				}				
 				?>
-
-				<div class="form-group">
-					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="User Name" value="<?php if(isset($error)){ echo $_POST['username']; } ?>" tabindex="1">
-				</div>
-
-				<div class="form-group">
-					<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="3">
-				</div>				
-				<hr>
-				<div class="row">
-					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Entrar" class="btn btn-primary btn-block btn-lg" tabindex="5"></div>
-				</div>
-			</form>
+				<div id="content_containter">
+	<div class="content_div_1">
+		<div class="div_inline-block">
+		<table style="border-color: white; display: inline-block; " border="0px;">
+				<tr >
+					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
+						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">User Name</p>
+						<input type="text" name="username" id="username" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+					</td>
+				</tr>
+				<tr >
+					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
+						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">Password</p>
+						<input type="password" name="password" id="password" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+					</td>
+				</tr>
+				
+		</table>
+			<br>
+			<button type="submit" id="submit" name="submit" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
+			<p style="margin-top: 50px; margin-left: -40px; color:white">Accept</p>
+		</form>
 <?php } ?>
 		</div>
 	</div>

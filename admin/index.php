@@ -255,6 +255,10 @@ switch ($path){
 	case 'reset':
 			include 'view/page-reset.php';
 		break;
+	case 'logout':
+			session_destroy();
+			header('Location: /');
+		break;
 		
 	default:
 		if($user->is_logged_in())
