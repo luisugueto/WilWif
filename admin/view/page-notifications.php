@@ -78,7 +78,11 @@ require('layout/header.php');
 						?>
 						<div class="row_container_result">
 							<div class="row_column_result header_column_1_5 column_cel_1_3">
-								<?php echo $row['id_user']; ?>
+								<?php 
+									$query_user = mysql_query("SELECT * FROM user WHERE id = '".$row['id_user']."'");
+									$assoc_user = mysql_fetch_assoc($query_user);
+									echo $assoc_user['username']; 
+								?>
 							</div>
 							<div class="row_column_result header_column_1_5 column_cel_1_3">
 								<?php echo $row['message']; ?>
