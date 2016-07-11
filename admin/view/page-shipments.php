@@ -1,24 +1,34 @@
-<?php
-require('layout/header.php');
+<?php 
+//include header template
 
-$sql = "SELECT * FROM submit";
-$query = mysql_query($sql) or die(mysql_error());
+$searchValue = (isset($_GET['s']))?  $_GET['s'] : '';
+if($searchValue =='')
+$searchValue = (isset($_POST['s']))?  $_POST['s'] : '';
 
-######### PAGINACIONN ###############
-$nregistros = 4;
-$nfilas = mysql_num_rows($query);
-$numpags = $nfilas / $nregistros;
-if (isset($_POST['pagina']))	$npagina = $_POST['pagina']; else $npagina = 1;
+$searchValue = ($searchValue == '' )? '':"WHERE code like '%".$searchValue."%' or message like '%".$searchValue."%' or status like '%".$searchValue."%' ";
+$query = "SELECT * FROM submit ".$searchValue;
 
-$sql .= " LIMIT ".((($npagina*$nregistros)-($nregistros-1))-1).", ".$nregistros;
-$resultado = mysql_query($sql);
-$rows = mysql_num_rows($resultado);
+$sql = mysql_query($query);
+$sql_assoc = mysql_fetch_assoc($sql);
+$total = mysql_num_rows($sql);
+$total = ($total < 1)?1: $total;
+$nrows = 10;
+$totalpages = ceil($total/$nrows);
+$page = isset($_POST['page'])? $_POST['page']:1;
+######### PAGINACION ###############
+
+
+$query .= " LIMIT ".((($page*$nrows)-($nrows-1))-1).", ".$nrows;
+$sql = mysql_query($query);
+$records = mysql_num_rows($sql);
+
+
 
 ############################################
 
+
 $type = 'p';
 $id = isset($_POST['id']) ? $_POST['id'] : '';
-$num_busqueda = 0;
 
 if (isset($_POST['view'])) {
 	$type = 'v';
@@ -27,6 +37,7 @@ if (isset($_POST['view'])) {
 	$assoc_view = mysql_fetch_assoc($query_view);
 }
 elseif(isset($_POST['block'])){
+	echo "si";
 	$sql_block = "UPDATE submit SET status = 'Block' WHERE id = '".$id."'";
 	$query_block = mysql_query($sql_block);
 	header('Location: /shipments/');
@@ -37,129 +48,148 @@ elseif(isset($_POST['unlock'])){
 	header('Location: /shipments/');
 }
 
-elseif (isset($_POST['s'])) {
-	$s = $_POST['s'];
-	$sql_busqueda = "SELECT * FROM submit WHERE message LIKE '$s%' || title LIKE '$s%' ";
-	$query_busqueda = mysql_query($sql_busqueda);
-	$assoc_busqueda = mysql_fetch_assoc($query_busqueda);
-	$num_busqueda = mysql_num_rows($query_busqueda);
-}
-?>
 
+
+require('layout/header.php'); 
+?>
 <div id="content">
-<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
-	<div style="width: 1440px; display: inline-block; padding-right: 81px; padding-left: 221px; text-align: left;">
-		<div style="background-image: url('/image/barra-envios-534-78.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
-			<h1 style="height: 38px; color: white; width: 270px; font-family: arial,rial;">SHIPMENTS</h1>
+<div class="header_div_1">
+	<div class="header_div_2">
+		<div id="menu_button">
+		
 		</div>
-		<form method="post" action="" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
-			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+		<div class="header_div_3 header_div_home">
+			<h2 class="header_title_1">SHIPMENTS</h2>
+		</div>
+		<form class="form_search" method="get" action="" >
+			<p >Search</p>
+			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value">
 		</form>
 	</div>
 </div>
-<!-- <div style="margin-top: 30px; width: 1176px; height: 600px; display: inline-block; background-color: rgba(096,111,140,0.3); border-radius: 50px;">
-<div style="display: inline-block; background-color: transparent; border-radius: 50px; height: 550px; width: 1140px; border-style: solid; border-color: white; margin-top: 20px;"> -->
-	<div id="content_containter" style="margin-top: 40px; margin-left: -120px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-		
-		<div style="border-radius: 50px; margin-left: 170px;">
-				<?php if ($type == 'p') { ?>
-
-			<table style="border-color: white; border-radius: 50px; width: 1000px; display: inline-block; background-color: rgba(096,111,140,0.3); " border="4px">
-				<thead style="border: 5px;">
-					<tr style="border: 5px solid; border-color: white;">
-						<td width="400px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Code</p></td>
-						<td width="300px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Item Code</p></td>
-						<td width="300px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">User Recieve</p></td>
-						<td width="300px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">User Send</p></td>
-						<td width="500px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">Options</p></td>
-					</tr>
-				</thead>
-					<?php
-							$sql_row = mysql_num_rows($resultado);
-							if($sql_row == 0)
-							{
-								echo "<tr>
-										<td colspan='7' style='border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;'><p style='color: white'>No have.</p></td>
-									</tr>";
-									die();
-							}
-							elseif ($num_busqueda == 0 && isset($_POST['s'])) {
-								echo "<tr>
-									<td colspan='7' style='border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;'><p style='color: white'>No have.</p></td>
-									</tr>";
-									die();
-							}
-							elseif($num_busqueda != 0)
-							{
-								while($assoc_busqueda = mysql_fetch_assoc($query_busqueda)){
-
-							?>
-								<tbody style="border: 5px solid; border-color: white;">
-									<tr>
-										<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['code']; ?></td>
-											<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_item']; ?></td>
-											<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_user_recive']; ?></td>
-											<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_user_send']; ?></td>
-											<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;">
-											<form action="" method="POST">
-												<input type="hidden" value="<?php echo $sql_assoc['id'] ?>" id="id" name="id">
-												<input class="btn btn-primary" type="submit" id="view" name="view" value="View">
-												<input class="btn btn-danger" onclick="return confirm('¿Block Send?');" type="submit" id="block" name="block" value="Block">
-												<input class="btn btn-secundary" onclick="return confirm('¿Unlock Send?');" type="submit" id="unlock" name="unlock" value="Unlock">
-											</form>
-										</td>
-								</tbody>
-							<?php
-								}
-							die();
-							}
-							while($sql_assoc = mysql_fetch_assoc($resultado)){
-					?>
-					<tbody style="border: 5px solid; border-color: white;">
-						<tr>
-							<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['code']; ?></td>
-							<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_item']; ?></td>
-							<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_user_recive']; ?></td>
-							<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_user_send']; ?></td>
-							<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;">
+<div>
+	<div id="menu" class="menu_close">
+	
+	</div>
+</div>
+<div id="content_containter">
+	<?php if ($type == 'p') { ?>
+	<div class="content_result_div">
+		<div class="content_grid_result">
+			<div>
+				<div class="header_container">
+				<div class="header_container_result">
+					<div class="header_column_result header_column_1_5 column_cel_1_3">
+						CODE
+					</div>
+					<div class="header_column_result header_column_1_5 column_cel_1_3">
+						ITEM
+					</div>
+					<div class="header_column_result header_column_1_5 column_cel_no_display">
+						STATUS
+					</div>
+					<div class="header_column_result header_column_1_5 column_cel_no_display">
+						MESSAGE
+					</div>
+					<div class="header_column_result header_column_1_5 column_cel_1_3">
+						OPTIONS
+					</div>
+				</div>
+				</div>
+				<div class="result_container">
+					<?php 
+					
+						while($row = mysql_fetch_assoc($sql))
+						{
+						?>
+						<div class="row_container_result">
+							<div class="row_column_result header_column_1_5 column_cel_1_3">
+								<?php echo $row['code']; ?>
+							</div>
+							<div class="row_column_result header_column_1_5 column_cel_1_3">
+								<?php 
+									$query_item = mysql_query("SELECT * FROM item WHERE id = '".$row['id_item']."'");
+									$assoc_item = mysql_fetch_assoc($query_item);
+									echo $assoc_item['name'];
+								?>
+							</div>
+							<div class="row_column_result header_column_1_5 column_cel_no_display">
+								<?php echo $row['status']; ?>	
+							</div>
+							<div class="row_column_result header_column_1_5 column_cel_no_display">
+								<?php echo $row['message']; ?>
+							</div>
+							<div class="row_column_result header_column_1_5  column_cel_1_3">
 								<form action="" method="POST">
-									<input type="hidden" value="<?php echo $sql_assoc['id'] ?>" id="id" name="id">
-									<input class="btn btn-primary" type="submit" id="view" name="view" value="" style="background:url('/image/ver-56-56-02.png'); width: 60px; height: 60px; border: 0px">
-									<?php if($sql_assoc['status']!='Block') { ?>
-									<input class="btn btn-danger" onclick="return confirm('¿Block Send?');" type="submit" id="block" name="block" value="" style="background:url('/image/boton-bloquear-57-57.png'); width: 60px; height: 60px; border: 0px">
-									<?php } else { ?>
-									<input class="btn btn-secundary" onclick="return confirm('¿Unlock Send?');" type="submit" id="unlock" name="unlock" value="" style="background:url('/image/desbloquear-56-56.png'); width: 60px; height: 60px; border: 0px">
+									<input type="hidden" value="<?php echo $row['id'] ?>" id="id" name="id">
+									<input type="submit" id="view" name="view" value="" style="width: 59px; background-image: url('/image/ver-56-56-02.png'); border-width: 0px; padding-left: 0px; padding-right: 0px; height: 59px; background-color: transparent; cursor: pointer;">
+									<?php if($row['status']!='Block') { ?>
+									<input type="submit" onclick="return confirm(¿Block Order?)" id="block" name="block" value="" style="width: 59px; background-image: url('/image/bloquear-56-56.png'); border-width: 0px; padding-left: 0px; padding-right: 0px; height: 59px; background-color: transparent; cursor: pointer;">
+									<?php } elseif ($row['status']=='Block') { ?>
+									<input type="submit" onclick="return confirm(¿Unlock Order?)" id="unlock" name="unlock" value="" style="width: 59px; background-image: url('/image/desbloquear-56-56.png'); border-width: 0px; padding-left: 0px; padding-right: 0px; height: 59px; background-color: transparent; cursor: pointer;">
 									<?php } ?>
 								</form>
-							</td>
-							
-						<?php	 
-							}
-						?>
-				<div style="postion:relative; float: right; margin-top: 400px; margin-right: 170px">
-					<form action="" method="post">
-						<input type="hidden" value="<?php echo $npagina ?>" id="npag">
-					<?php
-						for ($i=1; $i <= $numpags; $i++) { 
-							echo '<input type="submit" value="'.$i.'" name="pagina" id="pagina">';
-						}
+							</div>
+						</div>
+						<?php
+					}
 					?>
-					</form>
 				</div>
-					<?php
+				<div class="pages_container">
+					<div class="pages_container_index" style="display: inline-flex;">
+					<?php 
+						$maxi = ($page+2 <= $totalpages )? $page+2: (($page+1 <= $totalpages )? $page+1: $totalpages);
+						$mini = ($page-2 >= 1 )? $page-2: (($page-1 >= 1 )? $page-1: 1);
+						for($i = $mini ; $i<= $maxi;$i++)
+						{
+							if($i ==$page-2 && $i != 1)
+							{
+								?>
+									<form action="" method="post">
+										<input type="hidden" name="page" value=1>
+										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
+										<input submit class="page_index" value ="1.">
+									</form>
+								<?php
+							}
+							if($i == $page)
+							{
+								?>
+									<input type="submit" class="page_index current_page" value ="<?php echo $i;?>">
+								<?php
+							}else{
+								?>
+									<form action="" method="post">
+										<input type="hidden" name="page" value="<?php echo $i;?>">
+										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
+										<input type="submit" class="page_index" value ="<?php echo $i;?>">
+									</form>
+								<?php
+							
+							}
+			
+							if($i == $page+2 && $i != $totalpages)
+							{
+								?>
+									<form action="" method="post">
+										<input type="hidden" name="page" value="<?php echo $totalpages;?>">
+										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
+										<input type="submit" class="page_index" value =".<?php echo $totalpages;?>">
+									</form>
+								<?php
+							}
 						}
-
 					?>
-						</tr>
-						</tbody>
-			</table>
-
-
-			<!-- VIEW SEND ARTICLE ########################################### -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php } ?>
+	<!-- VIEW SEND ARTICLE ########################################### -->
 
 				<?php if ($type == 'v') { ?>
-				<div style="width: 1440px; display: inline-block; padding-right: 81px; padding-left: 221px; text-align: left;">
+			<div style="width: 1440px; display: inline-block; padding-right: 81px; padding-left: 221px; text-align: left;">
 		
 				</div>
 			<table style="border-collapse: collapse; border-color: white; display: inline-block;" border="0px">
@@ -167,7 +197,7 @@ elseif (isset($_POST['s'])) {
 
 					<td>
 						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Code</p>
+							<p style="float: left; text-align: center; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Code</p>
 							<input type="text" value="	<?php echo $assoc_view['code']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
 						</form>
 					</td>
@@ -249,7 +279,25 @@ elseif (isset($_POST['s'])) {
 
 		</div>
 	</div>
-<?php
+</div>
+</div>
+<script>
+	$("#menu_button").click(function() {
+		if($("#menu").hasClass( "menu_open" ))
+		{
+			$("#menu").removeClass( "menu_open" );
+			$("#menu").addClass( "menu_close" );
+		}else{
+			$("#menu").removeClass( "menu_close" );
+			$("#menu").addClass( "menu_open" );
+		}
+	});
+	
+</script>
+<style>
+
+</style>
+<?php 
 //include header template
 require('layout/footer.php');
 ?>
