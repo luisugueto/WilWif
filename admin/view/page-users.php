@@ -92,7 +92,7 @@ $rows = mysql_num_rows($resultado);
 		
 		</div>
 
-			<div style="postion:relative; float: right; margin-top: -80px; margin-right: 0px">
+			<div style="postion:relative; float: right; margin-top: 10px; margin-right: 0px">
 					<form action="" method="post">
 						<input type="hidden" value="<?php echo $npagina ?>" id="npag">
 					<?php
