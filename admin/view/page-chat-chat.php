@@ -1,7 +1,7 @@
 <?php 
-if(!isset($_POST["user_invite"]) || !isset($_POST["chat_method"]))
+if(!isset($_POST["chat_method"]))
 {
-  die("Access Denied");
+  die("Access Denied 1");
 }
 
 if($_POST["chat_method"] == "create")
@@ -42,7 +42,7 @@ if($_POST["chat_method"] == "create")
 }else if($_POST["chat_method"] == "open"){
 if(!isset($_POST["chat_code"]))
 {
-  die("Access Denied");
+  die("Access Denied 2");
 }
 		$code_chat =  $_POST["chat_code"];
 		$sql = 'SELECT id_user_invited FROM chat where code="'.$code_chat.'"';
@@ -61,6 +61,11 @@ if(!isset($_POST["chat_code"]))
 		{
 			$username = $row['username'];
 		}	
+}else if($_POST["chat_method"] == "view"){
+
+
+}else{
+	die("Access Denied");
 }
 	
 

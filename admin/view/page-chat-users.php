@@ -13,7 +13,7 @@ $sql_assoc = mysql_fetch_assoc($sql);
 $total = mysql_num_rows($sql);
 $total = ($total < 1)?1: $total;
 $nrows = 10;
-$totalpages = ceil($nrows/$total);
+$totalpages = ceil($total/$nrows);
 $page = isset($_POST['page'])? $_POST['page']:1;
 ######### PAGINACION ###############
 
@@ -108,34 +108,21 @@ require('layout/header.php');
 				<div class="pages_container">
 					<div class="pages_container_index" style="display: inline-flex;">
 					<?php 
-						
-						$maxi = ($page+2 <= $totalpages )? $page+2: ($page+1 <= $totalpages )? $page+1: $totalpages;
-						$mini = ($page-2 >= 1 )? $page-2: ($page-1 >= 1 )? $page-1: 1;
-						for($i = $mini ; $i< $maxi;$i++)
+						$maxi = ($page+2 <= $totalpages )? $page+2: (($page+1 <= $totalpages )? $page+1: $totalpages);
+						$mini = ($page-2 >= 1 )? $page-2: (($page-1 >= 1 )? $page-1: 1);
+						for($i = $mini ; $i<= $maxi;$i++)
 						{
-							if($i == $page-2 && $page-2 > 0 )
+							if($i ==$page-2 && $i != 1)
 							{
 								?>
 									<form action="" method="post">
-										<input type="hidden" name="s" value="<?php echo $i;?>">
-										<input type="hidden" name="page" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
-										<input submit class="page_index" value ="<<">
+										<input type="hidden" name="page" value=1>
+										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
+										<input submit class="page_index" value ="1.">
 									</form>
 								<?php
 							}
-							
-							if($i == $page-1 && $page-1 > 0)
-							{
-								?>
-									<form action="" method="post">
-										<input type="hidden" name="s" value="<?php echo $i;?>">
-										<input type="hidden" name="page" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
-										<input submit class="page_index" value ="<">
-									</form>
-								<?php
-							}
-							
-								if($i == $page)
+							if($i == $page)
 							{
 								?>
 									<input type="submit" class="page_index current_page" value ="<?php echo $i;?>">
@@ -143,38 +130,26 @@ require('layout/header.php');
 							}else{
 								?>
 									<form action="" method="post">
-										<input type="hidden" name="s" value="<?php echo $i;?>">
-										<input type="hidden" name="page" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
+										<input type="hidden" name="page" value="<?php echo $i;?>">
+										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
 										<input type="submit" class="page_index" value ="<?php echo $i;?>">
 									</form>
 								<?php
 							
 							}
-							if($i == $page+1 && $page+1 < $totalpages)
+			
+							if($i == $page+2 && $i != $totalpages)
 							{
 								?>
 									<form action="" method="post">
-										<input type="hidden" name="s" value="<?php echo $i;?>">
-										<input type="hidden" name="page" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
-										<input submit class="page_index" value =">">
-									</form>
-								<?php
-							}
-							
-							if($i == $page+2 && $page+2 < $totalpages)
-							{
-								?>
-									<form action="" method="post">
-										<input type="hidden" name="s" value="<?php echo $i;?>">
-										<input type="hidden" name="page" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
-										<input submit class="page_index" value =">">
+										<input type="hidden" name="page" value="<?php echo $totalpages;?>">
+										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
+										<input type="submit" class="page_index" value =".<?php echo $totalpages;?>">
 									</form>
 								<?php
 							}
 						}
-					
 					?>
-					
 					</div>
 				</div>
 			</div>

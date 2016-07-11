@@ -5,9 +5,17 @@ require('layout/header.php');
 <div id="content">
 <div class="header_div_1">
 	<div class="header_div_2">
+		<div id="menu_button">
+		
+		</div>
 		<div class="header_div_3 header_div_home">
 			<h1 class="header_title_1">Chats</h1>
 		</div>
+	</div>
+</div>
+<div>
+	<div id="menu" class="menu_close">
+	
 	</div>
 </div>
 <div id="content_containter">

@@ -1,24 +1,216 @@
 <?php 
 //include header template
+
+$searchValue = (isset($_GET['s']))?  $_GET['s'] : '';
+if($searchValue =='')
+$searchValue = (isset($_POST['s']))?  $_POST['s'] : '';
+
+$searchValue = ($searchValue == '' )? '':" where (code like '%".$searchValue."%' or id_user_create in ( select id from user where username like '%".$searchValue."%') or  id_user_invited in ( select id from user where username like '%".$searchValue."%'  ))";
+$query = "SELECT c.code as code , c.create_date as date,u.id as creator_id, u.username as creator,u2.id as invited_id,  u2.username as invited FROM chat  c ";
+$query = $query. " LEFT JOIN user u  ON c.id_user_create = u.id ";
+$query = $query. " LEFT JOIN user  u2  ON c.id_user_invited = u2.id ";
+$query = $query.$searchValue ." GROUP BY c.code";
+
+$sql = mysql_query($query);
+$sql_assoc = mysql_fetch_assoc($sql);
+$total = mysql_num_rows($sql);
+$total = ($total < 1)?1: $total;
+$nrows = 10;
+$totalpages = ceil($total/$nrows);
+$page = isset($_POST['page'])? $_POST['page']:1;
+######### PAGINACION ###############
+$query .= " LIMIT ".(($page-1)*$nrows).",".$nrows;
+$sql = mysql_query($query);
+$records = mysql_num_rows($sql);
+############################################
+
 require('layout/header.php'); 
 ?>
 <div id="content">
-<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
-	<div style="width: 1440px; display: inline-block; padding-right: 81px; padding-left: 221px; text-align: left;">
-		<div style="background-image: url('/image/barra-chats-534-78.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
-			<h1 style="height: 38px; color: white; width: 220px; font-family: arial,rial;margin-left: 83px;">CHATS</h1>
+<div class="header_div_1">
+	<div class="header_div_2">
+		<div id="menu_button">
+		
 		</div>
-		<form method="get" action="/" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
-			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+		<div class="header_div_3 header_div_home">
+			<h2 class="header_title_1">Chats</h2>
+		</div>
+		<form class="form_search" method="get" action="/chats/chats/" >
+			<p >Search</p>
+			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value">
 		</form>
 	</div>
 </div>
-<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
+<div>
+	<div id="menu" class="menu_close">
 	
 	</div>
 </div>
+<div id="content_containter">
+	
+	<div class="content_result_div">
+		<div class="content_grid_result">
+			<div>
+				<div class="header_container">
+				<div class="header_container_result">
+					<div class="header_column_result header_column_1_5 column_cel_1_3">
+						Code
+					</div>
+					<div class="header_column_result header_column_1_5 column_cel_1_3">
+						Creator
+					</div>
+					<div class="header_column_result header_column_1_5 column_cel_no_display">
+						Invited
+					</div>
+					<div class="header_column_result header_column_1_5 column_cel_no_display">
+						Date
+					</div>
+					<div class="header_column_result header_column_1_5 column_cel_1_3">
+						OPTIONS
+					</div>
+				</div>
+				</div>
+				<div class="result_container">
+					<?php 
+					
+						while($row = mysql_fetch_assoc($sql))
+						{
+						?>
+						<div class="row_container_result">
+							<div class="row_column_result header_column_1_5 column_cel_1_3">
+								<?php echo $row['code']; ?>
+							</div>
+							<div class="row_column_result header_column_1_5 column_cel_1_3">
+								<?php echo $row['creator']; ?>
+							</div>
+							<div class="row_column_result header_column_1_5 column_cel_no_display">
+								<?php echo $row['invited']; ?>	
+							</div>
+							<div class="row_column_result header_column_1_5 column_cel_no_display">
+								<?php echo $row['date']; ?>
+							</div>
+							<div class="row_column_result header_column_1_5  column_cel_1_3">
+								<?php
+									if( $_SESSION['id']==$row['creator_id'] || $_SESSION['id']==$row['invited_id'])
+									{
+								?>
+									<form action="/chats/chat/" target="empty" method="post"  style="height: 68px; float: left; margin-left: 10px;">
+										<input type="hidden" name="chat_code" value="<?php echo $row['code'];?>">
+										<input type="hidden" name="chat_method" value="open">
+										<input class="search_option_result option_open" type="submit" value="">
+									</form>
+								<?php
+									}
+								?>
+								<form action="/chats/view/" target="empty" method="post"  style="height: 68px; float: left; margin-left: 10px;">
+									<input type="hidden" name="chat_code" value="<?php echo $row['code'];?>">
+									<input type="hidden" name="chat_method" value="view">
+									<input class="search_option_result option_view" type="submit" value="">
+								</form>
+							</div>
+						</div>
+						<?php
+					}
+					?>
+				</div>
+				<div class="pages_container">
+					<div class="pages_container_index" style="display: inline-flex;">
+					<?php 
+						
+						$maxi = ($page+2 <= $totalpages )? $page+2: (($page+1 <= $totalpages )? $page+1: $totalpages);
+						$mini = ($page-2 >= 1 )? $page-2: (($page-1 >= 1 )? $page-1: 1);
+						for($i = $mini ; $i<=$maxi;$i++)
+						{
+							if($i ==$page-2 && $i != 1)
+							{
+								?>
+									<form action="" method="post">
+										<input type="hidden" name="page" value=1>
+										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
+										<input submit class="page_index" value ="1.">
+									</form>
+								<?php
+							}
+							
+							
+							
+								if($i == $page)
+							{
+								?>
+									<input type="submit" class="page_index current_page" value ="<?php echo $i;?>">
+								<?php
+							}else{
+								?>
+									<form action="" method="post">
+										<input type="hidden" name="page" value="<?php echo $i;?>">
+										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
+										<input type="submit" class="page_index" value ="<?php echo $i;?>">
+									</form>
+								<?php
+							
+							}
+							
+							
+							if($i == $page+2 && $i != $totalpages)
+							{
+								?>
+									<form action="" method="post">
+										<input type="hidden" name="page" value="<?php echo $totalpages;?>">
+										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
+										<input type="submit" class="page_index" value =".<?php echo $totalpages;?>">
+									</form>
+								<?php
+							}
+						}
+					
+					?>
+					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
 
+<style>
+
+.search_option_result{
+	border-width: 0px;
+	padding-left: 0px; 
+	padding-right: 0px; 
+	background-size: 100% 100%;
+	background-color: transparent;
+	cursor: pointer;
+	height: 50px;
+	width: 50px;
+}
+
+.option_view{
+	background-image: url('/image/ver-56-56-02.png');
+}
+
+.option_open{
+	background-image: url('/image/botones-usuarios-online-56-56-02.png');
+}
+@media all and (max-width: 1024px)
+{
+	.search_option_result
+	{
+		width: 40px;
+		height: 40px;
+	}
+}
+
+@media all and (max-width: 420px)
+{
+	.search_option_result
+	{
+		width: 20px;
+		height: 20px;
+	}
+}
+</style>
 <?php 
 //include header template
 require('layout/footer.php');
