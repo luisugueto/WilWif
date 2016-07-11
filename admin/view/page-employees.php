@@ -1,14 +1,14 @@
 <?php
 require('layout/header.php');
 
-$query = "SELECT * FROM user WHERE rol_id = '2'";
+$query = "SELECT * FROM user WHERE rol_id in (SELECT id FROM rol WHERE code != '010' AND code!='001')";
 $sql = mysql_query($query);
 $sql_assoc = mysql_fetch_assoc($sql);
 $sql_row = mysql_num_rows($sql);
 
 
 ######### PAGINACIONN ###############
-$nregistros = 4;
+$nregistros = 3;
 $nfilas = mysql_num_rows($sql);
 $numpags = $nfilas / $nregistros;
 if (isset($_POST['pagina']))	$npagina = $_POST['pagina']; else $npagina = 1;
@@ -74,7 +74,6 @@ $rows = mysql_num_rows($resultado);
 			
 				</tbody>
 			</table>
-
 
 		<div style="width: 890px; display: inline-block; padding-top: 10px; padding-bottom: 10px;">
 		
