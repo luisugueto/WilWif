@@ -2,6 +2,7 @@
 require('../includes/config.php');
 require('../classes/db.php');
 require('../classes/item.php');
+error_reporting(0);
 $db = new DB();
 //define page title
 $title = 'Lost Object';
@@ -28,9 +29,7 @@ switch ($path){
 			case 'employee':
 				include 'view/page-employee.php';	
 				break;
-			case 'viewemployee':
-				include 'view/page-view-employee.php';	
-				break;
+			
 			default:
 				include 'view/page-employees.php';
 				break;
