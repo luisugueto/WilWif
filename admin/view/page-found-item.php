@@ -30,9 +30,9 @@ if($user->is_logged_in() ){
 
 ?>
 <?php 
-if(isset($_GET['item_code']))
+if(isset($_POST['item_code']))
 {
-	$item = new item($_GET['item_code']);
+	$item = new item($_POST['item_code']);
 /*
 	echo $item->item_code;
 	echo '<br>';

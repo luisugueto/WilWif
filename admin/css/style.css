@@ -924,3 +924,11 @@ body{
 }
 }
 /* end page chat users */
+
+button{
+	cursor: pointer;
+}
+input[type="submit"]
+{
+	cursor: pointer;
+}

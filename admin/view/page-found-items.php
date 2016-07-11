@@ -211,13 +211,6 @@ require('layout/header.php');
 	</div>
 </div>		
 		
-		
-		
-		
-		
-		
-		
-	
 <?php 
 //include header template
 require('layout/footer.php');
