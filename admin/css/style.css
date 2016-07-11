@@ -124,6 +124,51 @@ html{
 .header_div_home{
 	background-image: url('../image/barra-home-534-78.png');
 }
+
+.header_div_item
+{
+	background-image: url("../image/barra-items-534-78-01.png");
+}
+
+
+.form_option{
+	height: 68px;
+	float: left; 
+	margin-left: 10px;
+}
+
+.option_view{
+	background-image: url('/image/ver-56-56-02.png');
+}
+
+.option_open{
+	background-image: url('/image/botones-usuarios-online-56-56-02.png');
+}
+
+.option_locked{
+	background-image: url('/image/bloquear-56-56.png');
+}
+
+.option_unlocked{
+	background-image: url('/image/desbloquear-56-56.png');
+}
+
+.option_deleted{
+	background-image: url('/image/eliminar-56-56.png');
+}
+
+
+.search_option_result{
+	border-width: 0px;
+	padding-left: 0px; 
+	padding-right: 0px; 
+	background-size: 100% 100%;
+	background-color: transparent;
+	cursor: pointer;
+	height: 50px;
+	width: 50px;
+}
+
 .header_title_1{
 	color: white;
     font-family: arial,rial;
@@ -346,6 +391,19 @@ body{
 	{
 		 background-image: url("../image/barra-home-356-53.png");
 	}
+	
+	.header_div_item
+	{
+		 background-image: url("../image/barra-item-356-53-01.png");
+	}
+	
+	
+	.search_option_result
+	{
+		width: 40px;
+		height: 40px;
+	}
+	
 	.header_title_1{
 		font-size: 20px;
 		margin-bottom: 12px;
@@ -517,6 +575,15 @@ body{
 		margin-left: 70px;
 	}
 	
+	.form_option{
+		margin-left: 0px;
+	}
+	.search_option_result
+	{
+		width: 20px;
+		height: 20px;
+	}
+	
 	.header_title_1{
 		margin-top: 10px;
 		height: 24px;
@@ -653,6 +720,7 @@ body{
 	font-size: 20px;
 	line-height: 68px;
 	color: white;
+	overflow:hidden;
 }
 
 .header_column_result:last-child {
@@ -825,7 +893,7 @@ body{
 	 margin-right: 5px;
 	 padding-top: 0;
 	 margin-top: 0;
-	 width: 10%;
+	 width: 20px;
 	}
 	
 	.header_container {
@@ -846,7 +914,7 @@ body{
 }
 
 .row_column_result {
-    font-size: 10px;
+    font-size: 8px;
     height: 24px;
     line-height: 24px;
 	}

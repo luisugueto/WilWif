@@ -1,26 +1,223 @@
-<?php 
-//include header template
-require('layout/header.php'); 
+<?php
 
+if (isset($_POST['item_method']) && isset($_POST['item_code'])) {
+	$item_method = $_POST['item_method'];
+	$item_code = $_POST['item_code'];
+	
+	if($item_method == "view")
+	{
+	
+	}else if($item_method == "locked")
+	{
+		$query = "UPDATE item SET status = 'Locked' WHERE code = '".$item_code."'";
+		$sql = mysql_query($query);
+	
+	}else if($item_method == "unlocked")
+	{
+		$query = "UPDATE item SET status = 'Active' WHERE code = '".$item_code."'";
+		$sql = mysql_query($query);
+	
+	}else if($item_method == "deleted")
+	{
+		$query = "UPDATE item SET status = 'Erased' WHERE code = '".$item_code."'";
+		$sql = mysql_query($query);
+	
+	}
+}
+
+$searchValue = (isset($_GET['s']))?  $_GET['s'] : '';
+if($searchValue =='')
+$searchValue = (isset($_POST['s']))?  $_POST['s'] : '';
+
+$searchValue = ($searchValue == '' )? '':" and (i.code like '%".$searchValue."%' or i.name like '%".$searchValue."%' or i.status like '%".$searchValue."%' or i.id_user in ( select id from user where username like '%".$searchValue."%'))";
+$query = "SELECT i.*, u.username as username FROM item i ";
+$query = $query. " LEFT JOIN user u  ON i.id_user = u.id  where i.status !='Erased' and type='Lost' ";
+$query = $query.$searchValue ." GROUP BY i.code";
+$sql = mysql_query($query);
+
+######### PAGINACIONN ###############
+$total = mysql_num_rows($sql);
+$total = ($total < 1)?1: $total;
+$nrows = 10;
+$totalpages = ceil($total/$nrows);
+$page = isset($_POST['page'])? $_POST['page']:1;
+
+$query .= " LIMIT ".(($page-1)*$nrows).",".$nrows;
+$sql = mysql_query($query);
+$records = mysql_num_rows($sql);
+
+############################################
+require('layout/header.php');
 ?>
-
 <div id="content">
-<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
-	<div style="width: 1440px; display: inline-block; padding-right: 81px; padding-left: 221px; text-align: left;">
-		<div style="background-image: url('/image/barra-items-534-78-01.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
-			<h1 style="height: 38px; color: white; width: 270px; font-family: arial,rial;">ITEMS LOST</h1>
+<div class="header_div_1">
+	<div class="header_div_2">
+		<div id="menu_button">
+		
 		</div>
-		<form method="get" action="/" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
-			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+		<div class="header_div_3 header_div_item">
+			<h1 class="header_title_1">Lost Items</h1>
+		</div>
+		<form class="form_search" method="get" action="" >
+			<p >Search</p>
+			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value">
 		</form>
 	</div>
 </div>
-<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-
-
+<div>
+	<div id="menu" class="menu_close">
+	
+	</div>
 </div>
-</div>
+<div id="content">
+
+<div id="content_containter" >
+		
+		
+		<div class="content_result_div">
+		<div class="content_grid_result">
+			<div>
+				<div class="header_container">
+				<div class="header_container_result">
+					<div class="header_column_result header_column_1_5 column_cel_1_3">
+						Code
+					</div>
+					<div class="header_column_result header_column_1_5 column_cel_no_display">
+						Name
+					</div>
+					<div class="header_column_result header_column_1_5 column_cel_no_display">
+						Status
+					</div>
+					<div class="header_column_result header_column_1_5 column_cel_1_3">
+						User Holder
+					</div>
+					<div class="header_column_result header_column_1_5 column_cel_1_3">
+						OPTIONS
+					</div>
+				</div>
+				</div>
+				<div class="result_container">
+					<?php 
+					
+						while($row = mysql_fetch_assoc($sql))
+						{
+						?>
+						<div class="row_container_result">
+							<div class="row_column_result header_column_1_5 column_cel_1_3">
+								<?php echo $row['code']; ?>
+							</div>
+							<div class="row_column_result header_column_1_5 column_cel_no_display">
+								<?php echo $row['name']; ?>
+							</div>
+							<div class="row_column_result header_column_1_5 column_cel_no_display">
+								<?php echo $row['status']; ?>	
+							</div>
+							<div class="row_column_result header_column_1_5 column_cel_1_3">
+								<?php echo $row['username']; ?>
+							</div>
+							<div class="row_column_result header_column_1_5  column_cel_1_3">
+								<form action="/items/found/item" target="empty" method="post" class="form_option">
+									<input type="hidden" name="item_code" value="<?php echo $row['code'];?>">
+									<input type="hidden" name="item_method" value="view">
+									<input class="search_option_result option_view" type="submit" value="">
+								</form>
+								<?php if($row['status'] != "Locked")
+								{
+								?>
+									<form action="" target="empty" method="post"  class="form_option">
+										<input type="hidden" name="item_code" value="<?php echo $row['code'];?>">
+										<input type="hidden" name="item_method" value="locked">
+										<input class="search_option_result option_locked" type="submit" value="">
+									</form>
+								<?php
+								}else{
+									?>
+									<form action="" target="empty" method="post"  class="form_option">
+										<input type="hidden" name="item_code" value="<?php echo $row['code'];?>">
+										<input type="hidden" name="item_method" value="unlocked">
+										<input class="search_option_result option_unlocked" type="submit" value="">
+									</form>
+								<?php
+								}
+								?>
+								
+								<form action="" target="empty" method="post"  class="form_option">
+									<input type="hidden" name="item_code" value="<?php echo $row['code'];?>">
+									<input type="hidden" name="item_method" value="deleted">
+									<input class="search_option_result option_deleted" type="submit" value="">
+								</form>
+							</div>
+						</div>
+						<?php
+					}
+					?>
+				</div>
+				<div class="pages_container">
+					<div class="pages_container_index" style="display: inline-flex;">
+					<?php 
+						
+						$maxi = ($page+2 <= $totalpages )? $page+2: (($page+1 <= $totalpages )? $page+1: $totalpages);
+						$mini = ($page-2 >= 1 )? $page-2: (($page-1 >= 1 )? $page-1: 1);
+						for($i = $mini ; $i<=$maxi;$i++)
+						{
+							if($i ==$page-2 && $i != 1)
+							{
+								?>
+									<form action="" method="post">
+										<input type="hidden" name="page" value=1>
+										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
+										<input submit class="page_index" value ="1.">
+									</form>
+								<?php
+							}
+							
+							
+							
+								if($i == $page)
+							{
+								?>
+									<input type="submit" class="page_index current_page" value ="<?php echo $i;?>">
+								<?php
+							}else{
+								?>
+									<form action="" method="post">
+										<input type="hidden" name="page" value="<?php echo $i;?>">
+										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
+										<input type="submit" class="page_index" value ="<?php echo $i;?>">
+									</form>
+								<?php
+							
+							}
+							
+							
+							if($i == $page+2 && $i != $totalpages)
+							{
+								?>
+									<form action="" method="post">
+										<input type="hidden" name="page" value="<?php echo $totalpages;?>">
+										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
+										<input type="submit" class="page_index" value =".<?php echo $totalpages;?>">
+									</form>
+								<?php
+							}
+						}
+					
+					?>
+					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>		
+		
+		
+		
+		
+		
+		
+		
+	
 <?php 
 //include header template
 require('layout/footer.php');
