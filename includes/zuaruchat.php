@@ -1,20 +1,26 @@
 <?php
+/* 
+Requeriments For this Chat to work
+It use  mysql_  and need a preview con..
+Table  Chat  [id,code,id_user_create,id_user_invited,create_date]
+Table chat_message [id, date,message,status, id_user, code]
+Table user   [id, username, last_mod_date]
+
+*/
 if(isset($_POST["chatmethod"]))
 {
-	//session_start();
-	//$db=mysql_connect("localhost","root","");
-	//mysql_select_db("ap_chattest",$db);
 	$method = $_POST["chatmethod"];
 }else{
 	die();
 }
 if($method == "read")
 {
-	if(isset($_SESSION['id']))
+	if(isset($_SESSION['id']) && isset($_POST['chatcode']))
 	{
+		$chatcode = $_POST['chatcode'];
 		$id_user = $_SESSION['id'];
 		$sql = 'SELECT id,message,date,status,id_user FROM chat_message where id_chat in';
-		$sql = $sql.'(select id from chat where code="'.$_POST['chatcode'].'" and ((id_user_invited='.$id_user.') or (id_user_create='.$id_user.')))';
+		$sql = $sql.'(select id from chat where code="'.$chatcode.'" and ((id_user_invited='.$id_user.') or (id_user_create='.$id_user.')))';
 		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
 
 		$message = "";
@@ -34,7 +40,30 @@ if($method == "read")
 			}
 		}
 		$message = $message."<br>";
-		$arrayJson = array( 'message' => $message,'success' => true,'newdata' => $newchat , 'isonline' => false);
+		
+		
+		//$chatcode
+		$sql = 'SELECT id_user_create,id_user_invited FROM chat where code="'.$chatcode.'"';
+		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
+		if($row = mysql_fetch_assoc($query))
+		{
+			$chat_user_id;
+			if($row['id_user_create'] == $_SESSION['id']){
+				$chat_user_id =$row['id_user_invited'];
+			}else{
+				$chat_user_id =$row['id_user_create'];
+			}
+			
+			$sql = 'SELECT username FROM user where id='.$chat_user_id.' and last_mod_date  > date_sub(now(), interval 1 minute) and status !="Erased"';
+			$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
+			$online = false;
+			if($row = mysql_fetch_assoc($query))
+			{
+				$online = true;
+			}	
+		}	
+		
+		$arrayJson = array( 'message' => $message,'success' => true,'newdata' => $newchat , 'isonline' => $online);
 		echo json_encode($arrayJson);
 		die();
 	}
@@ -55,19 +84,37 @@ if($method == "read")
 		$stringchatcodes = ' and code not in ('. $stringchatcodes.')';
 		}
 		$invited_username = 'Admin';
-		$sql = 'SELECT id,code FROM chat where id in';
+		$sql = 'SELECT id,code,id_user_create,id_user_invited FROM chat where id in';
 		$sql = $sql. ' (SELECT id_chat from chat_message where';
 		$sql = $sql. ' id_chat in (SELECT id FROM chat where ((id_user_invited='.$id_user.') or (id_user_create='.$id_user.')) '.$stringchatcodes.')';
 		$sql = $sql. ' and status="Unread" and id_user !='.$id_user.')';
 		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
 		$chats = array();
+		$usernames = array();
 		$newchat = false;
 		while($row = mysql_fetch_assoc($query))
 		{
 			$newchat = true;
 			array_push($chats, $row['code']);
+			$chat_user_id;
+			if($row['id_user_create'] == $_SESSION['id']){
+				$chat_user_id =$row['id_user_invited'];
+			}else{
+				$chat_user_id =$row['id_user_create'];
+			}
+			
+			$sql = 'SELECT username FROM user where id='.$chat_user_id.' and status !="Erased"';
+			$query2 = mysql_query($sql) or die('error at try to access data' . mysql_error());
+			$username = "";
+			if($row2 = mysql_fetch_assoc($query2))
+			{
+				array_push($usernames, $row2['username']);
+			}else{
+				array_push($usernames, '');
+			}			
+			
 		}
-		$arrayJson = array( 'row' => $chats,'success' => true,'newdata' => $newchat , 'isonline' => true , 'username' => $invited_username );
+		$arrayJson = array( 'row' => $chats,'success' => true,'newdata' => $newchat , 'isonline' => true , 'username' => $usernames );
 		echo json_encode($arrayJson);
 		die();
 	}
@@ -113,19 +160,9 @@ if($method == "read")
 		{
 			die();
 		}
-		$invited_username = 'Admin';
 		$id_user = $_SESSION['id'];
 		$id_user_invited = $_POST["user_invite"];
-		$code_chat = date("Y").'-'.date('m').date('d').'-';
-			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-			for ($i = 0; $i < 8; $i++) 
-			{
-				$code_chat = $code_chat.$characters[rand(0, strlen($characters))];
-				if($i == 3)
-				{
-					$code_chat = $code_chat.'-';
-				}
-			}
+		$code_chat = CreateCode();
 		$sql =  'INSERT INTO chat (';
 		$sql =  $sql. 'id_user_create' ;
 		$sql =  $sql. ',id_user_invited' ;
@@ -139,6 +176,17 @@ if($method == "read")
 		$sql =  $sql. ', NOW()' ;
 		$sql =  $sql. ')' ;
 		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+		
+		$sql = 'SELECT * FROM user where id='.$id_user_invited.' and status !="Erased"';
+		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
+		$invited_username = "";
+		if($row = mysql_fetch_assoc($query))
+		{
+			$invited_username= $row['username'];
+		}else{
+			$invited_username= '';
+		}
+		
 		
 		$arrayJson = array('success' => true, 'chatcode' => $code_chat , 'username' => $invited_username);
 		echo json_encode($arrayJson);
@@ -154,16 +202,35 @@ if($method == "read")
 		}
 		$invited_username = 'Admin';
 		$chatcode = $_POST["code_chat"];
-		$sql = 'SELECT code FROM chat where code="'.$chatcode.'"';
+		$sql = 'SELECT code,id_user_invited,id_user_create FROM chat where code="'.$chatcode.'"';
 		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
 		
 		if($row = mysql_fetch_assoc($query))
 		{
 			$code_chat = $row["code"];
-		}
-		$arrayJson = array('success' => true, 'chatcode' => $code_chat , 'username' => $invited_username);
-		echo json_encode($arrayJson);
-		die();
+			$chat_user_id;
+			if($row['id_user_create'] == $_SESSION['id']){
+				$chat_user_id =$row['id_user_invited'];
+			}else{
+				$chat_user_id =$row['id_user_create'];
+			}
+			
+			$sql = 'SELECT username FROM user where id='.$chat_user_id.' and status !="Erased"';
+			$query2 = mysql_query($sql) or die('error at try to access data' . mysql_error());
+			$invited_username = "";
+			if($row2 = mysql_fetch_assoc($query2))
+			{
+				$invited_username = $row2['username'];
+			}else{
+				$invited_username = '';
+			}	
+			
+			$arrayJson = array('success' => true, 'chatcode' => $code_chat , 'username' => $invited_username);
+			echo json_encode($arrayJson);
+			die();
+		}else{
+			die();
+		}	
 	}
 }else die();
 ?>

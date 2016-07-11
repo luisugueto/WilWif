@@ -1,70 +1,103 @@
-/* 
-version :1.0
-requeriment: jquery-1.10.2.js
-creator: omar Angelino
-url : www.zuaru.com
+<?php 
+if(!isset($_POST["user_invite"]) || !isset($_POST["chat_method"]))
+{
+  die("Access Denied");
+}
 
-method includes:
-CreateChat(user_invite) // Crea un chat entre el usuario creado  y el usuario invitado y se abre automaticamente
-OpenChat(code_chat); //  abre un chat ya existente
-*/
-// jQuery Document
-$(document).ready(function(){
-	function createMsg()
+if($_POST["chat_method"] == "create")
+{
+	
+	if(isset($_SESSION['id']))
 	{
-		var chatContainer = $("<div></div>");
-		chatContainer.attr('id',"chat_container");
-		
-		var audioc = $("<audio id='audio' src='messagealert.mp3' autostart='false' ></audio>");
-		chatContainer.append(audioc);
-		
-		$("body").append(chatContainer);
-		setInterval (checkNewChat, 5000);
-	}
-	
-	createMsg ();
-});
-
-//Load the file containing the chat log
-	function checkNewChat(){
-		var chatcode = new Array(); 
-		for (var i=0 ; i<$(".chatcode").length ; i++){
-			var idchat = $(".chatcode")[i].value;
-			chatcode.push(idchat);   
+		if(!isset($_POST["user_invite"]))
+		{
+			die();
 		}
-		$.ajax({
-			url: "/execution/zuaruchat/",
-			cache: false,
-			dataType: "json",
-			method:"post",
-			data: {'chatcodes': chatcode, "chatmethod": "check" },
-			success: function(data)
-			{	
-				if(data.newdata)
-				{
-					for(var i=0; i<data.row.length ; i++)
-					{
-						addChat(data.row[i],data.username[i]);
-					}
-				}
-			},
-		});
+		$invited_username = 'Admin';
+		$id_user = $_SESSION['id'];
+		$id_user_invited = $_POST["user_invite"];
+		$code_chat = CreateCode();
+		$sql =  'INSERT INTO chat (';
+		$sql =  $sql. 'id_user_create' ;
+		$sql =  $sql. ',id_user_invited' ;
+		$sql =  $sql. ',code' ;
+		$sql =  $sql. ',create_date' ;
+		$sql =  $sql. ')' ;
+		$sql =  $sql. ' VALUES (' ;
+		$sql =  $sql. ''.$id_user.'' ;
+		$sql =  $sql. ','.$id_user_invited.'' ;
+		$sql =  $sql. ',"'.$code_chat.'"';
+		$sql =  $sql. ', NOW()' ;
+		$sql =  $sql. ')' ;
+		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());		
+		$sql = 'SELECT * FROM user where id='.$id_user_invited.' and status !="Erased"';
+
+		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
+		$username = "";
+		if($row = mysql_fetch_assoc($query))
+		{
+			$username = $row['username'];
+		}	
 	}
+}else if($_POST["chat_method"] == "open"){
+if(!isset($_POST["chat_code"]))
+{
+  die("Access Denied");
+}
+		$code_chat =  $_POST["chat_code"];
+		$sql = 'SELECT id_user_invited FROM chat where code="'.$code_chat.'"';
+		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
+		
+		if($row = mysql_fetch_assoc($query))
+		{
+			$id_user_invited = $row['id_user_invited'];
+		}else{
+			die("Chat Do not Exist");
+		}	
+		$sql = 'SELECT * FROM user where id='.$id_user_invited.' and status !="Erased"';
+		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
+		$username = "";
+		if($row = mysql_fetch_assoc($query))
+		{
+			$username = $row['username'];
+		}	
+}
 	
+
+require('layout/header.php'); 
+?>
+<div id="content">
+<div class="header_div_1">
+	<div class="header_div_2">
+		<div id="menu_button">
+		
+		</div>
+		<div class="header_div_3 header_div_home">
+			<h2 class="header_title_1">Chat with <?php echo $username; ?></h2>
+		</div>
+		<form class="form_search" method="get" action="/" >
+			<p >Search</p>
+			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value">
+		</form>
+	</div>
+</div>
+<div>
+	<div id="menu" class="menu_close">
+	
+	</div>
+</div>
+<div id="content_containter">
+	
+	<div id="chat_container">
+	</div>
+	
+	
+</div>
+</div>
+<script>
 
 	function createClickEvent(chatContainer,inputsubmit,inputchatcode,inputmsg,chatbox,logout,chatMenu,chatc,chatMenuIcon,idchat)
 	{	//If user click the menu bar
-		chatMenu.click(function()
-		{	
-			if(chatc.hasClass( "message_container_close" ))
-			{	
-				chatc.addClass("message_container_open");
-				chatc.removeClass("message_container_close");
-			}else{
-				chatc.addClass("message_container_close");
-				chatc.removeClass("message_container_open");
-			}
-		});
 		//If user submits the form
 		inputsubmit.click(function()
 		{	
@@ -74,7 +107,6 @@ $(document).ready(function(){
 			$.ajax({
 				method:"post",
 				url: "/execution/zuaruchat/",
-				cache: false,
 				data:'text='+clientmsg+'&chatcode='+idchat+"&chatmethod=write",
 				datatype: 'json',
 				success: function(data){
@@ -138,13 +170,10 @@ $(document).ready(function(){
 			});
 		}, 2500);
 		
-		logout.click(function()
-		{	
-			clearInterval(refreshIntervalId);
-			chatContainer.remove();
-		});
+		
 	}
-	
+
+
 	function addChat(chatCode,username)
 	{
 		var chatContainer = $("<div></div>");
@@ -184,7 +213,7 @@ $(document).ready(function(){
 		//end menu
 		//chatcointaner
 		var chatc = $("<div></div>");
-		chatc.addClass( "message_container_close");
+		chatc.addClass( "message_container");
 		//chatbox
 		var chatbox = $("<div></div>");
 		chatbox.addClass( "chatbox");
@@ -208,36 +237,56 @@ $(document).ready(function(){
 		//chatcointaner
 		$("#chat_container").append(chatContainer);
 	}
-	function beep() {
-	   var sound = document.getElementById("audio");
-	   sound.play()
-	}
-
-	function CreateChat(id_user_invite)
+	
+	$(document).ready(function(){
+	function createMsg()
 	{
-		$.ajax({
-				method:"post",
-				url: "/execution/zuaruchat/",
-				cache: false,
-				data:'user_invite='+id_user_invite+"&chatmethod=create",
-				dataType: 'json',
-				success: function(data){
-				addChat(data.chatcode,data.username);
-			},
-		});
+		addChat('<?php echo $code_chat?>',' <?php echo $username; ?>');
 	}
+	
+	createMsg ();
+});
+</script>
+<style>
+#chat_container{
+	width: 760px;
+	display: inline-block;
+}
 
-	function OpenChat(code_chat)
-	{
-		$.ajax({
-				method:"post",
-				url: "/execution/zuaruchat/",
-				cache: false,
-				data:'code_chat='+code_chat+"&chatmethod=open",
-				dataType: 'json',
-				success: function(data){
-					addChat(data.chatcode,data.username);
-			},
-		});
-	}
+.chat_container{
+	width: 760px;
+	background-color: lightblue;
+}
 
+.chatbox{
+	width: 720px;
+	margin: auto;
+	height: 360px;
+	background-color: white;
+	text-align: left;
+}
+.menu{
+	width: 760px; background-color: lightblue;
+}
+
+.message_container{
+	width: 760px;
+	height: 401px;
+	padding-top: 0px;
+	margin: auto auto auto 0px;
+}
+
+.usermsg{
+	width: 650px;
+}
+
+.logouticon{
+	height: 20px; 
+	text-align: right;
+	padding-right: 35px;
+}
+</style>
+<?php 
+//include header template
+require('layout/footer.php');
+?>

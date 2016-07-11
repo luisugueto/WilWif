@@ -2,7 +2,14 @@
 require('../includes/config.php');
 require('../classes/db.php');
 require('../classes/item.php');
-error_reporting(0);
+require('../classes/functions.php');
+$debug =true;
+
+if(!$debug)
+{
+	error_reporting(0);
+}
+
 $db = new DB();
 //define page title
 $title = 'Lost Object';
@@ -18,6 +25,9 @@ if($path_urls[1])
 
 
 switch ($path){	
+	case 'execution':
+	   include '../execution-controler.php';
+		break;
 	case 'employees':
 		if(isset($path_urls[2]))
 		{
@@ -29,7 +39,9 @@ switch ($path){
 			case 'employee':
 				include 'view/page-employee.php';	
 				break;
-			
+			case 'viewemployee':
+				include 'view/page-view-employee.php';	
+				break;
 			default:
 				include 'view/page-employees.php';
 				break;
@@ -193,7 +205,7 @@ switch ($path){
 		}
 		switch ($secundary_path){	
 			case 'chat':
-				include 'view/page-chat.php';	
+				include 'view/page-chat-chat.php';	
 				break;
 			
 			case 'chats':
@@ -245,7 +257,7 @@ switch ($path){
 		break;
 		
 	default:
-		if($user->is_logged_in() )
+		if($user->is_logged_in())
 		{
 			include 'view/page-home.php';
 		}else{

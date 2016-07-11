@@ -59,22 +59,19 @@ elseif (isset($_POST['s'])) {
 		</form>
 	</div>
 </div>	
-	<div id="content_containter">
-	<div class="content_div_1">
-		<div class="div_inline-block">
+	<div id="content_containter" style="margin-top: 40px; margin-left: -120px; margin-bottom: 50px; width: 1440px; display: inline-block;">
 		
-		<div >
-		<div>
+		<div style="border-radius: 50px; margin-left: 170px;">
 				<?php if ($type == 'p') { ?>
 
-			<table>
+			<table style="border-color: white; border-radius: 50px; width: 1000px; display: inline-block; background-color: rgba(096,111,140,0.3); " border="4px">
 				<thead style="border: 5px;">
 					<tr style="border: 5px solid; border-color: white;">
-						<td width="400px" style="border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Code</p></td>
-						<td width="300px" style="border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Item Code</p></td>
-						<td width="300px" style="border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">User Recieve</p></td>
-						<td width="300px" style="border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">User Send</p></td>
-						<td width="500px" style="border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">Options</p></td>
+						<td width="400px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Code</p></td>
+						<td width="300px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Item Code</p></td>
+						<td width="300px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">User Recieve</p></td>
+						<td width="300px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">User Send</p></td>
+						<td width="500px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">Options</p></td>
 					</tr>
 				</thead>
 					<?php
@@ -82,13 +79,13 @@ elseif (isset($_POST['s'])) {
 							if($sql_row == 0)
 							{
 								echo "<tr>
-									<td colspan='7' style='border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 0px solid; border-color: white;'><p style='color: white'>No have.</p></td>
+									<td colspan='7' style='border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;'><p style='color: white'>No have.</p></td>
 									</tr>";
 									die();
 							}
 							elseif ($num_busqueda == 0 && isset($_POST['s'])) {
 								echo "<tr>
-									<td colspan='7' style='border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 0px solid; border-color: white;'><p style='color: white'>No have.</p></td>
+									<td colspan='7' style='border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;'><p style='color: white'>No have.</p></td>
 									</tr>";
 									die();
 							}
@@ -99,20 +96,17 @@ elseif (isset($_POST['s'])) {
 							?>
 								<tbody style="border: 5px solid; border-color: white;">
 									<tr>
-											<td style="border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $assoc_busqueda['code']; ?></td>
-											<td style="border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $assoc_busqueda['id_item']; ?></td>
-											<td style="border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $assoc_busqueda['id_user_recived']; ?></td>
-											<td style="border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $assoc_busqueda['id_user_send']; ?></td>
-											<td style="border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 0px solid; border-color: white;">
+											<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['code']; ?></td>
+											<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_item']; ?></td>
+											<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_user_recived']; ?></td>
+											<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_user_send']; ?></td>
+											<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;">
 											<form action="" method="POST">
-									<input type="hidden" value="<?php echo $assoc_busqueda['id'] ?>" id="id" name="id">
-									<input class="btn btn-primary" type="submit" id="view" name="view" value="" style="background:url('/image/ver-56-56-02.png'); width: 60px; height: 60px; border: 0px">
-									<?php if($assoc_busqueda['status']!='Block') { ?>
-									<input class="btn btn-danger" onclick="return confirm('¿Block Send?');" type="submit" id="block" name="block" value="" style="background:url('/image/boton-bloquear-57-57.png'); width: 60px; height: 60px; border: 0px">
-									<?php } else { ?>
-									<input class="btn btn-secundary" onclick="return confirm('¿Unlock Send?');" type="submit" id="unlock" name="unlock" value="" style="background:url('/image/desbloquear-56-56.png'); width: 60px; height: 60px; border: 0px">
-									<?php } ?>
-								</form>
+												<input type="hidden" value="<?php echo $sql_assoc['id'] ?>" id="id" name="id">
+												<input class="btn btn-primary" type="submit" id="view" name="view" value="View">
+												<input class="btn btn-danger"  type="submit" id="block" name="block" value="Block">
+												<input class="btn btn-secundary"  type="submit" id="unlock" name="unlock" value="Unlock">
+											</form>
 										</td>
 								</tbody>
 							<?php
@@ -122,13 +116,13 @@ elseif (isset($_POST['s'])) {
 							while($sql_assoc = mysql_fetch_assoc($resultado)){
 					?>
 					<tbody style="border: 5px solid; border-color: white;">
-									<tr>
-											<td style="border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['code']; ?></td>
-											<td style="border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_item']; ?></td>
-											<td style="border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_user_recived']; ?></td>
-											<td style="border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_user_send']; ?></td>
-											<td style="border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 0px solid; border-color: white;">
-											<form action="" method="POST">
+						<tr>
+							<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['code']; ?></td>
+							<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_item']; ?></td>
+							<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_user_recived']; ?></td>
+							<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_user_send']; ?></td>
+							<td style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;">
+								<form action="" method="POST">
 									<input type="hidden" value="<?php echo $sql_assoc['id'] ?>" id="id" name="id">
 									<input class="btn btn-primary" type="submit" id="view" name="view" value="" style="background:url('/image/ver-56-56-02.png'); width: 60px; height: 60px; border: 0px">
 									<?php if($sql_assoc['status']!='Block') { ?>
@@ -137,10 +131,10 @@ elseif (isset($_POST['s'])) {
 									<input class="btn btn-secundary" onclick="return confirm('¿Unlock Send?');" type="submit" id="unlock" name="unlock" value="" style="background:url('/image/desbloquear-56-56.png'); width: 60px; height: 60px; border: 0px">
 									<?php } ?>
 								</form>
-										</td>
-								</tbody>
-							<?php
-								}
+							</td>
+							
+						<?php	 
+							}
 						?>
 
 					<div style="postion:relative; float: right; margin-top: 400px; margin-right: 170px">
