@@ -44,7 +44,7 @@ $(document).ready(function(){
 				{
 					for(var i=0; i<data.row.length ; i++)
 					{
-						addChat(data.row[i],data.username[i]);
+						addChat(data.row[i],data.username);
 					}
 				}
 			},

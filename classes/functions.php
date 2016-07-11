@@ -1,25 +1,5 @@
 <?php
 
-function UserAction()
-{
-	$sql = "UPDATE user SET";
-	$sql = $sql." last_mod_date = now()";
-	$sql = $sql." WHERE id=".$_SESSION['id']; 
-	
-	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
-	
-	$errorCode = new errorCodes();
-	if (!$query) {
-		$errorCode->AddError('item',mysql_error());
-		$errorCode->AddError('item_sql',$sql);
-		return $errorCode;
-    }
-	
-	return true;
-
-}
-
-
 function CreateCode()
 {
 	$code = date("Y").'-'.date('m').date('d').'-';

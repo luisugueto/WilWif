@@ -19,11 +19,10 @@ $rows = mysql_num_rows($resultado);
 ############################################
 
 ?>
-
 <div id="content">
 <div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
 	<div style="width: 1440px; display: inline-block; padding-right: 81px; padding-left: 221px; text-align: left;">
-		<div style="background-image: url('/image/barra-historiales-534-78-01.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
+		<div style="background-image: url('/image/barra-notificaciones-534-78.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
 			<h1 style="height: 38px; color: white; width: 270px; font-family: arial,rial;">RECORDS</h1>
 		</div>
 		<form method="get" action="/" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
@@ -32,17 +31,19 @@ $rows = mysql_num_rows($resultado);
 		</form>
 	</div>
 </div>
-	<div id="content_containter" style="margin-top: 40px; margin-left: -120px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-		
-		<div style="border-radius: 50px; margin-left: -70px;">
+<div id="content_containter">
+	<div class="content_div_1">
+		<div class="div_inline-block">
 
-			<table style="border-color: white; border-radius: 50px; width: 1100px; display: inline-block; background-color: rgba(096,111,140,0.3); " border="4px">
-				<thead style="border: 5px;" >
+		<div>
+
+			<table>
+				<thead>
 					<tr>
-						<td width="300px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">User</p></td>
-						<td width="500px" style="border: 5px solid; border-bottom: 0px solid; border-top: 0px; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white">Action</p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Data</p></td>
-						<td width="300px" style="border-bottom: 0px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white"><p style="color: white">Options</p></td>
+						<td width="300px" style="border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white">User</p></td>
+						<td width="500px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white">Action</p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white">Data</p></td>
+						<td width="300px" style="border-bottom: 5px solid; border-top: 0px; border-left: 0px; border-right: 0px solid; border-color: white"><p style="color: white">Options</p></td>
 					</tr>
 				</thead>
 				<?php
@@ -50,7 +51,7 @@ $rows = mysql_num_rows($resultado);
 						if($sql_row == 0)
 						{
 							echo "<tr>
-									<td colspan='4' style='border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;'><p style='color: white'>No have.</p></td>
+									<td colspan='4' style='border-bottom: 5px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;'><p style='color: white'>No have.</p></td>
 								</tr>";
 							die();
 						}
@@ -58,16 +59,16 @@ $rows = mysql_num_rows($resultado);
 					?>
 				<tbody>
 					<tr>
-						<td width="400px" style="border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_user'];?></p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['action'];?></p></td>
-						<td width="300px" style="border: 5px solid; border-bottom: 0px solid; border-top: 5px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['data'];?></p></td>
-						<td width="300px" style="border-bottom: 0px solid; border-top: 5px solid; border-left: 5px; border-right: 0px solid; border-color: white"><p style="color: white">x</p></td>
+						<td width="400px" style="border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 0px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['id_user'];?></p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px solid; border-left: 5px solid; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['action'];?></p></td>
+						<td width="300px" style="border: 5px solid; border-bottom: 5px solid; border-top: 0px solid; border-left: 0px; border-right: 5px solid; border-color: white;"><p style="color: white"><?php echo $sql_assoc['data'];?></p></td>
+						<td width="300px" style="border-bottom: 5px solid; border-top: 0px solid; border-left: 5px; border-right: 0px solid; border-color: white"><p style="color: white">x</p></td>
 					</tr>
 					<?php } ?>
 				</tbody>
 				
 			</table>
-			<div style="postion:relative; float: right; margin-top: 100px; margin-right: 170px">
+			<div style="postion:relative; float: right; margin-top: 10px; margin-right: 170px">
 					<form action="" method="post">
 						<input type="hidden" value="<?php echo $npagina ?>" id="npag">
 					<?php

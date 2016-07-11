@@ -10,11 +10,6 @@ $title = 'Lost Object';
 $request_url = $_SERVER['REQUEST_URI'];
 $path_urls = explode('/', $request_url); 
 /*here we define the path request will take*/
-if($user->is_logged_in() ){
-	
-	UserAction();
-}
-
 if($path_urls[1])
 {
  $path = $path_urls[1];

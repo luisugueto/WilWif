@@ -18,7 +18,7 @@ html{
 	background-image: url('../image/fondo-1440-620.png');
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
-	min-height:100%;
+	height:100%;
 }
 /*Home page */
 
@@ -40,59 +40,19 @@ html{
 	margin-top: 0px;
 	position: relative;
 	display: inline-block;
-	margin-left: 80px;
+	margin-left: 0px;
 	text-align: left;
-	
+	width: 100%;
 	top: 28px;
+	padding-left: 80px;
 }
-.page-header{
-	text-align:left;
-}
+
 #main-area{
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
-	text-align:center;
 	
 }
 /*Esto deberia despues ponerse todo en un solo archivo */
-
-#menu_button{
-
-	height: 46px;
-	width: 46px;
-	margin-top: 30px;
-	float: left;
-	background-image: url("/image/boton-menu-43-43.png");
-	margin-left: 20px;
-	cursor: pointer;
-}
-
-#menu{
-	float: left;
-	background-image: url("/image/menu-172-426.png");
-	background-repeat: no-repeat;
-	height: 426px;
-	overflow: hidden;
-    position: absolute;
-	width: 175px;
-}
-
-.menu_open{
-	
-	-moz-transition: left 1s ;
-    -webkit-transition: left 1;
-    -o-transition: left 1s ;
-    transition: left 1s ;
-	left: -20px;
-}
-
-.menu_close{
-	-moz-transition: left 1s;
-    -webkit-transition: left 1s ;
-    -o-transition: left 1s ;
-    transition: left 1s ;
-	left: -175px;
-}
 
 .header_div_1
 {
@@ -108,6 +68,8 @@ html{
 {
 	width: 1440px;
 	display: inline-block;
+	padding-right: 81px;
+	padding-left: 308px;
 	text-align: left;
 }
 .header_div_3
@@ -115,62 +77,23 @@ html{
 	background-repeat: no-repeat;
 	height: 82px;
 	display: inline-block;
+	margin-left: 0px;
 	margin-top: 15px;
 	width: 540px;
 	padding-left: 90px;
-	margin-left: 210px;
 }
 
 .header_div_home{
 	background-image: url('../image/barra-home-534-78.png');
 }
 .header_title_1{
+	height: 38px;
 	color: white;
-    font-family: arial,rial;
-    height: 38px;
-    margin-left: 3px;
-    margin-top: 25px;
-    overflow: hidden;
-    width: 210px;
+	width: 220px;
+	font-family: arial,rial;
+	margin-left: 83px;
 }
 
-.form_search{
-	float: right;
-	background-image: url('/image/barra-generica-478-47.png');
-	border-width: 0px;
-	margin-top: 30px;
-	background-color: transparent;
-	background-repeat: no-repeat;
-	background-size: 100% 100%;
-	padding-top: 1px;
-	padding-right: 66px; 
-	padding-left: 0px; 
-	width: 386px; 
-	height: 51px;
-}
-
-.form_search p {
-	float: left;
-	width: 82px;
-	padding-left: 17px;
-	color: white;
-	font-size: 20px;
-	margin-top: 13px;
-}
-
-.form_search input{
-	border-width: 0px;
-	background-color: transparent;
-	background-repeat: no-repeat;
-	background-size: 100% 100%;
-	padding-top: 1px;
-	padding-right: 0px;
-	padding-left: 0px;
-	float: left;
-	width: 238px;
-	height: 28px;
-	margin-top: 10px;
-}
 #content_containter{
 	margin-top: 50px;
 	margin-bottom: 50px;
@@ -294,10 +217,12 @@ html{
 	background-image: url('../image/boton-on-usuario-148-148.png');
 }
 
-body{
+@media all and (min-width: 1025px)
+{
+	body{
 			min-width: 1440px;
 	}
-
+}
 
 
 @media all and (max-width: 1024px)
@@ -305,10 +230,6 @@ body{
 	body
 	{
 		min-width: 780px;
-	}
-	
-	#menu_button{
-	margin-top: 20px;
 	}
 	
 	.header_container{
@@ -319,14 +240,10 @@ body{
 	#logo_container{
 	margin-top: 0px;
 	top: 75px;
-	margin-left: 40px;
+	margin-left: 0px;
+	padding-left: 40px;
 	}
 	
-	.logo_container img {
-		height: 120px;
-		width: 120px;
-	}
-
 	.header_div_1{
 		height: 85px;
 	}
@@ -334,25 +251,20 @@ body{
 	{
 		height: 85px;
 		width: 780px;
+		padding-left: 0px;
+		padding-right: 0px;
+		padding-left: 305px;
 	}
 	
-	.header_div_3{
-		padding-left: 56px;
-		height: 82px; margin-top: 15px;
-		margin-left: 210px; width: 364px;
-	}
 	
 	.header_div_home
 	{
 		 background-image: url("../image/barra-home-356-53.png");
 	}
 	.header_title_1{
-		font-size: 20px;
+		margin-left: 0px;
+		margin-top: 12px;
 		margin-bottom: 12px;
-		margin-left: 0;
-		margin-top: 17px;
-		overflow: hidden;
-		width: 149px;
 	}
 	#content_containter{
 	margin-top: 100px;
@@ -459,40 +371,20 @@ body{
 #home_user_div:hover{
 	background-image: url('../image/boton-on-user-115-115.png');
 }
-
-.form_search{
-	float: none;
-	margin-top: 0px;
-	margin-left: 260px;
-}
 }
 
-@media all and (max-width: 420px)
+@media all and (max-width: 479px)
 {
 	body{
 		min-width: 320px;
 	}
 	
-	#menu_button{
-	margin-top: 3px;
-	margin-left: 5px;
-	height: 30px;
-	width: 30px;
-	background-size: 30px 30px;
-}
-/*
-#menu{
-	width: 87px;
-	height: 213px;
-	background-size: 87px 213px;
-}
-*/
 	.header_container{
 		height: 41px;
 	}
 	
 	.logo_container{
-		margin-left: 40px;
+		padding-left: 30px;
 	}
 	
 	.logo_container img{
@@ -506,29 +398,26 @@ body{
 	.header_div_2{
 		height: 35px;
 		margin-left: 0px;
+		padding-left: 101px;
 	}
 	
 	.header_div_3{
 		width: 184px;
 		padding-left: 0px;
 		background-size: 100% 100%;
-		height: 35px;
-		margin-top: 0px;
-		margin-left: 70px;
+		height: 35px; margin-top: 0px;
 	}
 	
 	.header_title_1{
-		margin-top: 10px;
+		margin-top: 8px;
 		height: 24px;
 		padding-left: 33px;
-		font-size: 10px;
-		width: 104px;
-		overflow:hidden;
+		font-size: 15px;
 	}
 	
 	#content_containter{
 		width: 320px;
-		margin-top: 75px;
+		margin-top: 25px;
 	}
 	
 	.content_div_1{
@@ -550,24 +439,6 @@ body{
 	.home_option h2{
 		font-size: 15px;
 	}
-	
-	.form_search{
-		width: 280px;
-		padding-right: 50px;
-		height: 49px;
-		margin-left: 25px;
-	}
-	
-	.form_search p {
-	width: 58px;
-	padding-left: 17px;
-	font-size: 13px;
-	margin-top: 15px;
-   }
-   
-   .form_search input{ 
-	width: 170px;
-   }
 }
 
 
@@ -593,7 +464,7 @@ body{
 
 
 
-@media all and (max-width: 420px)
+@media all and (max-width: 479px)
 {
 .content_chat_div_1{
 	width: 281px;
@@ -604,6 +475,81 @@ body{
 .chat_option{
 	height: 100px;
 }
+<<<<<<< HEAD
+
+
+/* End Home page*/
+
+.header_div_1
+{
+	height: 112px;
+	background-image: url('/image/header2-1440-112.png');
+	background-repeat: no-repeat;
+	background-size: 100% auto;
+	width: 100%;"
+
+}
+.header_div_2
+{
+	width: 1440px;
+	display: inline-block;
+	padding-right: 81px;
+	padding-left: 221px;
+	text-align: left;
+}
+.header_div_3
+{
+	background-repeat: no-repeat;
+	height: 82px;
+	display: inline-block;
+	margin-left: 0px;
+	margin-top: 15px;
+	width: 540px;
+	padding-left: 90px;
+}
+
+.header_div_home{
+	background-image: url('/image/barra-home-534-78.png');
+}
+.header_title_1{
+	height: 38px;
+	color: white;
+	width: 220px;
+	font-family: arial,rial;
+	margin-left: 83px;
+}
+
+#content_containter{
+	margin-top: 50px;
+	margin-bottom: 50px;
+	width: 1440px;
+	display: inline-block;
+}
+
+.content_div_1{
+	display: inline-block;
+	width: 1176px;
+	height: 567px;
+	background-image: url('/image/cuadro-home-1176-567.png');
+	padding: 58px 54px 54px 58px;"
+}
+
+.div_inline{
+	display: inline-block;
+}
+
+.home_option{
+	height: 232px;
+	width: 20%; 
+	float: left;
+	padding-top: 30px;
+	color:white;	
+}
+
+.margin_top_0{
+	margin-top: 0px;
+}
+=======
 .chat_option h2{
 		font-size: 15px;
 	}
@@ -611,248 +557,4 @@ body{
 }
 
 /* End Chats Page*/
-
-/*  Page chat users   replica para todos los demas grillas*/
-
-
-.content_result_div{
-	display: inline-block;
-	width: 1176px;
-	height: 1050px;
-	background-image: url('/image/cuadro-home-1176-567.png');
-	background-size: 100% 100%;
-	background-repeat:no-repeat;
-	padding: 114px 63px 109px 65px;
-}
-
-.content_grid_result{
-	height: 441px;
-}
-
-
-
-.header_column_result{
-	height: 100px;
-	float: left;
-	padding-bottom: 1px;
-	border-style: solid;
-	border-width: 0px 6px 6px 0px; 
-	border-color: white;
-	font-size: 30px;
-	color: white;
-	line-height: 100px;
-}
-
-.row_column_result{
-	height: 68px;
-	float: left;
-	padding-bottom: 1px;
-	border-style: solid;
-	border-width: 0px 2px 4px 0px; 
-	border-color: white;
-	font-size: 20px;
-	line-height: 68px;
-	color: white;
-}
-
-.header_column_result:last-child {
-	border-width: 0px 0px 6px 0px !important;  
-}
-
-.row_column_result:last-child {
-	border-width: 0px 0px 4px 0px !important;  
-}
-.header_column_1_5{
-	width:20%;
-}
-
-.header_column_2_5{
-	width:40%;
-}
-
-.header_column_3_5{
-	width:60%;
-}
-
-.header_column_4_5{
-	width:80%;
-}
-
-.header_column_1_1{
-	width:100%;
-}
-
-.header_column_1_3{
-	width:33.3333%;
-}
-
-.header_column_2_3{
-	width:66.6666%;
-}
-
-.header_column_1_2{
-	width:50%;
-}
-
-.header_column_1_4{
-	width:25%;
-}
-
-.header_column_2_4{
-	width:50%;
-}
-
-.header_column_3_4{
-	width:75%;
-}
-
-.header_container
-{
-  width: 100%;
-  height: 100px;
-}
-
-.result_container{
-	width: 100%;
-	height: 680px;
-}
-
-.pages_container{
-	text-align: right;
-}
-
-.pages_container_index{
-	display: inline-flex;
-}
-
-.page_index{
-	width: 20px;
-	margin-top: 10px;
-	margin-right: 10px;
-	font-size: 25px;
-	color: orange;
-	cursor: pointer;
-	background-color: transparent;
-    border-width: 0;
-    height: 30px;
-    margin-right: 10px;
-    margin-top: 10px;
-    padding-left: 0;
-    padding-right: 0;
-    width: 20px;
-}
-
-
-.current_page{
-	color: white;
-}
-
-@media all and (max-width: 1024px)
-{
-	.content_result_div{
-		width: 720px;
-		padding: 106px 36px 101px 38px;
-		height: 940px;
-	}
-	
-.header_container
-{
-  width: 100%;
-  height: 80px;
-  
-}
-.header_column_result{
-	font-size: 17px;
-    height: 80px;
-    line-height: 80px;
-}
-
-.result_container{
-	width: 100%;
-	height: 600px;
-}
-
-.row_column_result{
-	height: 58px;
-    line-height: 58px;
-	font-size: 15px;
-}
-
-.column_cel_no_display{
-	display:none;
-}
-
-.column_cel_1_3{
-	width:33.333333%;
-}
-
-.column_cel_2_3{
-	width:66.6666%;
-}
-
-.column_cel_1_2{
-	width:50%;
-}
-
-.column_cel_1_1{
-	width:100%;
-}
-
-.column_cel_1_4{
-	width:25%;
-}
-
-.column_cel_2_4{
-	width:50%;
-}
-
-.column_cel_3_4{
-	width:75%;
-}
-}
-
-@media all and (max-width: 420px)
-{
-	.content_result_div{
-		width: 280px;
-		height: 400px;
-		padding: 46px 14px 37px 15px;
-	}
-	
-	.page_index {
-     font-size: 16px;
-	 height: 20px;
-	 margin-right: 5px;
-	 padding-top: 0;
-	 margin-top: 0;
-	 width: 10%;
-	}
-	
-	.header_container {
-    height: 50px;
-    width: 100%;
-	}
-
-	.header_column_result {
-     border-width: 0 3px 3px 0;
-    font-size: 13px;
-    height: 50px;
-    line-height: 50px;
-    padding-bottom: 1px;
-}
-	
-.header_column_result:last-child {
-	border-width: 0px 0px 3px 0px !important;  
-}
-
-.row_column_result {
-    font-size: 10px;
-    height: 24px;
-    line-height: 24px;
-	}
-	
-.result_container{
-	height: 240px;
-}
-}
-/* end page chat users */
+>>>>>>> 245e75663abf0b49221a6a49a12f5ee7bea6a9bd
