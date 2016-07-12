@@ -35,7 +35,7 @@ require('layout/header.php');
 		<div class="header_div_3 header_div_home">
 			<h2 class="header_title_1">Chats</h2>
 		</div>
-		<form class="form_search" method="get" action="/chats/chats/" >
+		<form class="form_search" method="get" action="" >
 			<p >Search</p>
 			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value">
 		</form>
@@ -66,7 +66,7 @@ require('layout/header.php');
 						Date
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						OPTIONS
+						Options
 					</div>
 				</div>
 				</div>
@@ -175,41 +175,6 @@ require('layout/header.php');
 
 <style>
 
-.search_option_result{
-	border-width: 0px;
-	padding-left: 0px; 
-	padding-right: 0px; 
-	background-size: 100% 100%;
-	background-color: transparent;
-	cursor: pointer;
-	height: 50px;
-	width: 50px;
-}
-
-.option_view{
-	background-image: url('/image/ver-56-56-02.png');
-}
-
-.option_open{
-	background-image: url('/image/botones-usuarios-online-56-56-02.png');
-}
-@media all and (max-width: 1024px)
-{
-	.search_option_result
-	{
-		width: 40px;
-		height: 40px;
-	}
-}
-
-@media all and (max-width: 420px)
-{
-	.search_option_result
-	{
-		width: 20px;
-		height: 20px;
-	}
-}
 </style>
 <?php 
 //include header template

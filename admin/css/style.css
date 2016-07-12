@@ -121,6 +121,30 @@ html{
 	margin-left: 210px;
 }
 
+.menu_container{
+	margin-top: 18px;
+	padding: 20px 7px 20px 30px;
+	color:white
+}
+
+.menu_container li{
+	height: 32px; 
+	margin-bottom: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	cursor:pointer;
+	text-align: left;
+}
+
+.menu_container a{
+	text-decoration:none;
+	color : white;
+}
+
+.menu_container img{
+	height: 22px;
+}
+
 .header_div_home{
 	background-image: url('../image/barra-home-534-78.png');
 }

@@ -58,19 +58,19 @@ require('layout/header.php');
 				<div class="header_container">
 				<div class="header_container_result">
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						USERNAME
+						Username
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						E-MAIL
+						E-mail
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_no_display">
-						NAME
+						Name
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_no_display">
-						STATUS
+						Status
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						OPTIONS
+						Options
 					</div>
 				</div>
 				</div>
