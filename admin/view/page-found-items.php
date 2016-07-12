@@ -92,7 +92,7 @@ require('layout/header.php');
 						User Holder
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						OPTIONS
+						Options
 					</div>
 				</div>
 				</div>
@@ -116,7 +116,7 @@ require('layout/header.php');
 								<?php echo $row['username']; ?>
 							</div>
 							<div class="row_column_result header_column_1_5  column_cel_1_3">
-								<form action="/items/found/item" target="empty" method="post" class="form_option">
+								<form action="/items/found/item"  method="post" class="form_option">
 									<input type="hidden" name="item_code" value="<?php echo $row['code'];?>">
 									<input type="hidden" name="item_method" value="view">
 									<input class="search_option_result option_view" type="submit" value="">
@@ -124,7 +124,7 @@ require('layout/header.php');
 								<?php if($row['status'] != "Locked")
 								{
 								?>
-									<form action="" target="empty" method="post"  class="form_option">
+									<form action=""  method="post"  class="form_option">
 										<input type="hidden" name="item_code" value="<?php echo $row['code'];?>">
 										<input type="hidden" name="item_method" value="locked">
 										<input class="search_option_result option_locked" type="submit" value="">
@@ -132,7 +132,7 @@ require('layout/header.php');
 								<?php
 								}else{
 									?>
-									<form action="" target="empty" method="post"  class="form_option">
+									<form action=""  method="post"  class="form_option">
 										<input type="hidden" name="item_code" value="<?php echo $row['code'];?>">
 										<input type="hidden" name="item_method" value="unlocked">
 										<input class="search_option_result option_unlocked" type="submit" value="">
@@ -141,7 +141,7 @@ require('layout/header.php');
 								}
 								?>
 								
-								<form action="" target="empty" method="post"  class="form_option">
+								<form action=""  method="post"  class="form_option">
 									<input type="hidden" name="item_code" value="<?php echo $row['code'];?>">
 									<input type="hidden" name="item_method" value="deleted">
 									<input class="search_option_result option_deleted" type="submit" value="">
@@ -211,6 +211,13 @@ require('layout/header.php');
 	</div>
 </div>		
 		
+		
+		
+		
+		
+		
+		
+	
 <?php 
 //include header template
 require('layout/footer.php');
