@@ -99,6 +99,7 @@ require('layout/header.php');
 								<input class="btn btn-primary" type="submit" id="view" name="view" value="" style="background:url('/image/ver-56-56-02.png'); width: 60px; height: 60px; border: 0px">
 								</form>
 							</div>
+
 						</div>
 						<?php
 					}
@@ -156,22 +157,6 @@ require('layout/header.php');
 	</div>
 </div>
 </div>
-<script>
-	$("#menu_button").click(function() {
-		if($("#menu").hasClass( "menu_open" ))
-		{
-			$("#menu").removeClass( "menu_open" );
-			$("#menu").addClass( "menu_close" );
-		}else{
-			$("#menu").removeClass( "menu_close" );
-			$("#menu").addClass( "menu_open" );
-		}
-	});
-	
-</script>
-<style>
-
-</style>
 <?php 
 //include header template
 require('layout/footer.php');

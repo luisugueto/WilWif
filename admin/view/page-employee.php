@@ -97,7 +97,7 @@ require('layout/header.php');
 			</table>
 			<br>
 				<input class="btn btn-primary" type="submit" id="submit" name="submit" value="" style="background:url('/image/boton-crear-40-40.png'); width: 45px; height: 45px; border: 0px">
-				<p style="color:white">Add</p>
+				<p style="color:white; margin-top: -10px">Add</p>
 		</form>
 			
 		</div>

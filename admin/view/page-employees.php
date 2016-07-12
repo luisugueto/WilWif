@@ -103,6 +103,12 @@ require('layout/header.php');
 						<?php
 					}
 					?>
+				<div>
+					<?php echo "<a style='text-decoration: none;' href='/employees/employee'>";?>
+						<img width="50" height="50" src="/image/boton-crear-40-40.png" style="cursor: pointer;">
+						<p style="color: white; margin-top: -10px">Add</p>
+					</a>
+				</div>
 				</div>
 				<div class="pages_container">
 					<div class="pages_container_index" style="display: inline-flex;">
@@ -156,22 +162,6 @@ require('layout/header.php');
 	</div>
 </div>
 </div>
-<script>
-	$("#menu_button").click(function() {
-		if($("#menu").hasClass( "menu_open" ))
-		{
-			$("#menu").removeClass( "menu_open" );
-			$("#menu").addClass( "menu_close" );
-		}else{
-			$("#menu").removeClass( "menu_close" );
-			$("#menu").addClass( "menu_open" );
-		}
-	});
-	
-</script>
-<style>
-
-</style>
 <?php 
 //include header template
 require('layout/footer.php');
