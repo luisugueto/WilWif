@@ -95,7 +95,7 @@ require('layout/header.php');
 							</div>
 							<div class="row_column_result header_column_1_5  column_cel_1_3">
 								<form action="/employees/viewemployee" method="post">
-								<input type="hidden" value="<?php echo $sql_assoc['id']; ?>" name="id" id="id">
+								<input type="hidden" value="<?php echo $row['id']; ?>" name="id" id="id">
 								<input class="btn btn-primary" type="submit" id="view" name="view" value="" style="background:url('/image/ver-56-56-02.png'); width: 60px; height: 60px; border: 0px">
 								</form>
 							</div>
