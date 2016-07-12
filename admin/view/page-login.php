@@ -36,21 +36,27 @@ $title = 'Login';
 require('layout/header.php'); 
 ?>
 <div id="content">
-<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
-	<div style="width: 1440px; display: inline-block; padding-right: 81px; padding-left: 221px; text-align: left;">
-		<div style="background-image: url('/image/barra-home-534-78.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
-			<h1 style="height: 38px; color: white; width: 270px; font-family: arial,rial;">LOGIN</h1>
+<div class="header_div_1">
+	<div class="header_div_2">
+		<div id="menu_button">
+		
 		</div>
-		<form style="height: 0px; float: right;">
-			<input type="text" name="s" value="" style="float: right; border-width: 0px; margin-top: 30px; background-image: url('	/image/barra-generica-478-47.png'); background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 70px; padding-left: 90px; width: 386px; height: 51px;">
+		<div class="header_div_3 header_div_home">
+			<h2 class="header_title_1">LOGIN</h2>
+		</div>
+		<form class="form_search" method="get" action="" >
+			<p >Search</p>
+			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value">
 		</form>
 	</div>
 </div>
-<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
+<div>
+	<div id="menu" class="menu_close">
 	
-	<div class="row">
-
-	    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+	</div>
+</div>
+<div id="content_containter">
+	
 <?php if( !$user->is_logged_in() ){ ?>
 
 			<form role="form" method="post" action="" autocomplete="off">
@@ -85,11 +91,6 @@ require('layout/header.php');
 			<p style="margin-top: 50px; margin-left: -40px; color:white">Accept</p>
 		</form>
 <?php } ?>
-		</div>
-	</div>
-
-
-
 </div>
 
 </div>

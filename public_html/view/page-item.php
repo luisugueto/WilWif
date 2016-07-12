@@ -81,19 +81,26 @@ $item = new item($_GET['code']);
 		
 			<div style="clear: both; content: ''; display: table; float: right;">
 				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a href='/account/'>";?>
+					<?php echo "<a href='/'>";?>
 						<img width="50" height="50" src="/image/boton-volver-50-50.png" style="cursor: pointer;">
 						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
 					</a>
 				</div>
+				<?php if($item->item_type=='Found') { ?>
 				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a href='/account/found-item/'>";?>
-						<img width="50" height="50" src="/image/boton-aceptar-39-39.png" style="cursor: pointer;">
-						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Request</p>
+					<?php echo "<a href='/account/shipment/'>";?>
+						<img width="50" height="50" src="/image/boton-ordenar-50-50.png" style="cursor: pointer;">
+						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Shipment</p>
 					</a>
 				</div>
-			</div>
-		
+				<?php } elseif ($item->item_type=='Lost') { ?>
+				<div style="float: left; margin-right: 20px;">
+					<?php echo "<a href='/account/order/?code=$item->item_code'>";?>
+						<img width="50" height="50" src="/image/boton-ordenar-50-50.png" style="cursor: pointer;">
+						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Order</p>
+					</a>
+				</div>			
+				<?php } ?>		
 		</div>
 	</div>
 </div>
