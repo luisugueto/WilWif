@@ -28,18 +28,33 @@ $assoc = mysql_fetch_assoc($query);
 ?>
 
 <div id="content">
-<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
-	<div style="width: 1440px; display: inline-block; padding-right: 81px; padding-left: 221px; text-align: left;">
-		<div style="background-image: url('/image/barra-ordenes-534-78.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
-			<h1 style="height: 38px; color: white; width: 270px; font-family: arial,rial;">USER</h1>
+<div class="header_div_1">
+	<div class="header_div_2">
+		<div id="menu_button">
+		
 		</div>
+		<div class="header_div_3 header_div_home">
+			<h2 class="header_title_1">USER</h2>
+		</div>
+		<form class="form_search" method="get" action="" >
+			<p >Search</p>
+			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value">
+		</form>
 	</div>
 </div>
-<div id="content_containter" style="margin-top: 0px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-<div class="images_holder" style="float: left; margin-left: 400px">
+<div>
+	<div id="menu" class="menu_close">
+	
+	</div>
+</div>
+<div id="content_containter">
+	
+	<div class="content_result_div">
+
+<div class="images_holder">
 </div>
 
-	<table style="border-color: white; display: inline-block; margin-left: -350px" border="0px;">
+	<table style="border-color: white; display: inline-block; " border="0px;">
 				<tr >
 					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
 						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">User Name</p>
@@ -102,7 +117,7 @@ $assoc = mysql_fetch_assoc($query);
 
 		<div style="width: 890px; display: inline-block; padding-top: 10px; padding-bottom: 10px;">
 		
-			<div style="clear: both; content: ''; display: table; float: right;">
+			<div style="clear: both; content: ''; display: table; float:right;">
 			<form>
 				<div style="float: left; margin-right: 20px;">
 					<?php echo "<a style='text-decoration: none;' href='/users/'>";?>
