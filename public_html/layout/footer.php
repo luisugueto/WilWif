@@ -2,6 +2,19 @@
 	<script src="/js/zuaruchat.js"></script>
 	<link rel="stylesheet" type="text/css" href="/js/zuaruchat.css">
 <?php } ?>
+<script>
+	$("#menu_button").click(function() {
+		if($("#menu").hasClass( "menu_open" ))
+		{
+			$("#menu").removeClass( "menu_open" );
+			$("#menu").addClass( "menu_close" );
+		}else{
+			$("#menu").removeClass( "menu_close" );
+			$("#menu").addClass( "menu_open" );
+		}
+	});
+	
+</script>
 <!--
 	<footer id="main-footer" style="height: 60px; background-image: url('../image/background_1024x175.png'); padding-top: 25px; color:white">
 		<div id="footer-bottom">

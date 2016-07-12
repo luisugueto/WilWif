@@ -16,12 +16,12 @@
 	<script src="/js/jquery.Jcrop.js"></script>
 </head>
 <body style="text-align: center;">
-<div id="page-container"  style="display:block; width: 100%;">
-<header style="height: 167px; background-image: url('/image/header1-1440-167.png'); background-size: 100% auto; background-repeat: no-repeat; background-color: transparent;">
+<div id="page-container">
+<header class="header_container">
 <div class="page-header">
-  <div class="logo_container" style="margin-top: 0px; position: relative; display: inline-block; top: 82px; margin-left: -1179px;">
+  <div class="logo_container">
 	 	<img src="/image/logo-187-187.png" title="logo" width="180" height="180" >
   </div>
 </div>	
 </header>
- <div id="main-area" style=" background-repeat: no-repeat; background-size: 100% 100%; background-image: url('/image/fondo-1440-620.png'); min-height:700px">
+ <div id="main-area">
