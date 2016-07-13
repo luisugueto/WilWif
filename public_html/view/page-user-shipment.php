@@ -455,26 +455,12 @@ if(isset($_GET['code'])){
 				</div>
 			</div>
 		</div>
-	
-	
-	
-	
-	
-	
-	
-		
-				
-					
-				
-				
-				
-				
-				<div class="row" style="float: right; margin-top: 500px;">
+				<div class="row" style="margin-top: -50px">
 						<div class="col-xs-6 col-md-6">
 						<button type="submit" id="add" name="add" value="" style="background:url('/image/boton-ordenar-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
 						<p style="margin-top: 50px; margin-left: -40px; color:white;">Order</p>
 						</div>
-				</div>	
+				</div>
 </form>
 </div>
 
