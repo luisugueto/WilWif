@@ -33,6 +33,7 @@ if (isset($_POST['deleted'])) {
 					<td colspan='4'>No have.</td>
 					</tr>";
 				}
+				
 				while($sql_assoc = mysql_fetch_assoc($sql))
 				{
 			?>

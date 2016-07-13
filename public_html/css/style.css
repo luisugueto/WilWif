@@ -43,6 +43,23 @@ html{
 }
 /*Home page */
 
+#content_containter{
+	margin-top: 50px;
+	margin-bottom: 50px;
+	width: 1440px;
+	display: inline-block;
+	
+}
+
+.content_div_1{
+	display: inline-block;
+	width: 1176px;
+	height: 567px;
+	background-image: url('../image/cuadro-home-1176-567.png');
+	padding: 58px 54px 54px 58px;
+}
+
+
 #page-container
 {
 	display:block;
