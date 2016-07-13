@@ -95,7 +95,7 @@ require('layout/header.php');
 							</div>
 							<div class="row_column_result header_column_1_5  column_cel_1_3">
 								<form action="/employees/employee/" method="get" class="form_option">
-								<input type="hidden" value="<?php echo $sql_assoc['username']; ?>" name="employeeusername" id="id">
+								<input type="hidden" value="<?php echo $row['username']; ?>" name="employeeusername" id="id">
 								<input class="search_option_result option_view" type="submit" id="view" name="view" value="">
 								</form>
 								
@@ -103,16 +103,16 @@ require('layout/header.php');
 								{
 								?>
 									<form action=""  method="post"  class="form_option">
-										<input type="hidden" name="item_code" value="<?php echo $row['code'];?>">
-										<input type="hidden" name="item_method" value="locked">
+										<input type="hidden" name="employee_username" value="<?php echo $row['code'];?>">
+										<input type="hidden" name="employee_method" value="locked">
 										<input class="search_option_result option_locked" type="submit" value="">
 									</form>
 								<?php
 								}else{
 									?>
 									<form action=""  method="post"  class="form_option">
-										<input type="hidden" name="item_code" value="<?php echo $row['code'];?>">
-										<input type="hidden" name="item_method" value="unlocked">
+										<input type="hidden" name="employee_code" value="<?php echo $row['code'];?>">
+										<input type="hidden" name="employee_method" value="unlocked">
 										<input class="search_option_result option_unlocked" type="submit" value="">
 									</form>
 								<?php
@@ -176,19 +176,7 @@ require('layout/header.php');
 	</div>
 </div>
 </div>
-<script>
-	$("#menu_button").click(function() {
-		if($("#menu").hasClass( "menu_open" ))
-		{
-			$("#menu").removeClass( "menu_open" );
-			$("#menu").addClass( "menu_close" );
-		}else{
-			$("#menu").removeClass( "menu_close" );
-			$("#menu").addClass( "menu_open" );
-		}
-	});
-	
-</script>
+
 <style>
 
 </style>
