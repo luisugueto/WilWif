@@ -84,6 +84,7 @@ require('layout/header.php');
 <div id="content_containter">
 	<div class="content_div_1">
 		<div class="div_inline-block">
+		</form>
 		<table style="border-color: white; display: inline-block; " border="0px;">
 				<tr >
 					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
