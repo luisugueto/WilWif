@@ -262,7 +262,7 @@ if(isset($error))
 								<label for="email" class="input_label_form">Email</label>
 							  </div>
 							  <div class="input_container_text_form">
-								<input type="text" name="email" class="input_text_form"  id="email"   value="<?php if(isset($email)){ echo $email; } ?>" >
+								<input readonly type="text" name="email" class="input_text_form"  id="email"   value="<?php if(isset($email)){ echo $email; } ?>" >
 							  </div>
 						 </div>
 					</div>
@@ -272,7 +272,7 @@ if(isset($error))
 								<label for="name" class="input_label_form">Name</label>
 							  </div>
 							  <div class="input_container_text_form">
-								<input type="text" name="name" class="input_text_form"  id="name"   value="<?php if(isset($name)){ echo $name; } ?>" >
+								<input readonly type="text" name="name" class="input_text_form"  id="name"   value="<?php if(isset($name)){ echo $name; } ?>" >
 							  </div>
 						 </div>
 					</div>
@@ -315,7 +315,7 @@ if(isset($error))
 								<label for="status" class="input_label_form">Status</label>
 							  </div>
 							  <div class="input_container_text_form">
-								<input type="text" name="status" class="input_text_form"  id="status"   value="<?php if(isset($status)){ echo $status; } ?>" readonly>
+								<input readonly type="text" name="status" class="input_text_form"  id="status"   value="<?php if(isset($status)){ echo $status; } ?>" readonly>
 							  </div>
 						 </div>
 					</div>
@@ -325,7 +325,7 @@ if(isset($error))
 					<div class="options_frame_page">
 						<div class="option_container_page" >
 							<a href="/employees/employees/">
-								<input class="search_option_result option_back" type="button" name="modify" value="">
+								<input readonly class="search_option_result option_back" type="button" name="modify" value="">
 								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
 							</a>
 						</div>
@@ -334,11 +334,11 @@ if(isset($error))
 							{
 							?>	
 							<div class="option_container_page">
-								<input class="search_option_result option_modify" type="submit" name="modify" value="">
+								<input readonly class="search_option_result option_modify" type="submit" name="modify" value="">
 								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Modify</p>
 							</div>
 							<div class="option_container_page">
-								<input class="search_option_result option_deleted" type="submit" name="deleted" value="">
+								<input readonly class="search_option_result option_deleted" type="submit" name="deleted" value="">
 								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Deleted</p>
 							</div>
 							<?php
@@ -346,14 +346,14 @@ if(isset($error))
 							{
 							?>
 							<div class="option_container_page">
-								<input class="search_option_result option_block" type="submit" name="block" value="">
+								<input readonly class="search_option_result option_block" type="submit" name="block" value="">
 								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Block</p>
 							</div>
 							<?php
 							}else{
 							?>
 							<div class="option_container_page">
-								<input class="search_option_result option_unblock" type="submit" name="unblock" value="">
+								<input readonly class="search_option_result option_unblock" type="submit" name="unblock" value="">
 								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Unblock</p>
 							</div>
 							<?php
@@ -363,7 +363,7 @@ if(isset($error))
 							{
 							?>	
 							<div class="option_container_page">
-								<input class="search_option_result option_create" type="submit" name="create" value="">
+								<input readonly class="search_option_result option_create" type="submit" name="create" value="">
 								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Add</p>
 							</div>
 							<?php

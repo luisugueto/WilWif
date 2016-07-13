@@ -1035,6 +1035,8 @@ input[type="submit"]
 	background-color: transparent;
 	font-size: 20px;
 	text-align:center;
+	background-image: url('/image/barra-info-646-54.png');
+	background-size: 100%;
 }
 
 .input_container_text_form select{

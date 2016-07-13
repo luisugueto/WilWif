@@ -6,6 +6,9 @@ $method="";
 if(!$user->is_logged_in() ){
 	header('Location: /register/');
 }
+
+$type = $_GET['type'];
+
 if (isset($_POST['submit_create'])) 
 {
 	if(isset($_POST['item_name']) && !empty($_POST['item_name']))
@@ -305,6 +308,7 @@ $item_city = $item->item_city;
 						</div>
 					</div>
 				</div>
+				<?php if (!$type == 'v') { ?>
 					<div class="row">	
 						<div class="input_container_form">
 							<div class="input_container_label_form">
@@ -315,6 +319,8 @@ $item_city = $item->item_city;
 							</div>
 						</div>
 					</div>
+
+				<?php } ?>
 				
 			
 				<div class="row">	
@@ -689,22 +695,20 @@ $item_city = $item->item_city;
 					if(!$method=='modify')
 					{
 					?>
-						<div class="col-xs-6 col-md-6">
-						
-						</div>
-						<div class="col-xs-6 col-md-6">
-						<input type="submit" name="submit_create" value="Add" class="btn btn-primary btn-block btn-lg" required tabindex="6">
-						</div>
+				<div>
+					<button type="submit" id="submit" name="submit" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
+					<p style="width: 62px;margin-bottom: 0px; color:white; margin-top: 30px">Add</p>
+				</div>
 					<?php 
 					}
 					else{
 					?>
-						<div class="col-xs-6 col-md-6">
-						<input type="submit" name="submit_delete" value="Delete" class="btn btn-primary btn-block btn-lg" required tabindex="6">
-						</div>
-						<div class="col-xs-6 col-md-6">
-						<input type="submit" name="submit_modify" value="Edit" class="btn btn-primary btn-block btn-lg" required tabindex="6">
-						</div>
+					<div>
+						<button type="submit" name="submit_delete" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
+						<p style="width: 62px;margin-bottom: 0px; color:white; margin-top: 30px">Delete</p>
+						<button type="submit" name="submit_modify" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
+						<p style="width: 62px;margin-bottom: 0px; color:white; margin-top: 30px">Edit</p>
+					</div>
 					<?php
 					}
 					?>

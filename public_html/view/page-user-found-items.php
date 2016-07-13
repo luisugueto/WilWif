@@ -73,14 +73,14 @@ require('layout/header.php');
 							</div>
 							<div style="float: left; height: 137px; width: 100px; padding-top: 40px;">
 								<div>
-									<?php echo "<a href='/account/found-item/?code=".$item->item_code."&type=v'>";?>
+									<?php echo "<a href='/account/found-item/?code=".$item->item_code."'>";?>
 										<img width="34" height="34" src="/image/boton-modificar-34-34.png" style="cursor: pointer;">
 										<p style="width: 62px; float: right; margin-top: 7px;margin-bottom: 0px;">Modify</p>
 									</a>
 								</div>
 								
 								<div>
-									<?php echo "<a href='/item/?code=".$item->item_code."&type=v'>";?>
+									<?php echo "<a href='/item/?code=".$item->item_code."'>";?>
 										<img width="34" height="34" src="/image/boton-eliminar1-34-34.png" style="cursor: pointer;">
 										<p style="width: 62px; float: right; margin-top: 7px;margin-bottom: 0px;">Trash</p>
 									</a>
@@ -104,7 +104,7 @@ require('layout/header.php');
 					</a>
 				</div>
 				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a href='/account/found-item/'>";?>
+					<?php echo "<a href='/account/found-item/?type=v'>";?>
 						<img width="50" height="50" src="/image/boton-aceptar-39-39.png" style="cursor: pointer;">
 						<p style="width: 62px; margin-bottom: 0px;">Add</p>
 					</a>
