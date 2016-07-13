@@ -26,7 +26,9 @@ class userInfo{
 		
 		}
 		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
-		if($row = mysql_fetch_assoc($query))
+		$row = mysql_fetch_array($query);
+
+		if(mysql_num_rows($query)!=0)
 		{
 			$this->user_id = $row["id"];
 			$this->user_username = $row["username"];
@@ -39,7 +41,6 @@ class userInfo{
 			$this->user_login_attemps = $row["login_attemps"];
 			$this->user_create_date = $row["create_date"];
 			$this->user_last_mod_date = $row["last_mod_date"];
-			
 			$this->user_rol_code = $row["rol_id"];
 			$sql = 'SELECT slug,code FROM rol where id ='.$this->user_rol_code.'';
 			$query = mysql_query($sql) or die('error at try to access data' . mysql_error());

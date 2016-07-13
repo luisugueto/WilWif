@@ -203,9 +203,8 @@ if(isset($_POST['username']) && !empty($_POST['username']))
 	
 
 }else if(isset($_GET['employeeusername'])){
-	
 	$user = new userInfo($_GET['employeeusername']);
-	if(!isset($user->id))
+	if(isset($user->user_id))
 	{
 		$username = $user->user_username;
 		$email = $user->user_email;
