@@ -77,6 +77,10 @@ switch ($path){
 			case 'shipments':
 				include'view/page-user-shipments.php';
 				break;
+
+			case 'list-shipments':
+				include'view/page-list-user-shipment.php';
+				break;
 				
 			case 'order':
 				include'view/page-user-order.php';
@@ -84,6 +88,9 @@ switch ($path){
 			
 			case 'orders':
 				include'view/page-user-orders.php';
+				break;
+			case 'list-orders':
+				include'view/page-list-user-order.php';
 				break;
 			
 			case 'request':

@@ -64,7 +64,7 @@ require('layout/header.php');
 				</div>
 			</div>
 			<div style="height: 232px; width: 25%; float: left; padding-top: 30px;color:white">
-				<a href="/account/orders/" title="Orders">
+				<a href="/account/list-orders/" title="Orders">
 					<div id="home_account_order_div" class="home_div">
 					</div>
 				</a>
@@ -76,7 +76,7 @@ require('layout/header.php');
 			
 			
 			<div style="height: 232px; width: 25%; float: left;color:white;padding-top: 30px;" >
-				<a href="/account/shipments" title="Shipments">
+				<a href="/account/list-shipments" title="Shipments">
 					<div id="home_account_shipments_div" class="home_div">
 					</div>
 				</a>
