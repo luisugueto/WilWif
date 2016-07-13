@@ -6,7 +6,7 @@ if($searchValue =='')
 $searchValue = (isset($_POST['s']))?  $_POST['s'] : '';
 
 $searchValue = ($searchValue == '' )? '':" and (username like '%".$searchValue."%' or email like '%".$searchValue."%' or name like '%".$searchValue."%' )";
-$query = "SELECT * FROM user WHERE rol_id in (select id from rol where code !='001' and code !='010')".$searchValue;
+$query = "SELECT * FROM user WHERE rol_id in (select id from rol where code !='001' )".$searchValue; // and code !='010'
  
 $sql = mysql_query($query);
 $sql_assoc = mysql_fetch_assoc($sql);
@@ -47,7 +47,7 @@ require('layout/header.php');
 </div>
 <div>
 	<div id="menu" class="menu_close">
-	
+		<?php require('layout/menu.php'); ?>
 	</div>
 </div>
 <div id="content_containter">
@@ -94,21 +94,35 @@ require('layout/header.php');
 								<?php echo $row['status']; ?>
 							</div>
 							<div class="row_column_result header_column_1_5  column_cel_1_3">
-								<form action="/employees/viewemployee" method="post">
-								<input type="hidden" value="<?php echo $row['id']; ?>" name="id" id="id">
-								<input class="btn btn-primary" type="submit" id="view" name="view" value="" style="background:url('/image/ver-56-56-02.png'); width: 60px; height: 60px; border: 0px">
+								<form action="/employees/employee/" method="get" class="form_option">
+								<input type="hidden" value="<?php echo $sql_assoc['username']; ?>" name="employeeusername" id="id">
+								<input class="search_option_result option_view" type="submit" id="view" name="view" value="">
 								</form>
+								
+								<?php if($row['status'] != "Locked")
+								{
+								?>
+									<form action=""  method="post"  class="form_option">
+										<input type="hidden" name="item_code" value="<?php echo $row['code'];?>">
+										<input type="hidden" name="item_method" value="locked">
+										<input class="search_option_result option_locked" type="submit" value="">
+									</form>
+								<?php
+								}else{
+									?>
+									<form action=""  method="post"  class="form_option">
+										<input type="hidden" name="item_code" value="<?php echo $row['code'];?>">
+										<input type="hidden" name="item_method" value="unlocked">
+										<input class="search_option_result option_unlocked" type="submit" value="">
+									</form>
+								<?php
+								}
+								?>
 							</div>
 						</div>
 						<?php
 					}
 					?>
-				<div>
-					<?php echo "<a style='text-decoration: none;' href='/employees/employee'>";?>
-						<img width="50" height="50" src="/image/boton-crear-40-40.png" style="cursor: pointer;">
-						<p style="color: white; margin-top: -10px">Add</p>
-					</a>
-				</div>
 				</div>
 				<div class="pages_container">
 					<div class="pages_container_index" style="display: inline-flex;">
@@ -162,6 +176,22 @@ require('layout/header.php');
 	</div>
 </div>
 </div>
+<script>
+	$("#menu_button").click(function() {
+		if($("#menu").hasClass( "menu_open" ))
+		{
+			$("#menu").removeClass( "menu_open" );
+			$("#menu").addClass( "menu_close" );
+		}else{
+			$("#menu").removeClass( "menu_close" );
+			$("#menu").addClass( "menu_open" );
+		}
+	});
+	
+</script>
+<style>
+
+</style>
 <?php 
 //include header template
 require('layout/footer.php');

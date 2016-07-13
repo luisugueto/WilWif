@@ -48,6 +48,10 @@ html{
 .page-header{
 	text-align:left;
 }
+
+.row{
+ display:inline-block;
+}
 #main-area{
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
@@ -181,6 +185,24 @@ html{
 	background-image: url('/image/eliminar-56-56.png');
 }
 
+.option_modify{
+	background-image: url('/image/boton-modificar-56-56.png');
+}
+.option_block{
+	background-image: url('/image/bloquear-56-56.png');
+}
+
+.option_add{
+	background-image: url('/image/boton-agregar-nota-56-56-02.png');
+}
+
+.option_create{
+	background-image: url('/image/boton-agregar-nota-56-56-02.png');
+}
+
+.option_back{
+	background-image: url('/image/boton-volver-50-50.png');
+}
 
 .search_option_result{
 	border-width: 0px;
@@ -671,7 +693,7 @@ body{
 	padding: 58px 54px 54px 58px;
 	width: 780px;
 	background-size: 100% 100%;
-	height: 360px;
+	height: 400px;
 }
 
 .chat_option{
@@ -870,6 +892,7 @@ body{
 	font-size: 15px;
 }
 
+
 .column_cel_no_display{
 	display:none;
 }
@@ -955,4 +978,173 @@ button{
 input[type="submit"]
 {
 	cursor: pointer;
+}
+
+
+
+.options_container_page{
+	width: 780px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	display: inline-block;
+}
+.option_container_page{
+	float: left; margin-right: 20px;
+}
+
+.options_frame_page{
+	clear: both;
+	content: '';
+	display: table;
+	float: right;
+}
+
+.input_container_form{
+	background-image: url("/image/barra-login-580-50.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	height: 50px;
+	color: white;
+	 width: 534px;
+}
+
+.input_container_label_form{
+	width: 166px;
+	height: 50px;
+	float: left;
+	line-height: 50px;
+	font-size: 30px;
+	overflow:hidden;
+	text-align:left;
+	padding-left: 10px;
+}
+
+.input_container_text_form{
+	float: left;
+	width: 367px;
+	height: 50px;
+	line-height: 50px;
+	overflow:hidden;
+}
+
+.input_container_text_form input{
+	height: 42px;
+	padding: 0px 20px;
+	border-width: 0px;
+	width: 363px;
+	background-color: transparent;
+	font-size: 20px;
+	text-align:center;
+}
+
+.input_container_text_form select{
+	height: 42px;
+	padding: 0px 20px;
+	border-width: 0px;
+	width: 363px;
+	background-color: transparent;
+	font-size: 20px;
+	text-align:center;
+}
+
+@media all and (max-width: 1024px)
+{
+	.content_chat_div_1{
+		width: 500px;
+	}
+	
+	.input_container_form{
+		width: 400px;
+	}
+	
+	.input_container_label_form{
+		width: 125px;
+		font-size: 20px;
+	}
+	
+	.input_container_text_form{
+		width: 273px;
+	}
+	
+	.input_container_text_form input{
+		width: 273px;
+		padding-right: 10px; 
+		padding-left: 10px;
+		font-size: 16px;
+		
+	}
+	
+	.input_container_text_form select{
+		width: 273px;
+		padding-right: 10px; 
+		padding-left: 10px;
+		font-size: 16px;
+		
+	}
+
+	.options_container_page{
+		width: 500px;
+	}
+}
+
+
+@media all and (max-width: 420px)
+{
+	.content_chat_div_1{
+		width: 300px;
+		padding-top: 15px;
+		padding-bottom: 15px;
+	}
+	
+	.input_container_form{
+		width: 260px;
+		height: 40px;
+	}
+	
+	.input_container_label_form{
+		width: 82px;
+		padding-left: 5px;
+		height: 40px;
+		line-height: 40px;
+		font-size: 14px;
+	}
+	
+	.input_container_text_form{
+		width: 177px;
+		height: 40px;
+		font-size: 10px;
+	}
+	
+	.input_container_text_form input{
+		padding-left: 3px;
+		padding-right: 3px;
+		width: 177px;
+		height: 30px;
+		line-height: 31px;
+		font-size: 13px;
+	}
+	
+	.input_container_text_form select{
+		padding-left: 3px;
+		padding-right: 3px;
+		width: 177px;
+		height: 30px;
+		line-height: 31px;
+		font-size: 13px;
+	}
+	
+	.options_container_page{
+		width: 280px;
+	}
+	
+	.option_container_page{
+		margin-right: 0px;
+	}
+	
+	.content_chat_div_1{
+		width: 300px;
+		height: 300px;
+		padding-top: 40px;
+		padding-bottom: 30px;
+	}
 }

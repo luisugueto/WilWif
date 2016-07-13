@@ -11,6 +11,7 @@ $query = $query. " LEFT JOIN user u  ON c.id_user_create = u.id ";
 $query = $query. " LEFT JOIN user  u2  ON c.id_user_invited = u2.id ";
 $query = $query.$searchValue ." GROUP BY c.code";
 
+######### PAGINACION ###############
 $sql = mysql_query($query);
 $sql_assoc = mysql_fetch_assoc($sql);
 $total = mysql_num_rows($sql);
@@ -18,7 +19,6 @@ $total = ($total < 1)?1: $total;
 $nrows = 10;
 $totalpages = ceil($total/$nrows);
 $page = isset($_POST['page'])? $_POST['page']:1;
-######### PAGINACION ###############
 $query .= " LIMIT ".(($page-1)*$nrows).",".$nrows;
 $sql = mysql_query($query);
 $records = mysql_num_rows($sql);
@@ -43,7 +43,7 @@ require('layout/header.php');
 </div>
 <div>
 	<div id="menu" class="menu_close">
-	
+		<?php require('layout/menu.php'); ?>
 	</div>
 </div>
 <div id="content_containter">
@@ -102,7 +102,7 @@ require('layout/header.php');
 								<?php
 									}
 								?>
-								<form action="/chats/view/" target="empty" method="post"  style="height: 68px; float: left; margin-left: 10px;">
+								<form action="/chats/view/" method="post"  style="height: 68px; float: left; margin-left: 10px;">
 									<input type="hidden" name="chat_code" value="<?php echo $row['code'];?>">
 									<input type="hidden" name="chat_method" value="view">
 									<input class="search_option_result option_view" type="submit" value="">
