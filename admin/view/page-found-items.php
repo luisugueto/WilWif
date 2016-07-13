@@ -66,7 +66,7 @@ require('layout/header.php');
 </div>
 <div>
 	<div id="menu" class="menu_close">
-	
+		<?php require('layout/menu.php'); ?>
 	</div>
 </div>
 <div id="content">
@@ -116,7 +116,7 @@ require('layout/header.php');
 								<?php echo $row['username']; ?>
 							</div>
 							<div class="row_column_result header_column_1_5  column_cel_1_3">
-								<form action="/items/found/item"  method="post" class="form_option">
+								<form action="/items/found/item/"  method="get" class="form_option">
 									<input type="hidden" name="item_code" value="<?php echo $row['code'];?>">
 									<input type="hidden" name="item_method" value="view">
 									<input class="search_option_result option_view" type="submit" value="">
@@ -208,6 +208,16 @@ require('layout/header.php');
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="options_container_page">
+					<div class="options_frame_page">
+						<div class="option_container_page" >
+							<a href="/items/">
+								<input class="search_option_result option_back" type="button" name="modify" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
+							</a>
+						</div>
+					</div>
 	</div>
 </div>		
 		

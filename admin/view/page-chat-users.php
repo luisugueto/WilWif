@@ -1,6 +1,6 @@
 <?php 
 //include header template
-
+require('layout/header.php'); 
 $searchValue = (isset($_GET['s']))?  $_GET['s'] : '';
 if($searchValue =='')
 $searchValue = (isset($_POST['s']))?  $_POST['s'] : '';
@@ -28,7 +28,7 @@ $records = mysql_num_rows($sql);
 
 
 
-require('layout/header.php'); 
+
 ?>
 <div id="content">
 <div class="header_div_1">
@@ -155,21 +155,19 @@ require('layout/header.php');
 			</div>
 		</div>
 	</div>
+	<div class="options_container_page">
+					<div class="options_frame_page">
+						<div class="option_container_page" >
+							<a href="/chats/">
+								<input class="search_option_result option_back" type="button" name="modify" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
+							</a>
+						</div>
+					</div>
+	</div>
 </div>
 </div>
-<script>
-	$("#menu_button").click(function() {
-		if($("#menu").hasClass( "menu_open" ))
-		{
-			$("#menu").removeClass( "menu_open" );
-			$("#menu").addClass( "menu_close" );
-		}else{
-			$("#menu").removeClass( "menu_close" );
-			$("#menu").addClass( "menu_open" );
-		}
-	});
-	
-</script>
+
 <style>
 
 </style>

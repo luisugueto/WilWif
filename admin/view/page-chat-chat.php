@@ -95,7 +95,16 @@ require('layout/header.php');
 	
 	<div id="chat_container">
 	</div>
-	
+	<div class="options_container_page">
+		<div class="options_frame_page">
+			<div class="option_container_page" >
+				<a href="/chats/">
+					<input class="search_option_result option_back" type="button" name="modify" value="">
+					<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
+				</a>
+			</div>
+		</div>
+	</div>
 	
 </div>
 </div>

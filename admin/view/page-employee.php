@@ -203,6 +203,7 @@ if(isset($_POST['username']) && !empty($_POST['username']))
 	
 
 }else if(isset($_GET['employeeusername'])){
+	
 	$user = new userInfo($_GET['employeeusername']);
 	if(isset($user->user_id))
 	{
@@ -262,7 +263,7 @@ if(isset($error))
 								<label for="email" class="input_label_form">Email</label>
 							  </div>
 							  <div class="input_container_text_form">
-								<input readonly type="text" name="email" class="input_text_form"  id="email"   value="<?php if(isset($email)){ echo $email; } ?>" >
+								<input type="text" name="email" class="input_text_form"  id="email"   value="<?php if(isset($email)){ echo $email; } ?>" >
 							  </div>
 						 </div>
 					</div>
@@ -272,7 +273,7 @@ if(isset($error))
 								<label for="name" class="input_label_form">Name</label>
 							  </div>
 							  <div class="input_container_text_form">
-								<input readonly type="text" name="name" class="input_text_form"  id="name"   value="<?php if(isset($name)){ echo $name; } ?>" >
+								<input type="text" name="name" class="input_text_form"  id="name"   value="<?php if(isset($name)){ echo $name; } ?>" >
 							  </div>
 						 </div>
 					</div>
@@ -315,7 +316,7 @@ if(isset($error))
 								<label for="status" class="input_label_form">Status</label>
 							  </div>
 							  <div class="input_container_text_form">
-								<input readonly type="text" name="status" class="input_text_form"  id="status"   value="<?php if(isset($status)){ echo $status; } ?>" readonly>
+								<input type="text" name="status" class="input_text_form"  id="status"   value="<?php if(isset($status)){ echo $status; } ?>" readonly>
 							  </div>
 						 </div>
 					</div>
@@ -325,7 +326,7 @@ if(isset($error))
 					<div class="options_frame_page">
 						<div class="option_container_page" >
 							<a href="/employees/employees/">
-								<input readonly class="search_option_result option_back" type="button" name="modify" value="">
+								<input class="search_option_result option_back" type="button" name="modify" value="">
 								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
 							</a>
 						</div>
@@ -334,11 +335,11 @@ if(isset($error))
 							{
 							?>	
 							<div class="option_container_page">
-								<input readonly class="search_option_result option_modify" type="submit" name="modify" value="">
+								<input class="search_option_result option_modify" type="submit" name="modify" value="">
 								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Modify</p>
 							</div>
 							<div class="option_container_page">
-								<input readonly class="search_option_result option_deleted" type="submit" name="deleted" value="">
+								<input class="search_option_result option_deleted" type="submit" name="deleted" value="">
 								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Deleted</p>
 							</div>
 							<?php
@@ -346,14 +347,14 @@ if(isset($error))
 							{
 							?>
 							<div class="option_container_page">
-								<input readonly class="search_option_result option_block" type="submit" name="block" value="">
+								<input class="search_option_result option_block" type="submit" name="block" value="">
 								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Block</p>
 							</div>
 							<?php
 							}else{
 							?>
 							<div class="option_container_page">
-								<input readonly class="search_option_result option_unblock" type="submit" name="unblock" value="">
+								<input class="search_option_result option_unblock" type="submit" name="unblock" value="">
 								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Unblock</p>
 							</div>
 							<?php
@@ -363,7 +364,7 @@ if(isset($error))
 							{
 							?>	
 							<div class="option_container_page">
-								<input readonly class="search_option_result option_create" type="submit" name="create" value="">
+								<input class="search_option_result option_create" type="submit" name="create" value="">
 								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Add</p>
 							</div>
 							<?php
@@ -379,172 +380,6 @@ if(isset($error))
 
 <style>
 
-.options_container_page{
-	width: 780px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	display: inline-block;
-}
-.option_container_page{
-	float: left; margin-right: 20px;
-}
-
-.options_frame_page{
-	clear: both;
-	content: '';
-	display: table;
-	float: right;
-}
-
-.input_container_form{
-	background-image: url("/image/barra-login-580-50.png");
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-	height: 50px;
-	color: white;
-	 width: 534px;
-}
-
-.input_container_label_form{
-	width: 166px;
-	height: 50px;
-	float: left;
-	line-height: 50px;
-	font-size: 30px;
-	overflow:hidden;
-	text-align:left;
-	padding-left: 10px;
-}
-
-.input_container_text_form{
-	float: left;
-	width: 367px;
-	height: 50px;
-	line-height: 50px;
-	overflow:hidden;
-}
-
-.input_container_text_form input{
-	height: 42px;
-	padding: 0px 20px;
-	border-width: 0px;
-	width: 363px;
-	background-color: transparent;
-	font-size: 20px;
-	text-align:center;
-}
-
-.input_container_text_form select{
-	height: 42px;
-	padding: 0px 20px;
-	border-width: 0px;
-	width: 363px;
-	background-color: transparent;
-	font-size: 20px;
-	text-align:center;
-}
-
-@media all and (max-width: 1024px)
-{
-	.content_chat_div_1{
-		width: 500px;
-	}
-	
-	.input_container_form{
-		width: 400px;
-	}
-	
-	.input_container_label_form{
-		width: 125px;
-		font-size: 20px;
-	}
-	
-	.input_container_text_form{
-		width: 273px;
-	}
-	
-	.input_container_text_form input{
-		width: 273px;
-		padding-right: 10px; 
-		padding-left: 10px;
-		font-size: 16px;
-		
-	}
-	
-	.input_container_text_form select{
-		width: 273px;
-		padding-right: 10px; 
-		padding-left: 10px;
-		font-size: 16px;
-		
-	}
-
-	.options_container_page{
-		width: 500px;
-	}
-}
-
-
-@media all and (max-width: 420px)
-{
-	.content_chat_div_1{
-		width: 300px;
-		padding-top: 15px;
-		padding-bottom: 15px;
-	}
-	
-	.input_container_form{
-		width: 260px;
-		height: 40px;
-	}
-	
-	.input_container_label_form{
-		width: 82px;
-		padding-left: 5px;
-		height: 40px;
-		line-height: 40px;
-		font-size: 14px;
-	}
-	
-	.input_container_text_form{
-		width: 177px;
-		height: 40px;
-		font-size: 10px;
-	}
-	
-	.input_container_text_form input{
-		padding-left: 3px;
-		padding-right: 3px;
-		width: 177px;
-		height: 30px;
-		line-height: 31px;
-		font-size: 13px;
-	}
-	
-	.input_container_text_form select{
-		padding-left: 3px;
-		padding-right: 3px;
-		width: 177px;
-		height: 30px;
-		line-height: 31px;
-		font-size: 13px;
-	}
-	
-	.options_container_page{
-		width: 280px;
-	}
-	
-	.option_container_page{
-		margin-right: 0px;
-	}
-	
-	.content_chat_div_1{
-		width: 300px;
-		height: 300px;
-		padding-top: 40px;
-		padding-bottom: 30px;
-	}
-}
 </style>
 <?php 
 //include header template

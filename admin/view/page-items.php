@@ -50,7 +50,7 @@ elseif(isset($_POST['unlock'])){
 	
 <div>
 	<div id="menu" class="menu_close">
-	
+		<?php require('layout/menu.php'); ?>
 	</div>
 </div>
 <div id="content_containter" >
@@ -77,6 +77,16 @@ elseif(isset($_POST['unlock'])){
 			</div>
 			
 		</div>
+	</div>
+	<div class="options_container_page">
+					<div class="options_frame_page">
+						<div class="option_container_page" >
+							<a href="/">
+								<input class="search_option_result option_back" type="button" name="modify" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
+							</a>
+						</div>
+					</div>
 	</div>
 </div>
 

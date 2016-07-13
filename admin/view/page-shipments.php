@@ -1,13 +1,27 @@
 <?php 
+
+
+if(isset($_POST['shipment_method']) && isset($_POST['shipment_code']))
+{
+	if($_POST['shipment_method'] =="block")
+	{
+		BlockShipment($_POST['shipment_code']);
+	}elseif($_POST['shipment_method'] =="unblock")
+	{
+		UnblockShipment($_POST['shipment_code']);
+	}
+}
+
 //include header template
 
 $searchValue = (isset($_GET['s']))?  $_GET['s'] : '';
 if($searchValue =='')
 $searchValue = (isset($_POST['s']))?  $_POST['s'] : '';
 
-$searchValue = ($searchValue == '' )? '':"WHERE code like '%".$searchValue."%' or message like '%".$searchValue."%' or status like '%".$searchValue."%' ";
-$query = "SELECT * FROM submit ".$searchValue;
+$searchValue = ($searchValue == '' )? '':"and s.code like '%".$searchValue."%' or s.message like '%".$searchValue."%' or s.status like '%".$searchValue."%' or s.id_item in (select id from item where code like '%".$searchValue."%') or s.id_user_send in ( select id from user where username like '%".$searchValue."%')";
+$query = "SELECT s.*,i.code as itemCode, u.username as username FROM submit s LEFT JOIN user u  ON s.id_user_send = u.id  LEFT JOIN item i  ON s.id_item = i.id  WHERE s.status!='Erased'".$searchValue. "group by s.code";
 
+//echo $query;
 $sql = mysql_query($query);
 $sql_assoc = mysql_fetch_assoc($sql);
 $total = mysql_num_rows($sql);
@@ -30,23 +44,23 @@ $records = mysql_num_rows($sql);
 $type = 'p';
 $id = isset($_POST['id']) ? $_POST['id'] : '';
 
+
+/*
 if (isset($_POST['view'])) {
-	$type = 'v';
 	$sql_view = "SELECT * FROM submit WHERE id = '".$id."'";
 	$query_view = mysql_query($sql_view);
 	$assoc_view = mysql_fetch_assoc($query_view);
 }
 elseif(isset($_POST['block'])){
-	echo "si";
 	$sql_block = "UPDATE submit SET status = 'Block' WHERE id = '".$id."'";
 	$query_block = mysql_query($sql_block);
 	header('Location: /shipments/');
 }
-elseif(isset($_POST['unlock'])){
+elseif(isset($_POST['unblock'])){
 	$sql_block = "UPDATE submit SET status = 'Unlock' WHERE id = '".$id."'";
 	$query_block = mysql_query($sql_block);
 	header('Location: /shipments/');
-}
+}*/
 
 
 
@@ -73,26 +87,26 @@ require('layout/header.php');
 	</div>
 </div>
 <div id="content_containter">
-	<?php if ($type == 'p') { ?>
+	
 	<div class="content_result_div">
 		<div class="content_grid_result">
 			<div>
 				<div class="header_container">
 				<div class="header_container_result">
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						CODE
+						Code
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						ITEM
+						Wilwif-Code
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_no_display">
-						STATUS
+						Status
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_no_display">
-						MESSAGE
+						Username
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						OPTIONS
+						Options
 					</div>
 				</div>
 				</div>
@@ -107,20 +121,41 @@ require('layout/header.php');
 								<?php echo $row['code']; ?>
 							</div>
 							<div class="row_column_result header_column_1_5 column_cel_1_3">
-								<?php 
-									$query_item = mysql_query("SELECT * FROM item WHERE id = '".$row['id_item']."'");
-									$assoc_item = mysql_fetch_assoc($query_item);
-									echo $assoc_item['name'];
-								?>
+								<?php echo $row['itemCode']; ?>
 							</div>
 							<div class="row_column_result header_column_1_5 column_cel_no_display">
 								<?php echo $row['status']; ?>	
 							</div>
 							<div class="row_column_result header_column_1_5 column_cel_no_display">
-								<?php echo $row['message']; ?>
+								<?php echo $row['username']; ?>
 							</div>
 							<div class="row_column_result header_column_1_5  column_cel_1_3">
-								<form action="" method="POST">
+								<form action="/shipments/shipment/"  method="get" class="form_option">
+									<input type="hidden" name="shipment_code" value="<?php echo $row['code'];?>">
+									<input type="hidden" name="shipment_method" value="view">
+									<input class="search_option_result option_view" type="submit" value="">
+								</form>
+								<?php if($row['status'] != "On Hold")
+								{
+								?>
+									<form action=""  method="post"  class="form_option">
+										<input type="hidden" name="shipment_code" value="<?php echo $row['code'];?>">
+										<input type="hidden" name="shipment_method" value="block">
+										<input class="search_option_result option_locked" type="submit" value="">
+									</form>
+								<?php
+								}else{
+									?>
+									<form action=""  method="post"  class="form_option">
+										<input type="hidden" name="shipment_code" value="<?php echo $row['code'];?>">
+										<input type="hidden" name="shipment_method" value="unblock">
+										<input class="search_option_result option_unlocked" type="submit" value="">
+									</form>
+								<?php
+								}
+								?>
+								
+								<!--<form action="" method="POST">
 									<input type="hidden" value="<?php echo $row['id'] ?>" id="id" name="id">
 									<input type="submit" id="view" name="view" value="" style="width: 59px; background-image: url('/image/ver-56-56-02.png'); border-width: 0px; padding-left: 0px; padding-right: 0px; height: 59px; background-color: transparent; cursor: pointer;">
 									<?php if($row['status']!='Block') { ?>
@@ -128,7 +163,7 @@ require('layout/header.php');
 									<?php } elseif ($row['status']=='Block') { ?>
 									<input type="submit" onclick="return confirm(¿Unlock Order?)" id="unlock" name="unlock" value="" style="width: 59px; background-image: url('/image/desbloquear-56-56.png'); border-width: 0px; padding-left: 0px; padding-right: 0px; height: 59px; background-color: transparent; cursor: pointer;">
 									<?php } ?>
-								</form>
+								</form>-->
 							</div>
 						</div>
 						<?php
@@ -185,103 +220,36 @@ require('layout/header.php');
 			</div>
 		</div>
 	</div>
-	<?php } ?>
-	<!-- VIEW SEND ARTICLE ########################################### -->
-
-				<?php if ($type == 'v') { ?>
-			<div style="width: 1440px; display: inline-block; padding-right: 81px; padding-left: 221px; text-align: left;">
-		
-				</div>
-			<table style="border-collapse: collapse; border-color: white; display: inline-block;" border="0px">
-				<tr>
-
-					<td>
-						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-							<p style="float: left; text-align: center; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Code</p>
-							<input type="text" value="	<?php echo $assoc_view['code']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-						</form>
-					</td>
-					<td>
-						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 13px;">Message</p>
-							<input type="text" value="	<?php echo $assoc_view['message']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-						</form>
-					</td>
-
-				</tr>
-				<tr>
-					
-					<td>
-						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 13px;">Status</p>
-							<input type="text" value="	<?php echo $assoc_view['status']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-						</form>
-					</td>
-					<td>
-						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Title</p>
-							<input type="text" value="	<?php echo $assoc_view['title']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-						</form>
-					</td>
-
-				</tr>
-				<tr>
-					<td>
-						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 13px;">Address</p>
-							<input type="text" value="	<?php echo $assoc_view['address']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-						</form>
-					</td>						
-					<td>
-						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Code</p>
-							<input type="text" value="	<?php echo $assoc_view['code']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-						</form>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 13px;">User Send</p>
-							<?php 
-								$query_user_send = mysql_query("SELECT * FROM user WHERE id = '".$assoc_view['id_user_send']."'"); 
-								$assoc_user_send = mysql_fetch_assoc($query_user_send);
-							?>
-							<input type="text" value="	<?php echo $assoc_user_send['username']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-						</form>
-					</td>
-					<td>
-						<form method="post" action="" style="float: right; background-image: url('/image/barra-peq-518-48.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-							<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 13px;">User Recived</p>
-							<?php 
-								$query_user_recived = mysql_query("SELECT * FROM user WHERE id = '".$assoc_view['id_user_recive']."'"); 
-								$assoc_user_recived = mysql_fetch_assoc($query_user_recived);
-							?>
-							<input type="text" value="	<?php echo $assoc_user_recived['username'];?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-						</form>
-					</td>						
-				</tr>
-			</table>
-			<br>
-		<div style="width: 890px; display: inline-block; padding-top: 10px; padding-bottom: 10px;">
-		
-			<div style="clear: both; content: ''; display: table; float: right;">
-				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a href='/shipments/' style='text-decoration: none;'>";?>
-						<img width="50" height="50" src="/image/boton-volver-57-57.png" style="cursor: pointer;">
-						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px; color:white;">Return</p>
-					</a>
-				</div>
-			</div>
-		
-		</div>
-				<?php } ?>
-
-		</div>
+	<div class="options_container_page">
+					<div class="options_frame_page">
+						<div class="option_container_page" >
+							<a href="/">
+								<input class="search_option_result option_back" type="button" name="modify" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
+							</a>
+						</div>
+					</div>
 	</div>
-</div>
-</div>
+	
 
+		
+</div>
+<script>
+	$("#menu_button").click(function() {
+		if($("#menu").hasClass( "menu_open" ))
+		{
+			$("#menu").removeClass( "menu_open" );
+			$("#menu").addClass( "menu_close" );
+		}else{
+			$("#menu").removeClass( "menu_close" );
+			$("#menu").addClass( "menu_open" );
+		}
+	});
+	
+</script>
+<style>
+
+</style>
 <?php 
 //include header template
 require('layout/footer.php');

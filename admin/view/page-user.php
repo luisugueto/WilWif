@@ -1,6 +1,106 @@
 <?php
 require('layout/header.php');
 
+if (isset($_POST['block'])){
+	if(isset($_POST['username']) && !empty($_POST['username']))
+	{
+		
+		$username = $_POST['username'];
+		
+		$user = BlockUser($username);
+			if (is_a($user, 'errorCodes')) {
+				$errors = $user->GetErrors();
+				echo "<p>type Error</p>";
+				foreach($errors as $error)
+				{
+					echo "<p>type Error".$error."</p>";
+				}
+			}else{
+				$username = $user->user_username;
+				$email = $user->user_email;
+				$name = $user->user_name;
+				$status = $user->user_status;
+				$rol = $user->user_rol_slug;
+				$rolcode = $user->user_rol_code;
+			}
+	
+		
+	}else{
+		$error = 'Username is require.';
+	}
+
+}if (isset($_POST['unblock'])){
+if(isset($_POST['username']) && !empty($_POST['username']))
+	{
+		
+		$username = $_POST['username'];
+		
+		$user = UnblockUser($username);
+			if (is_a($user, 'errorCodes')) {
+				$errors = $user->GetErrors();
+				echo "<p>type Error</p>";
+				foreach($errors as $error)
+				{
+					echo "<p>type Error".$error."</p>";
+				}
+			}else{
+				$username = $user->user_username;
+				$email = $user->user_email;
+				$name = $user->user_name;
+				$status = $user->user_status;
+				$rol = $user->user_rol_slug;
+				$rolcode = $user->user_rol_code;
+			}
+	
+		
+	}else{
+		$error = 'Username is require.';
+	}
+}if (isset($_POST['deleted'])){
+
+
+if(isset($_POST['username']) && !empty($_POST['username']))
+	{
+		
+		$username = $_POST['username'];
+		
+		$user = DeletedUser($username);
+			if (is_a($user, 'errorCodes')) {
+				$errors = $user->GetErrors();
+				echo "<p>type Error</p>";
+				foreach($errors as $error)
+				{
+					echo "<p>type Error".$error."</p>";
+				}
+			}else{
+				header('Location: /users/users/');
+			}
+	
+		
+	}else{
+		$error = 'Username is require.';
+	}
+}else if(isset($_GET['username'])){
+	
+	$user = new userInfo($_GET['username']);
+	if(isset($user->user_id))
+	{
+		$username = $user->user_username;
+		$email = $user->user_email;
+		$name = $user->user_name;
+		$status = $user->user_status;
+		$rol = $user->user_rol_slug;
+		$rolcode = $user->user_rol_code;
+		$lastname = 	$user->user_lastname;
+		$security_question = 	$user->user_security_question;
+		$creationDate = $user->user_create_date;
+		$modDate = $user->user_last_mod_date;
+		$user_photo = $user->user_photo;
+	}else{
+		die("User Does Not Exist");
+	}
+}
+
 if(isset($_GET['type']))
 {
 	$id = $_GET['id'];
@@ -23,8 +123,8 @@ if(isset($_GET['type']))
 
 }
 
-$query = mysql_query("SELECT * FROM user WHERE id = '".$_POST['id']."'");
-$assoc = mysql_fetch_assoc($query);
+//$query = mysql_query("SELECT * FROM user WHERE id = '".$_POST['id']."'");
+//$assoc = mysql_fetch_assoc($query);
 ?>
 
 <div id="content">
@@ -34,132 +134,250 @@ $assoc = mysql_fetch_assoc($query);
 		
 		</div>
 		<div class="header_div_3 header_div_home">
-			<h2 class="header_title_1">USER</h2>
+			<h2 class="header_title_1">User</h2>
 		</div>
-		<form class="form_search" method="get" action="" >
-			<p >Search</p>
-			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value">
-		</form>
 	</div>
 </div>
 <div>
 	<div id="menu" class="menu_close">
-	
+		<?php require('layout/menu.php'); ?>
 	</div>
 </div>
 <div id="content_containter">
-	
-	<div class="content_result_div">
-
-<div class="images_holder">
-</div>
-
-	<table style="border-color: white; display: inline-block; " border="0px;">
-				<tr >
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">User Name</p>
-						<input type="text" value="	<?php echo $assoc['username']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr>
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 5px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 13px;">Email</p>
-						<input type="text" value="	<?php echo $assoc['email']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 5px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 13px;">Name</p>
-						<input type="text" value="	<?php echo $assoc['name']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr>
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 5px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">Last Name</p>
-						<input type="text" value="	<?php echo $assoc['lastname']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 5px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 13px;">Status</p>
-						<input type="text" value="	<?php echo $assoc['status']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr>
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 5px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">Security Question</p>
-						<input type="text" value="	<?php echo $assoc['security_question']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr>
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 5px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 13px;">Security</p>
-						<input type="text" value="	<?php echo $assoc['security_answer'] ?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr>
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 5px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">Login Attemps</p>
-						<input type="text" value="	<?php ?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr>
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 5px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">Creation Date</p>
-						<input type="text" value="	<?php echo $assoc['create_date']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr>
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 5px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 0px; color: white; font-size: 18px; margin-top: 5px;">Modification Date</p>
-						<input type="text" value="	<?php echo $assoc['last_mod_date']?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-			</table>
-
-		<div style="width: 890px; display: inline-block; padding-top: 10px; padding-bottom: 10px;">
-		
-			<div style="clear: both; content: ''; display: table; float:right;">
-			<form>
-				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a style='text-decoration: none;' href='/users/'>";?>
-						<img width="50" height="50" src="/image/boton-volver-57-57.png" style="cursor: pointer;">
-						<p style="color: white; width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
-					</a>
-				</div>
-				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a style='text-decoration: none;' href='/users/'>";?>
-						<img width="50" height="50" src="/image/boton-cancelar-57-57.png" style="cursor: pointer;">
-						<p style="color: white; width: 62px; margin-top: 0px; margin-bottom: 0px;">Cancel</p>
-					</a>
-				</div>
-				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a style='text-decoration: none;' href='/users/user/?type=r&id=$assoc[id]'>";?>
-						<img width="50" height="50" src="/image/boton-eliminar-57-57.png" style="cursor: pointer;">
-						<p style="color: white; width: 62px; margin-top: 0px; margin-bottom: 0px;">Remove</p>
-					</a>
-				</div>
-				<?php if ($assoc['status']!='Block') { ?>	
-				
-				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a style='text-decoration: none;' href='/users/user/?type=b&id=$assoc[id]'>";?>
-						<img width="50" height="50" src="/image/boton-bloquear-57-57.png" style="cursor: pointer;">
-						<p style="color: white; width: 62px; margin-top: 0px; margin-bottom: 0px;">Block</p>
-					</a>
-				</div>
-				 <?php } elseif ($assoc['status'] == 'Block') { ?>
-				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a style='text-decoration: none;' href='/users/user/?type=u&id=$assoc[id]'>";?>
-						<img width="50" height="50" src="/image/desbloquear-56-56.png" style="cursor: pointer;">
-						<p style="color: white; width: 62px; margin-top: 0px; margin-bottom: 0px;">Unlock</p>
-					</a>
-				</div>
-				<?php } ?>
-			</div>
+<?php 
+if(isset($error))
+{
+	echo '<p>'.$error.'</p>';
+}
+?>
+<form method="post">
+	<div class="content_chat_div_1">
+		<div  style="display: inline-block;">
+			<div class="images_container">
+						<div class="list_container">
+						<ul id="list_images" class="list_images">
+					
+							<?php if($user_photo)
+								{
+								?>
+									<li>
+										<div style="background: transparent url('http://wilwif.local:86<?php echo $user_photo?>') no-repeat scroll 0% 0% / 100% 100%;"></div>
+									</li>
+								<?php
+								
+								}else{
+									?>
+									<div class="uploader_clasethumb" style="background: transparent url('http://wilwif.local:86/image/No_image_available_125x132.png') no-repeat scroll 0% 0% / 100% 100%;"></div>
+									<?php
+								}
+								?>
+						</ul>
+						</div>
+			</div>	
 		</div>
+			
+				<div >
+					<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="username" class="input_label_form">Username</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="text" name="username" class="input_text_form"  id="username"  value="<?php if(isset($username)){ echo $username; } ?>" <?php if(isset($username)){ echo 'readonly'; } ?> readonly>
+							  </div>
+						 </div>
+					</div>	
+					<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="email" class="input_label_form">Email</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="text" name="email" class="input_text_form"  id="email"   value="<?php if(isset($email)){ echo $email; } ?>" readonly>
+							  </div>
+						 </div>
+					</div>
+					<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="name" class="input_label_form">Name</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="text" name="name" class="input_text_form"  id="name"   value="<?php if(isset($name)){ echo $name; } ?>" readonly>
+							  </div>
+						 </div>
+					</div>
+					<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="item_title" class="input_label_form">Lastname</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="text" name="rolcode" class="input_text_form"  id="name"   value="<?php if(isset($lastname)){ echo $lastname; } ?>" readonly>
+							   </div>
+						 </div>
+					</div>
+					<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="status" class="input_label_form">Status</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="text" name="status" class="input_text_form"  id="status"   value="<?php if(isset($status)){ echo $status; } ?>" readonly>
+							  </div>
+						 </div>
+						</div>
+						<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="status" class="input_label_form">Security Question?</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="text" name="status" class="input_text_form"  id="status"   value="<?php if(isset($security_question)){ echo $security_question; } ?>" readonly>
+							  </div>
+						 </div>
+						</div>
+						<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="status" class="input_label_form">Creation</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="text" name="status" class="input_text_form"  id="status"   value="<?php if(isset($creationDate)){ echo $creationDate; } ?>" readonly>
+							  </div>
+						 </div>
+						</div>
+						<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="status" class="input_label_form">Mod Date</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="text" name="status" class="input_text_form"  id="status"   value="<?php if(isset($modDate)){ echo $modDate; } ?>" readonly>
+							  </div>
+						 </div>
+						</div>
+				</div>
+				</div>
+				<div class="options_container_page">
+					<div class="options_frame_page">
+						<div class="option_container_page" >
+							<a href="/users/users/">
+								<input class="search_option_result option_back" type="button" name="modify" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
+							</a>
+						</div>
+						<?php 
+							if(isset($username))
+							{
+							?>	
+							
+							<div class="option_container_page">
+								<input class="search_option_result option_deleted" type="submit" name="deleted" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Deleted</p>
+							</div>
+							<?php
+							if($status != 'Block')
+							{
+							?>
+							<div class="option_container_page">
+								<input class="search_option_result option_block" type="submit" name="block" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Block</p>
+							</div>
+							<?php
+							}else{
+							?>
+							<div class="option_container_page">
+								<input class="search_option_result option_unblock" type="submit" name="unblock" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Unblock</p>
+							</div>
+							<?php
+							}
+							
+							}
+							?>	
+							
+							
+						
+					</div>
+				</div>
+				</form>
+
+
 
 		</div>
 	</div>
 </div>
+<style>
+.content_chat_div_1{
+	height:auto;
+	padding-top: 90px;
+	padding-bottom: 87px;
+}
+</style>
 
+
+<style>
+
+.list_container{
+	overflow: hidden; 
+	height: 120px;
+	width: 120px;
+}
+.list_images {
+	background-image: url('/image/No_image_available_125x132.png');
+    background-size: 100% 100%;
+	list-style: outside none none;
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+	top: 0px; 
+	bottom: 0px;
+	width: 100%;
+	height: 100%;
+}
+.list_images li {
+	display:block;
+	float:left;
+	position:relative;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	background-color:white;
+	width: 100%;
+	height: 100%;
+}
+.list_images div {
+	margin: 0px;
+	width:100%;
+	height:100%;
+}
+
+
+.images_container{
+	float: left;
+}
+
+.images_holder{
+	clear: both; 
+	content: "";
+	display: table;
+	padding-left: 20px;
+
+}
+
+.images_control{
+  position: relative;
+  top: 75px;
+  height: 30px;
+  margin-top: -32px;
+  z-index: 2;
+  margin-left: -23px;
+  width: 176px;
+}
+
+
+</style>
 <?php 
 //include header template
 require('layout/footer.php');

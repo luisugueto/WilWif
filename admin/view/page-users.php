@@ -1,4 +1,15 @@
 <?php 
+
+if(isset($_POST['employee_method']) &&  isset($_POST['username']))
+{
+	if($_POST['employee_method'] == "blocked")
+	{
+		BlockUser($_POST['username']);
+	}else if($_POST['employee_method'] == "unblocked"){
+		UnblockUser($_POST['username']);
+	}
+}
+
 //include header template
 
 $searchValue = (isset($_GET['s']))?  $_GET['s'] : '';
@@ -6,7 +17,7 @@ if($searchValue =='')
 $searchValue = (isset($_POST['s']))?  $_POST['s'] : '';
 
 $searchValue = ($searchValue == '' )? '':" and (username like '%".$searchValue."%' or email like '%".$searchValue."%' or name like '%".$searchValue."%' )";
-$query = "SELECT * FROM user WHERE rol_id in (select id from rol where code ='001')".$searchValue;
+$query = "SELECT * FROM user WHERE status !='Erased' and rol_id in (select id from rol where code ='001')".$searchValue;
  
 $sql = mysql_query($query);
 $sql_assoc = mysql_fetch_assoc($sql);
@@ -47,7 +58,7 @@ require('layout/header.php');
 </div>
 <div>
 	<div id="menu" class="menu_close">
-	
+		<?php require('layout/menu.php'); ?>
 	</div>
 </div>
 <div id="content_containter">
@@ -94,12 +105,30 @@ require('layout/header.php');
 								<?php echo $row['status']; ?>
 							</div>
 							<div class="row_column_result header_column_1_5  column_cel_1_3">
-								<form action="/users/user" method="post">
-								<input type="hidden" value="<?php echo $row['id']; ?>" name="id" id="id">
-								<input class="btn btn-primary" type="submit" id="view" name="view" value="" style="background:url('/image/ver-56-56-02.png'); width: 60px; height: 60px; border: 0px">
-								</form>
+								<form action="/users/user/" method="get" class="form_option">
+								<input type="hidden" value="<?php echo $row['username']; ?>" name="username" id="id">
+									<input class="search_option_result option_view" type="submit" value="">
+									</form>
+								<?php if($row['status'] != "Block")
+								{
+								?>
+									<form action=""  method="post"  class="form_option">
+										<input type="hidden" name="username" value="<?php echo $row['username'];?>">
+										<input type="hidden" name="employee_method" value="blocked">
+										<input class="search_option_result option_locked" type="submit" value="">
+									</form>
+								<?php
+								}else{
+									?>
+									<form action=""  method="post"  class="form_option">
+										<input type="hidden" name="username" value="<?php echo $row['username'];?>">
+										<input type="hidden" name="employee_method" value="unblocked">
+										<input class="search_option_result option_unlocked" type="submit" value="">
+									</form>
+								<?php
+								}
+								?>
 							</div>
-
 						</div>
 						<?php
 					}
@@ -155,8 +184,22 @@ require('layout/header.php');
 			</div>
 		</div>
 	</div>
+	<div class="options_container_page">
+					<div class="options_frame_page">
+						<div class="option_container_page" >
+							<a href="/">
+								<input class="search_option_result option_back" type="button" name="modify" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
+							</a>
+						</div>
+					</div>
+	</div>
 </div>
 </div>
+
+<style>
+
+</style>
 <?php 
 //include header template
 require('layout/footer.php');

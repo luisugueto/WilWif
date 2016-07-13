@@ -1,4 +1,15 @@
 <?php 
+if(isset($_POST['employee_method']) &&  isset($_POST['username']))
+{
+	if($_POST['employee_method'] == "blocked")
+	{
+		BlockUser($_POST['username']);
+	}else if($_POST['employee_method'] == "unblocked"){
+		UnblockUser($_POST['username']);
+	}
+}
+
+
 //include header template
 
 $searchValue = (isset($_GET['s']))?  $_GET['s'] : '';
@@ -6,7 +17,7 @@ if($searchValue =='')
 $searchValue = (isset($_POST['s']))?  $_POST['s'] : '';
 
 $searchValue = ($searchValue == '' )? '':" and (username like '%".$searchValue."%' or email like '%".$searchValue."%' or name like '%".$searchValue."%' )";
-$query = "SELECT * FROM user WHERE rol_id in (select id from rol where code !='001' )".$searchValue; // and code !='010'
+$query = "SELECT * FROM user WHERE status!='Erased' and rol_id in (select id from rol where code !='001' )".$searchValue; // and code !='010'
  
 $sql = mysql_query($query);
 $sql_assoc = mysql_fetch_assoc($sql);
@@ -17,12 +28,9 @@ $totalpages = ceil($total/$nrows);
 $page = isset($_POST['page'])? $_POST['page']:1;
 ######### PAGINACION ###############
 
-
 $query .= " LIMIT ".((($page*$nrows)-($nrows-1))-1).", ".$nrows;
 $sql = mysql_query($query);
 $records = mysql_num_rows($sql);
-
-
 
 ############################################
 
@@ -99,20 +107,20 @@ require('layout/header.php');
 								<input class="search_option_result option_view" type="submit" id="view" name="view" value="">
 								</form>
 								
-								<?php if($row['status'] != "Locked")
+								<?php if($row['status'] != "Block")
 								{
 								?>
 									<form action=""  method="post"  class="form_option">
-										<input type="hidden" name="employee_username" value="<?php echo $row['code'];?>">
-										<input type="hidden" name="employee_method" value="locked">
+										<input type="hidden" name="username" value="<?php echo $row['username'];?>">
+										<input type="hidden" name="employee_method" value="blocked">
 										<input class="search_option_result option_locked" type="submit" value="">
 									</form>
 								<?php
 								}else{
 									?>
 									<form action=""  method="post"  class="form_option">
-										<input type="hidden" name="employee_code" value="<?php echo $row['code'];?>">
-										<input type="hidden" name="employee_method" value="unlocked">
+										<input type="hidden" name="username" value="<?php echo $row['username'];?>">
+										<input type="hidden" name="employee_method" value="unblocked">
 										<input class="search_option_result option_unlocked" type="submit" value="">
 									</form>
 								<?php
@@ -173,6 +181,16 @@ require('layout/header.php');
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="options_container_page">
+					<div class="options_frame_page">
+						<div class="option_container_page" >
+							<a href="/">
+								<input class="search_option_result option_back" type="button" name="modify" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
+							</a>
+						</div>
+					</div>
 	</div>
 </div>
 </div>

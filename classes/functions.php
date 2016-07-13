@@ -35,12 +35,12 @@ function CreatePassword()
 
 function CreateCode()
 {
-	$code = date("Y").'-'.date('m').date('d').'-';
+	/*$code = date("Y").'-'.date('m').date('d').'-';*/
 	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZZZ';
-	for ($i = 0; $i < 8; $i++) 
+	for ($i = 0; $i < 9; $i++) 
 	{
 		$code = $code.$characters[rand(0, strlen($characters)-2)];
-		if($i == 3)
+		if($i == 3 ||$i == 6 )
 		{
 			$code = $code.'-';
 		}
@@ -323,6 +323,61 @@ function ModifyItem($item_code,$item_name, $item_title, $item_description, $item
 	return $item;
  }
  
+ function UnblockItem($item_code)
+ {
+	$item = new item($item_code);
+	$item_id = $item->item_id;
+	$sql = "UPDATE item SET";
+	$sql = $sql." status = 'Active'";
+	$sql = $sql.", last_mod_date = NOW()";
+	$sql = $sql." WHERE id=".$item_id; 
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	$errorCode = new errorCodes();
+	if (!$query) {
+		$errorCode->AddError('item',mysql_error());
+		$errorCode->AddError('item_sql',$sql);
+		return $errorCode;
+    }	
+	return true;
+}
+
+function BlockItem($item_code)
+ {
+	$item = new item($item_code);
+	$item_id = $item->item_id;
+	$sql = "UPDATE item SET";
+	$sql = $sql." status = 'Block'";
+	$sql = $sql.", last_mod_date = NOW()";
+	$sql = $sql." WHERE id=".$item_id; 
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	$errorCode = new errorCodes();
+	if (!$query) {
+		$errorCode->AddError('item',mysql_error());
+		$errorCode->AddError('item_sql',$sql);
+		return $errorCode;
+    }	
+	return true;
+}
+
+ function ModifyStatusItem($item_code,$status)
+ {
+	$item = new item($item_code);
+	$item_id = $item->item_id;
+	$sql = "UPDATE item SET";
+	$sql = $sql." status = '".$status."'";
+	$sql = $sql.", last_mod_date = NOW()";
+	$sql = $sql." WHERE id=".$item_id; 
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	$errorCode = new errorCodes();
+	if (!$query) {
+		$errorCode->AddError('item',mysql_error());
+		$errorCode->AddError('item_sql',$sql);
+		return $errorCode;
+    }	
+	return true;
+}
+
+
  function DeleteItem($item_code)
  {
 	$item = new item($item_code);
@@ -360,7 +415,7 @@ function CreateOrder($order_code, $order_item_id, $order_message,
 	
 	$order_code = CreateCode();
 	/*Safe the item in the DB*/
-	$sql =  'INSERT INTO order (';
+	$sql =  'INSERT INTO `order` (';
 	$sql =  $sql. 'code' ;
 	$sql =  $sql. ',id_item' ;
 	$sql =  $sql. ',status' ;
@@ -404,7 +459,7 @@ function ModifyOrder($order_code,$order_name,$order_message,$order_title,$order_
 	$order = new order($order_code);
 	$order_id = $order->order_id;
 		
-	$sql = "UPDATE order SET";
+	$sql = "UPDATE `order` SET";
 	$sql = $sql." status = '".$order_name."'";
 	$sql = $sql.", message = '".$order_message."'";
 	$sql = $sql.", title = '".$order_title."'";
@@ -426,11 +481,66 @@ function ModifyOrder($order_code,$order_name,$order_message,$order_title,$order_
 	return $order;
 }
 
+function BlockOrder($order_code)
+ {
+	$order = new order($order_code);
+	$order_id = $order->order_id;
+	$sql = "UPDATE `order` SET";
+	$sql = $sql." status = 'On Hold'";
+	$sql = $sql.", last_mod_date = NOW()";
+	$sql = $sql." WHERE id=".$order_id; 
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	$errorCode = new errorCodes();
+	if (!$query) {
+		$errorCode->AddError('order',mysql_error());
+		$errorCode->AddError('order_sql',$sql);
+		return $errorCode;
+    }	
+	return true;
+}
+
+function UnblockOrder($order_code)
+ {
+	$order = new order($order_code);
+	$order_id = $order->order_id;
+	$sql = "UPDATE `order` SET";
+	$sql = $sql." status = 'On way'";
+	$sql = $sql.", last_mod_date = NOW()";
+	$sql = $sql." WHERE id=".$order_id; 
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	$errorCode = new errorCodes();
+	if (!$query) {
+		$errorCode->AddError('order',mysql_error());
+		$errorCode->AddError('order_sql',$sql);
+		return $errorCode;
+    }	
+	return true;
+}
+
+
+function ModifyStatusOrder($order_code,$status)
+ {
+	$order = new order($order_code);
+	$order_id = $order->order_id;
+	$sql = "UPDATE `order` SET";
+	$sql = $sql." status = '".$status."'";
+	$sql = $sql.", last_mod_date = NOW()";
+	$sql = $sql." WHERE id=".$order_id; 
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	$errorCode = new errorCodes();
+	if (!$query) {
+		$errorCode->AddError('order',mysql_error());
+		$errorCode->AddError('order_id_sql',$sql);
+		return $errorCode;
+    }	
+	return true;
+}
+
 function DeleteOrder($order_code)
  {
 	$order = new order($order_code);
 	$order_id = $order->order_id;
-	$sql = "UPDATE order SET";
+	$sql = "UPDATE `order` SET";
 	$sql = $sql." status = 'Erased'";
 	$sql = $sql.", last_mod_date = NOW()";
 	$sql = $sql." WHERE id=".$order_id; 
@@ -534,6 +644,60 @@ function ModifyShipment($shipment_code,$shipment_name,$shipment_message,$shipmen
 	
 	$shipment = new shipment($shipment_code);
 	return $shipment;
+}
+
+function BlockShipment($shipment_code)
+ {
+	$shipment = new shipment($shipment_code);
+	$shipment_id = $shipment->shipment_id;
+	$sql = "UPDATE submit SET";
+	$sql = $sql." status = 'On Hold'";
+	$sql = $sql.", last_mod_date = NOW()";
+	$sql = $sql." WHERE id=".$shipment_id; 
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	$errorCode = new errorCodes();
+	if (!$query) {
+		$errorCode->AddError('shipment',mysql_error());
+		$errorCode->AddError('shipment_sql',$sql);
+		return $errorCode;
+    }	
+	return true;
+}
+
+function UnblockShipment($shipment_code)
+ {
+	$shipment = new shipment($shipment_code);
+	$shipment_id = $shipment->shipment_id;
+	$sql = "UPDATE submit SET";
+	$sql = $sql." status = 'On way'";
+	$sql = $sql.", last_mod_date = NOW()";
+	$sql = $sql." WHERE id=".$shipment_id; 
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	$errorCode = new errorCodes();
+	if (!$query) {
+		$errorCode->AddError('shipment',mysql_error());
+		$errorCode->AddError('shipment_sql',$sql);
+		return $errorCode;
+    }	
+	return true;
+}
+
+function ModifyStatusShipment($shipment_code,$status)
+ {
+	$shipment = new shipment($shipment_code);
+	$shipment_id = $shipment->shipment_id;
+	$sql = "UPDATE submit SET";
+	$sql = $sql." status = '".$status."'";
+	$sql = $sql.", last_mod_date = NOW()";
+	$sql = $sql." WHERE id=".$shipment_id; 
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	$errorCode = new errorCodes();
+	if (!$query) {
+		$errorCode->AddError('shipment',mysql_error());
+		$errorCode->AddError('shipment_sql',$sql);
+		return $errorCode;
+    }	
+	return true;
 }
 
 function DeleteShipment($shipment_code)
