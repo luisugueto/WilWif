@@ -18,7 +18,20 @@ function UserAction()
 	return true;
 
 }
-
+function CreatePassword()
+{
+	$password = "";
+	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZZZ';
+	for ($i = 0; $i < 8; $i++) 
+	{
+		$password = $password.$characters[rand(0, strlen($characters)-2)];
+		if($i == 3)
+		{
+			$password = $password.'-';
+		}
+	}
+	return $password;	
+}
 
 function CreateCode()
 {
@@ -52,6 +65,133 @@ function CreateCode()
 	$errorCode->AddError('item_sql',$history);
 		return $errorCode;
 	}
+}
+
+function CreateUser($username,$password,$email,$name,$lastname,$rol_id,$security_question,$security_answer)
+{
+	$query =  'INSERT INTO user (';
+	$query =  $query. 'username' ;
+	$query =  $query. ',password' ;
+	$query =  $query. ',email' ;
+	$query =  $query. ',name' ;
+	$query =  $query. ',lastname' ;
+	$query =  $query. ',rol_id' ;
+	$query =  $query. ',status' ;
+	$query =  $query. ',security_question' ;
+	$query =  $query. ',security_answer' ;
+	$query =  $query. ',create_date' ;
+	$query =  $query. ',last_mod_date' ;
+	$query =  $query. ')' ;
+	$query =  $query. ' VALUES (' ;
+	$query =  $query. ' "'.$username.'"' ;
+	$query =  $query. ',"'.$password.'"' ;
+	$query =  $query. ',"'.$email.'"' ;
+	$query =  $query. ',"'.$name.'"' ;
+	$query =  $query. ',"'.$lastname.'"' ;
+	$query =  $query. ','.$rol_id.'' ;
+	$query =  $query. ',"Active"' ;
+	$query =  $query. ',"'.$security_question.'"' ;
+	$query =  $query. ',"'.$security_answer.'"' ;
+	$query =  $query. ',NOW()' ;
+	$query =  $query. ',NOW()' ;
+	$query =  $query. ')' ;
+	
+	$sql = mysql_query($query);
+	
+	$errorCode = new errorCodes();
+	if (!$sql) {
+		$errorCode->AddError('user',mysql_error());
+		$errorCode->AddError('user_sql',$query);
+		return $errorCode;
+    }
+	$user = new userInfo($username);
+	return $user;
+}
+
+function DeletedUser($username)
+{
+	$query = "UPDATE user SET";
+	$query = $query." status = 'Erased'";
+	$query = $query.", last_mod_date = NOW()";
+	$query = $query." WHERE username ='".$username."'"; 
+		
+	$sql = mysql_query($query)or die('error at try to access data' . mysql_error());
+	
+	$errorCode = new errorCodes();
+	if (!$sql) {
+		$errorCode->AddError('user',mysql_error());
+		$errorCode->AddError('user_sql',$query);
+		return $errorCode;
+    }
+
+	$user = new userInfo($username);
+	return $user;
+}
+
+
+function BlockUser($username)
+{
+	$query = "UPDATE user SET";
+	$query = $query." status = 'Block'";
+	$query = $query.", last_mod_date = NOW()";
+	$query = $query." WHERE username ='".$username."'"; 
+		
+	$sql = mysql_query($query)or die('error at try to access data' . mysql_error());
+	
+	$errorCode = new errorCodes();
+	if (!$sql) {
+		$errorCode->AddError('user',mysql_error());
+		$errorCode->AddError('user_sql',$query);
+		return $errorCode;
+    }
+
+	$user = new userInfo($username);
+	return $user;
+}
+
+function UnblockUser($username)
+{
+	$query = "UPDATE user SET";
+	$query = $query." status ='Active'";
+	$query = $query.", last_mod_date = NOW()";
+	$query = $query." WHERE username ='".$username."'"; 
+		
+	$sql = mysql_query($query)or die('error at try to access data' . mysql_error());
+	
+	$errorCode = new errorCodes();
+	if (!$sql) {
+		$errorCode->AddError('user',mysql_error());
+		$errorCode->AddError('user_sql',$query);
+		return $errorCode;
+    }
+
+	$user = new userInfo($username);
+	return $user;
+}
+
+function ModifyUser($username,$email,$name,$lastname,$rol_id,$security_question,$security_answer)
+{
+	$query = "UPDATE user SET";
+	$query = $query." name = '".$name."'";
+	$query = $query.", lastname = '".$lastname."'";
+	$query = $query.", rol_id = '".$rol_id."'";
+	$query = $query.", security_question = '".$security_question."'";
+	$query = $query.", security_answer = '".$security_answer."'";
+	$query = $query.", email = '".$email."'";
+	$query = $query.", last_mod_date = NOW()";
+	$query = $query." WHERE username ='".$username."'"; 
+		
+	$sql = mysql_query($query)or die('error at try to access data' . mysql_error());
+	
+	$errorCode = new errorCodes();
+	if (!$sql) {
+		$errorCode->AddError('user',mysql_error());
+		$errorCode->AddError('user_sql',$query);
+		return $errorCode;
+    }
+
+	$user = new userInfo($username);
+	return $user;
 }
 
 function CreateItem($item_name, $item_title, $item_description, $item_country,
@@ -142,41 +282,41 @@ function ModifyItem($item_code,$item_name, $item_title, $item_description, $item
 	$item = new item($item_code);
 	$item_id = $item->item_id;
 		
-	$sql = "UPDATE item SET";
-	$sql = $sql." name = '".$item_name."'";
-	$sql = $sql.", description = '".$item_description."'";
-	$sql = $sql.", title = '".$item_title."'";
-	$sql = $sql.", findlost_address = '".$item_address."'";
-	$sql = $sql.", type = '".$item_type."'";
-	$sql = $sql.", id_category = ".$item_category."";
-	$sql = $sql.", country = '".$item_country."'";
-	$sql = $sql.", city = '".$item_city."'";
-	$sql = $sql.", last_mod_date = NOW()";
-	$sql = $sql." WHERE id=".$item_id; 
+	$query = "UPDATE item SET";
+	$query = $query." name = '".$item_name."'";
+	$query = $query.", description = '".$item_description."'";
+	$query = $query.", title = '".$item_title."'";
+	$query = $query.", findlost_address = '".$item_address."'";
+	$query = $query.", type = '".$item_type."'";
+	$query = $query.", id_category = ".$item_category."";
+	$query = $query.", country = '".$item_country."'";
+	$query = $query.", city = '".$item_city."'";
+	$query = $query.", last_mod_date = NOW()";
+	$query = $query." WHERE id=".$item_id; 
 		
-	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	$sql = mysql_query($query)or die('error at try to access data' . mysql_error());
 	
 	$errorCode = new errorCodes();
-	if (!$query) {
+	if (!$sql) {
 		$errorCode->AddError('item',mysql_error());
-		$errorCode->AddError('item_sql',$sql);
+		$errorCode->AddError('item_sql',$query);
 		return $errorCode;
     }	
 	
-	$sql = "DELETE FROM item_photo WHERE id_item =".$item_id; 
-	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	$query = "DELETE FROM item_photo WHERE id_item =".$item_id; 
+	$sql = mysql_query($query)or die('error at try to access data' . mysql_error());
 		
 	for ($i = 0; $i < count($imgs_path); $i++) 
 	{
-		$sql =  'INSERT INTO item_photo (';
-		$sql =  $sql. 'path' ;
-		$sql =  $sql. ',id_item' ;
-		$sql =  $sql. ')' ;
-		$sql =  $sql. ' VALUES (' ;
-		$sql =  $sql. ''.$imgs_path[$i].'' ;
-		$sql =  $sql. ','.$item_id.'' ;
-		$sql =  $sql. ')' ;
-		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());;
+		$query =  'INSERT INTO item_photo (';
+		$query =  $query. 'path' ;
+		$query =  $query. ',id_item' ;
+		$query =  $query. ')' ;
+		$query =  $query. ' VALUES (' ;
+		$query =  $query. ''.$imgs_path[$i].'' ;
+		$query =  $query. ','.$item_id.'' ;
+		$query =  $query. ')' ;
+		$sql = mysql_query($query)or die('error at try to access data' . mysql_error());;
 	}
 	
 	$item = new item($item_code);

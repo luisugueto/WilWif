@@ -1,27 +1,28 @@
 <?php 
 class userInfo{
-	$user_id;
-	$user_email;
-	$user_username;
-	$user_name;
-	$user_lastname;
-	$user_rol;
-	$user_status;
-	$user_security_question;
-	$user_blocked;
-	$user_login_attemps;
-	$user_create_date;
-	$user_last_mod_date;
+	public $user_id;
+	public $user_email;
+	public $user_username;
+	public $user_name;
+	public $user_lastname;
+	public $user_status;
+	public $user_security_question;
+	public $user_blocked;
+	public $user_login_attemps;
+	public $user_create_date;
+	public $user_last_mod_date;
+	public $user_rol_code;
+	public $user_rol_slug;
 	
 	function __construct($user_username_,$especial = false) 
 	{
 		if($especial)
 		{
-			$sql = 'SELECT * FROM user where username ="'.$order_code_.'" ';
+			$sql = 'SELECT * FROM user where username ="'.$user_username_.'" ';
 		
 		}else
 		{
-			$sql = 'SELECT * FROM user where username ="'.$order_code_.'" and status !="Erased"';
+			$sql = 'SELECT * FROM user where username ="'.$user_username_.'" and status !="Erased"';
 		
 		}
 		$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
@@ -29,7 +30,7 @@ class userInfo{
 		{
 			$this->user_id = $row["id"];
 			$this->user_username = $row["username"];
-			$this->user_email = new item($row["email"]);
+			$this->user_email = $row["email"];
 			$this->user_name = $row["name"];
 			$this->user_lastname = $row["lastname"];
 			$this->user_status= $row["status"]; 
@@ -39,12 +40,13 @@ class userInfo{
 			$this->user_create_date = $row["create_date"];
 			$this->user_last_mod_date = $row["last_mod_date"];
 			
-			$this->user_rol = $row["rol_id"];
-			$sql = 'SELECT slug FROM user where id ='.$this->user_rol.'';
+			$this->user_rol_code = $row["rol_id"];
+			$sql = 'SELECT slug,code FROM rol where id ='.$this->user_rol_code.'';
 			$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
 			if($row2 = mysql_fetch_assoc($query))
 			{
-				$this->user_rol = $row2["slug"];
+				$this->user_rol_slug = $row2["slug"];
+				$this->user_rol_code = $row2["code"];
 			}
 		}	
 	

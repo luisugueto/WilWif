@@ -8,12 +8,12 @@ class errorCodes{
 	
 	public function AddError($errorCode,$errorMessage)
 	{
-		$error[$errorCode] = $errorMessage;
+		array_push($this->errors,$errorCode. $errorMessage);
 	}
 	
 	public function GetErrors()
 	{
-		return $errors;
+		return $this->errors;
 	}
 	
 	public function GetError($errorCode)
