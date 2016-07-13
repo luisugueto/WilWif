@@ -55,6 +55,22 @@ if(isset($_POST['submit'])){
 			alert('Usuario Registrado.');
 		</script>";
 		$mensaje[] = "Registro Exitoso";
+		
+		$username = htmlentities($_POST['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+		$password = md5($_POST['password']);	
+		if (!ereg("^[a-zA-Z0-9\-_]{3,20}$", $username)) { 
+		$error[] = 'El nombre de usuario tiene caracteres no validos';
+		} else {
+	
+		if($db->login($username,$password)){ 
+			$_SESSION['username'] = $username;
+			header('Location: /account');
+			exit;
+	
+		} else {
+			$error[] = 'Usuario o Password no ha sido activada.';
+		}
+	} 
 	}
 }
 
@@ -84,7 +100,7 @@ require('layout/header.php');
 <div id="content_containter">
 	<div class="content_div_1">
 		<div class="div_inline-block">
-		<form>
+		<form method="post" action="">
 		<table style="border-color: white; display: inline-block; " border="0px;">
 				<tr >
 					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
