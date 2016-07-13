@@ -3,6 +3,10 @@ require('../includes/config.php');
 require('../classes/db.php');
 require('../classes/item.php');
 require('../classes/functions.php');
+require('../classes/userInfo.php');
+require('../classes/shipment.php');
+require('../classes/errorCode.php');
+require('../classes/order.php');
 $debug =true;
 
 if(!$debug)
@@ -203,7 +207,11 @@ switch ($path){
 		}else{
 		 $secundary_path = "";
 		}
-		switch ($secundary_path){	
+		switch ($secundary_path){
+			case 'view':
+				include 'view/page-chat-view.php';	
+				break;
+				
 			case 'chat':
 				include 'view/page-chat-chat.php';	
 				break;
