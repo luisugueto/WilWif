@@ -21,14 +21,7 @@ if(isset($_POST['submit'])){
 		alert('If your mail and user name is correct. To reach a message to the mail');
 	</script>";
 		SendMail($assoc['email'], 'Recovery Password', '<html><h3 style="color: red">Your new password is: "'.$newPassword.'"</h3></html>');
-		if($db->login($username,$password)){ 
-			$_SESSION['username'] = $username;
-			header('Location: /account');
-			exit;
-	
-		} else {
-			$error[] = 'Error.';
-		}
+		header('Location: /login/');
 }//end if submit
 
 //define page title
