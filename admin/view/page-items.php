@@ -43,7 +43,7 @@ elseif(isset($_POST['unlock'])){
 		
 		</div>
 		<div class="header_div_3 header_div_item">
-			<h1 class="header_title_1">ITEMS</h1>
+			<h1 class="header_title_1">Items</h1>
 		</div>
 	</div>
 </div>

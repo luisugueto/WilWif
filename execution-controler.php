@@ -20,6 +20,9 @@ switch ($path){
 	 case 'zuaruchat':
 	   include 'includes/zuaruchat.php';
 	break;
+	case 'report':
+	   include 'includes/createreport.php';
+	break;
 	default:
 	 die("Access denied");
 	break;

@@ -9,7 +9,7 @@ require('layout/header.php');
 		
 		</div>
 		<div class="header_div_3 header_div_home">
-			<h1 class="header_title_1">HOME</h1>
+			<h1 class="header_title_1">Home</h1>
 		</div>
 	</div>
 </div>
@@ -21,15 +21,7 @@ require('layout/header.php');
 <div id="content_containter">
 	<div class="content_div_1">
 		<div class="div_inline-block">
-			<div class="home_option">
-				<a href="/configurations/" title="Configurations">
-					<div id="home_config_div" class="home_div">
-					</div>
-				</a>
-				<div>
-					<h2 class="margin_top_0">Configurations</h2>
-				</div>
-			</div>
+			
 			<div class="home_option">
 				<a href="/chats/" title="Chats">
 					<div id="home_chat_div" class="home_div">
@@ -48,28 +40,7 @@ require('layout/header.php');
 					<h2 class="margin_top_0">Employees</h2>
 				</div>
 			</div>
-			<div class="home_option">
-				<a href="/statistics/" title="Stadistics">
-					<div id="home_stadistic_div" class="home_div">
-					</div>
-				</a>
-				<div>
-					<h2 class="margin_top_0">Stadistics</h2>
-				</div>
-			</div>
-			<div class="home_option">
-				<a href="/records/" title="Record">
-					<div id="home_record_div" class="home_div">
-					</div>
-				</a>
-				<div>
-					<h2 class="margin_top_0">Record</h2>
-				</div>
-			</div>
-			
-			
-			
-			<div class="home_option">
+				<div class="home_option">
 				<a href="/items/" title="Items">
 					<div id="home_item_div" class="home_div">
 					</div>
@@ -78,15 +49,7 @@ require('layout/header.php');
 					<h2 class="margin_top_0">Items</h2>
 				</div>
 			</div>
-			<div class="home_option">
-				<a href="/shipments/" title="Shipments">
-					<div id="home_shipment_div" class="home_div">
-					</div>
-				</a>
-				<div>
-					<h2 class="margin_top_0">Shipments</h2>
-				</div>
-			</div>
+			
 			<div class="home_option">
 				<a href="/notifications/" title="Notifications">
 					<div id="home_notification_div" class="home_div">
@@ -105,6 +68,30 @@ require('layout/header.php');
 					<h2 class="margin_top_0">Orders</h2>
 				</div>
 			</div>
+			<div class="home_option">
+				<a href="/records/" title="Record">
+					<div id="home_record_div" class="home_div">
+					</div>
+				</a>
+				<div>
+					<h2 class="margin_top_0">Record</h2>
+				</div>
+			</div>
+			
+			
+			
+		
+			<div class="home_option">
+				<a href="/shipments/" title="Shipments">
+					<div id="home_shipment_div" class="home_div">
+					</div>
+				</a>
+				<div>
+					<h2 class="margin_top_0">Shipments</h2>
+				</div>
+			</div>
+			
+			
 			<div class="home_option">
 				<a href="/users/" title="Users">
 					<div id="home_user_div" class="home_div">

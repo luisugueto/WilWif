@@ -6,7 +6,7 @@ if($searchValue =='')
 $searchValue = (isset($_POST['s']))?  $_POST['s'] : '';
 
 $searchValue = ($searchValue == '' )? '':"WHERE message like '%".$searchValue."%' or status like '%".$searchValue."%'";
-$query = "SELECT * FROM notifications ".$searchValue;
+$query = "SELECT * FROM notification ".$searchValue;
 
 $sql = mysql_query($query);
 $sql_assoc = mysql_fetch_assoc($sql);
@@ -18,7 +18,7 @@ $page = isset($_POST['page'])? $_POST['page']:1;
 ######### PAGINACION ###############
 
 
-$query .= " LIMIT ".((($page*$nrows)-($nrows-1))-1).", ".$nrows;
+$query .= " LIMIT ".((($page*$nrows)-($nrows-1))-1).", ".$nrows.'';
 $sql = mysql_query($query);
 $records = mysql_num_rows($sql);
 
@@ -34,7 +34,7 @@ require('layout/header.php');
 		
 		</div>
 		<div class="header_div_3 header_div_home">
-			<h2 class="header_title_1">NOTIFICATIONS</h2>
+			<h2 class="header_title_1">Notifications</h2>
 		</div>
 		<form class="form_search" method="get" action="" >
 			<p >Search</p>
@@ -44,7 +44,7 @@ require('layout/header.php');
 </div>
 <div>
 	<div id="menu" class="menu_close">
-	
+		<?php require('layout/menu.php'); ?>
 	</div>
 </div>
 <div id="content_containter">
@@ -54,19 +54,19 @@ require('layout/header.php');
 				<div class="header_container">
 				<div class="header_container_result">
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						USER
+						User
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						MESSAGE
+						Message
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						STATUS
+						Status
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_no_display">
-						CREATE DATE
+						Create Date
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						OPTIONS
+						Options
 					</div>
 				</div>
 				</div>
@@ -94,7 +94,10 @@ require('layout/header.php');
 								<?php echo $row['create_date']; ?>
 							</div>
 							<div class="row_column_result header_column_1_5  column_cel_1_3">
-								x
+								<form action="/notifications/notification/" method="get" class="form_option">
+								<input type="hidden" value="<?php echo $row['id']; ?>" name="notification_id" id="id">
+								<input class="search_option_result option_view" type="submit" id="view" name="view" value="">
+								</form>
 							</div>
 						</div>
 						<?php
@@ -114,7 +117,7 @@ require('layout/header.php');
 									<form action="" method="post">
 										<input type="hidden" name="page" value=1>
 										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
-										<input submit class="page_index" value ="1.">
+										<input type="submit" class="page_index" value ="1.">
 									</form>
 								<?php
 							}

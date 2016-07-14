@@ -48,7 +48,7 @@ require('layout/header.php');
 		
 		</div>
 		<div class="header_div_3 header_div_home">
-			<h2 class="header_title_1">USERS</h2>
+			<h2 class="header_title_1">Users</h2>
 		</div>
 		<form class="form_search" method="get" action="" >
 			<p >Search</p>
@@ -69,19 +69,19 @@ require('layout/header.php');
 				<div class="header_container">
 				<div class="header_container_result">
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						USERNAME
+						Username
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						E-MAIL
+						E-mail
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_no_display">
-						NAME
+						Name
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_no_display">
-						STATUS
+						Status
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						OPTIONS
+						Options
 					</div>
 				</div>
 				</div>
@@ -108,6 +108,10 @@ require('layout/header.php');
 								<form action="/users/user/" method="get" class="form_option">
 								<input type="hidden" value="<?php echo $row['username']; ?>" name="username" id="id">
 									<input class="search_option_result option_view" type="submit" value="">
+									</form>
+								<form action="/notifications/notification/" method="get" class="form_option">
+								<input type="hidden" value="<?php echo $row['username']; ?>" name="username" id="id">
+									<input class="search_option_result option_msg" type="submit" value="">
 									</form>
 								<?php if($row['status'] != "Block")
 								{

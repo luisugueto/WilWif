@@ -37,7 +37,7 @@ $records = mysql_num_rows($sql);
 		
 		</div>
 		<div class="header_div_3 header_div_home">
-			<h2 class="header_title_1">Online Users</h2>
+			<h2 class="header_title_1">Users Online</h2>
 		</div>
 		<form class="form_search" method="get" action="/chats/users/" >
 			<p >Search</p>
@@ -118,7 +118,7 @@ $records = mysql_num_rows($sql);
 									<form action="" method="post">
 										<input type="hidden" name="page" value=1>
 										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
-										<input submit class="page_index" value ="1.">
+										<input type="submit" class="page_index" value ="1.">
 									</form>
 								<?php
 							}

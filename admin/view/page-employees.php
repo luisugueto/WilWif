@@ -45,7 +45,7 @@ require('layout/header.php');
 		
 		</div>
 		<div class="header_div_3 header_div_home">
-			<h2 class="header_title_1">EMPLOYEES</h2>
+			<h2 class="header_title_1">Employees</h2>
 		</div>
 		<form class="form_search" method="get" action="" >
 			<p >Search</p>
@@ -66,19 +66,19 @@ require('layout/header.php');
 				<div class="header_container">
 				<div class="header_container_result">
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						USERNAME
+						Username
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						E-MAIL
+						E-mail
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_no_display">
-						NAME
+						Name
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_no_display">
-						STATUS
+						Status
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						OPTIONS
+						Options
 					</div>
 				</div>
 				</div>
@@ -145,7 +145,7 @@ require('layout/header.php');
 									<form action="" method="post">
 										<input type="hidden" name="page" value=1>
 										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
-										<input submit class="page_index" value ="1.">
+										<input type="submit" class="page_index" value ="1.">
 									</form>
 								<?php
 							}
@@ -190,7 +190,14 @@ require('layout/header.php');
 								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
 							</a>
 						</div>
+						<div class="option_container_page" >
+							<a href="/employees/employee/">
+								<input class="search_option_result option_add" type="button" name="add" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Add</p>
+							</a>
+						</div>
 					</div>
+					
 	</div>
 </div>
 </div>

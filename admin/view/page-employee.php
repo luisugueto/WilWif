@@ -148,6 +148,7 @@ if(isset($_POST['username']) && !empty($_POST['username']))
 		$username = $_POST['username'];
 		$password2 = CreatePassword();
 		$password =  md5($password2);
+		
 		if(!isset($_POST['email']) || empty($_POST['email']))
 		{
 			$error = 'Email is require.';
@@ -188,6 +189,8 @@ if(isset($_POST['username']) && !empty($_POST['username']))
 					echo "<p>type Error".$error."</p>";
 				}
 			}else{
+				$message = '<div><p>Account:'.$username.'</p><p>Password:'.$password2.'</p><p>Click <a href="'.$GLOBALS['configuration']->getOption('domainadmin').'">Here</a> to go to the page</p></div>';
+				SendMail($email,'Welcome to Wilwif', $message);
 				$username = $user->user_username;
 				$email = $user->user_email;
 				$name = $user->user_name;
@@ -202,7 +205,9 @@ if(isset($_POST['username']) && !empty($_POST['username']))
 	}
 	
 
-}else if(isset($_GET['employeeusername'])){
+}
+
+if(isset($_GET['employeeusername'])){
 	
 	$user = new userInfo($_GET['employeeusername']);
 	if(isset($user->user_id))
@@ -227,7 +232,7 @@ require('layout/header.php');
 		
 		</div>
 		<div class="header_div_3 header_div_home">
-			<h2 class="header_title_1">EMPLOYEE</h2>
+			<h2 class="header_title_1">Employee</h2>
 		</div>
 	</div>
 </div>
@@ -260,7 +265,7 @@ if(isset($error))
 					<div class="row"> 
 						 <div class="input_container_form">
 							  <div class="input_container_label_form">
-								<label for="email" class="input_label_form">Email</label>
+								<label for="email" class="input_label_form">E-mail</label>
 							  </div>
 							  <div class="input_container_text_form">
 								<input type="text" name="email" class="input_text_form"  id="email"   value="<?php if(isset($email)){ echo $email; } ?>" >
@@ -331,7 +336,7 @@ if(isset($error))
 							</a>
 						</div>
 						<?php 
-							if(isset($username))
+							if(isset($user->user_username))
 							{
 							?>	
 							<div class="option_container_page">

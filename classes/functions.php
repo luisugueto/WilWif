@@ -430,7 +430,7 @@ function CreateOrder($order_code, $order_item_id, $order_message,
 	$sql =  $sql. ' VALUES (' ;
 	$sql =  $sql. ' "'.$order_code.'"' ;
 	$sql =  $sql. ','.$order_item_id.'' ;
-	$sql =  $sql. ',"On Hold"' ;
+	$sql =  $sql. ',"Shipped"' ;
 	$sql =  $sql. ',"'.$order_message.'"' ;
 	$sql =  $sql. ',"'.$order_title.'"' ;
 	$sql =  $sql. ',"'.$order_address.'"' ;
@@ -504,7 +504,7 @@ function UnblockOrder($order_code)
 	$order = new order($order_code);
 	$order_id = $order->order_id;
 	$sql = "UPDATE `order` SET";
-	$sql = $sql." status = 'On way'";
+	$sql = $sql." status = 'Shipped'";
 	$sql = $sql.", last_mod_date = NOW()";
 	$sql = $sql." WHERE id=".$order_id; 
 	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
@@ -595,7 +595,7 @@ function CreateShipment($shipment_code, $shipment_item_id, $shipment_message,
 	$sql =  $sql. ' VALUES (' ;
 	$sql =  $sql. ' "'.$shipment_code.'"' ;
 	$sql =  $sql. ','.$shipment_item_id.'' ;
-	$sql =  $sql. ',"On Hold"' ;
+	$sql =  $sql. ',"Shipped"' ;
 	$sql =  $sql. ',"'.$shipment_message.'"' ;
 	$sql =  $sql. ',"'.$shipment_title.'"' ;
 	$sql =  $sql. ',"'.$shipment_address.'"' ;
@@ -669,7 +669,7 @@ function UnblockShipment($shipment_code)
 	$shipment = new shipment($shipment_code);
 	$shipment_id = $shipment->shipment_id;
 	$sql = "UPDATE submit SET";
-	$sql = $sql." status = 'On way'";
+	$sql = $sql." status = 'Shipped'";
 	$sql = $sql.", last_mod_date = NOW()";
 	$sql = $sql." WHERE id=".$shipment_id; 
 	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
@@ -751,8 +751,9 @@ function DeleteNotification($id_notification)
     }
 	true;
 }
-function CreateNotification($id_user,$message)
+function CreateNotification($username,$message)
 {
+	$user = new userInfo($username);
 	/*Safe the item in the DB*/
 	$query =  'INSERT INTO notification (';
 	$query =  $query. 'id_user' ;
@@ -761,7 +762,7 @@ function CreateNotification($id_user,$message)
 	$query =  $query. ',create_date' ;
 	$query =  $query. ')' ;
 	$query =  $query. ' VALUES (' ;
-	$query =  $query. ' '.$id_user.'' ;
+	$query =  $query. ' '.$user->user_id.'' ;
 	$query =  $query. ',"'.$message.'"' ;
 	$query =  $query. ',"Unread"' ;
 	$query =  $query. ',NOW()' ;
@@ -780,6 +781,7 @@ function CreateNotification($id_user,$message)
 
 
 function SendMail( $to,$subject, $message) {
+   
 $mail = new PHPMailer();
 //$mail->Host = ""; // your SMTP Server
 //$mail->SMTPAuth = false; // Auth Type
@@ -802,7 +804,6 @@ if(!$mail->Send()) {
   echo "Mailer Error: " . $mail->ErrorInfo;
 } else {
   echo "Message sent!";
-  header('Location: /login/');
 }
 }
 

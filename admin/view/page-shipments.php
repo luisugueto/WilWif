@@ -73,7 +73,7 @@ require('layout/header.php');
 		
 		</div>
 		<div class="header_div_3 header_div_home">
-			<h2 class="header_title_1">SHIPMENTS</h2>
+			<h2 class="header_title_1">Shipments</h2>
 		</div>
 		<form class="form_search" method="get" action="" >
 			<p >Search</p>
@@ -83,7 +83,7 @@ require('layout/header.php');
 </div>
 <div>
 	<div id="menu" class="menu_close">
-	
+		<?php require('layout/menu.php'); ?>
 	</div>
 </div>
 <div id="content_containter">
@@ -183,7 +183,7 @@ require('layout/header.php');
 									<form action="" method="post">
 										<input type="hidden" name="page" value=1>
 										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
-										<input submit class="page_index" value ="1.">
+										<input type="submit" class="page_index" value ="1.">
 									</form>
 								<?php
 							}
@@ -234,19 +234,7 @@ require('layout/header.php');
 
 		
 </div>
-<script>
-	$("#menu_button").click(function() {
-		if($("#menu").hasClass( "menu_open" ))
-		{
-			$("#menu").removeClass( "menu_open" );
-			$("#menu").addClass( "menu_close" );
-		}else{
-			$("#menu").removeClass( "menu_close" );
-			$("#menu").addClass( "menu_open" );
-		}
-	});
-	
-</script>
+
 <style>
 
 </style>

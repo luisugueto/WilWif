@@ -34,7 +34,7 @@ require('layout/header.php');
 		
 		</div>
 		<div class="header_div_3 header_div_home">
-			<h2 class="header_title_1">RECORDS</h2>
+			<h2 class="header_title_1">Records</h2>
 		</div>
 		<form class="form_search" method="get" action="" >
 			<p >Search</p>
@@ -44,7 +44,7 @@ require('layout/header.php');
 </div>
 <div>
 	<div id="menu" class="menu_close">
-	
+		<?php require('layout/menu.php'); ?>
 	</div>
 </div>
 <div id="content_containter">
@@ -54,19 +54,19 @@ require('layout/header.php');
 				<div class="header_container">
 				<div class="header_container_result">
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						USER
+						User
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						ACTION
+						Action
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						DATA
+						Data
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_no_display">
-						CREATE DATE
+						Create date
 					</div>
 					<div class="header_column_result header_column_1_5 column_cel_1_3">
-						OPTIONS
+						Options
 					</div>
 				</div>
 				</div>
@@ -114,7 +114,7 @@ require('layout/header.php');
 									<form action="" method="post">
 										<input type="hidden" name="page" value=1>
 										<input type="hidden" name="s" value="<?php if(isset($_POST['s'])){echo $_POST['s'];}?>">
-										<input submit class="page_index" value ="1.">
+										<input type="submit" class="page_index" value ="1.">
 									</form>
 								<?php
 							}
@@ -150,6 +150,27 @@ require('layout/header.php');
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="options_container_page">
+					<div class="options_frame_page">
+						<div class="option_container_page" >
+							<a href="/">
+								<input class="search_option_result option_back" type="button" name="modify" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
+							</a>
+						</div>
+						<div class="option_container_page" >
+							<form action="/execution/report/" method="post">
+								<input type="hidden" name="s" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>">
+								<input type="hidden" name="type" value="excel">
+								<input class="search_option_result option_add" type="submit" name="add" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Excel Report</p>
+							</form>
+							
+						</div>
+						
+					</div>
+					
 	</div>
 </div>
 </div>
