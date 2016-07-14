@@ -7,13 +7,28 @@ require('../classes/userInfo.php');
 require('../classes/shipment.php');
 require('../classes/errorCode.php');
 require('../classes/order.php');
+require('../classes/configuration.php');
+require_once('../lib/phpmailer/phpmailer.php');
+$configuration = new configuration();
 $debug =true;
+$GLOBALS['configuration'] = $configuration;
+/* configuration example 
+	$configuration->getOption('domain');
+	$configuration->getOption('email');
+	$configuration->getOption('nresult');
+	$configuration->getOption('maxattemps');
+*/
+
+//SendMail( $to,$subject, $message) 
 
 if(!$debug)
 {
 	error_reporting(0);
 }
-
+if(!CreateNotification(10,"Bien hecho"))
+{
+	
+}
 $db = new DB();
 //define page title
 $title = 'Lost Object';
