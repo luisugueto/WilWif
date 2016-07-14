@@ -718,5 +718,92 @@ function DeleteShipment($shipment_code)
 	return true;
 }
 
+function ReadNotification($id_notification)
+{
+	/*Safe the item in the DB*/
+	$query = "UPDATE notification SET";
+	$query = $query." status = 'Read'";
+	$query = $query." WHERE id=".$id_notification; 
+
+	$sql = mysql_query($query);
+	$errorCode = new errorCodes();
+	if (!$sql) {
+		$errorCode->AddError('notification',mysql_error());
+		$errorCode->AddError('notification_sql',$query);
+		return $errorCode;
+    }
+	true;
+}
+
+function DeleteNotification($id_notification)
+{
+	/*Safe the item in the DB*/
+	$query = "UPDATE notification SET";
+	$query = $query." status = 'Erased'";
+	$query = $query." WHERE id=".$id_notification; 
+
+	$sql = mysql_query($query);
+	$errorCode = new errorCodes();
+	if (!$sql) {
+		$errorCode->AddError('notification',mysql_error());
+		$errorCode->AddError('notification_sql',$query);
+		return $errorCode;
+    }
+	true;
+}
+function CreateNotification($id_user,$message)
+{
+	/*Safe the item in the DB*/
+	$query =  'INSERT INTO notification (';
+	$query =  $query. 'id_user' ;
+	$query =  $query. ',message' ;
+	$query =  $query. ',status' ;
+	$query =  $query. ',create_date' ;
+	$query =  $query. ')' ;
+	$query =  $query. ' VALUES (' ;
+	$query =  $query. ' '.$id_user.'' ;
+	$query =  $query. ',"'.$message.'"' ;
+	$query =  $query. ',"Unread"' ;
+	$query =  $query. ',NOW()' ;
+	$query =  $query. ')' ;
+
+	$sql = mysql_query($query);
+	$errorCode = new errorCodes();
+	if (!$sql) {
+		echo mysql_error();
+		$errorCode->AddError('notification',mysql_error());
+		$errorCode->AddError('notification_sql',$query);
+		return $errorCode;
+    }
+	return true;
+}
+
+
+function SendMail( $to,$subject, $message) {
+   
+$mail = new PHPMailer();
+//$mail->Host = ""; // your SMTP Server
+//$mail->SMTPAuth = false; // Auth Type
+//$mail->SMTPSecure = "";
+//$mail->Username = "";
+//$mail->Password = "";
+//$mail->Sender = "";
+$from = $GLOBALS['configuration']->getOption('email');;
+$mail->From = $from; // email from
+$mail->AddReplyTo($from); // email from
+$mail->FromName = "Wilwif"; // name from
+$mail->AddAddress($to); // email too
+$mail->IsHTML(true);
+$mail->Subject = $subject;/* */
+$mail->Body=$message;
+$mail->WordWrap = 50;
+
+
+if(!$mail->Send()) {
+  echo "Mailer Error: " . $mail->ErrorInfo;
+} else {
+  echo "Message sent!";
+}
+}
 
 ?>
