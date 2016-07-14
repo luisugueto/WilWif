@@ -108,6 +108,14 @@ switch ($path){
 			case 'notifications':
 				include'view/page-user-notifications.php';
 				break;
+
+			case 'notifications':
+				include'view/page-user-notifications.php';
+				break;
+
+			case 'recoveryPassword':
+				include'view/page-user-recovery-password.php';
+				break;
 			
 			case 'help':
 				include'view/page-user-help.php';

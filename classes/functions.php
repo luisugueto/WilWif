@@ -780,7 +780,6 @@ function CreateNotification($id_user,$message)
 
 
 function SendMail( $to,$subject, $message) {
-   
 $mail = new PHPMailer();
 //$mail->Host = ""; // your SMTP Server
 //$mail->SMTPAuth = false; // Auth Type
@@ -803,6 +802,7 @@ if(!$mail->Send()) {
   echo "Mailer Error: " . $mail->ErrorInfo;
 } else {
   echo "Message sent!";
+  header('Location: /login/');
 }
 }
 

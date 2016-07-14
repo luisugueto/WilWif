@@ -10,21 +10,25 @@ $db = new DB();
 
 //process login form if submitted
 if(isset($_POST['submit'])){
-	$username = htmlentities($_POST['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-	$password = md5($_POST['password']);	
-	if (!ereg("^[a-zA-Z0-9\-_]{3,20}$", $username)) { 
-      $error[] = 'El nombre de usuario tiene caracteres no validos';
-    } else {
-	
+	$email = $_POST['email'];
+	$username = $_POST['username'];
+	$query = mysql_query("SELECT * FROM user WHERE email = '".$email."' AND username = '".$username."'");
+	$assoc = mysql_fetch_assoc($query);
+	$newPassword = CreatePassword();
+	$newPasswordEncrypt = md5($newPassword);
+	$update = mysql_query("UPDATE user SET password = '".$newPasswordEncrypt."'");
+	echo "<script>
+		alert('If your mail and user name is correct. To reach a message to the mail');
+	</script>";
+		SendMail($assoc['email'], 'Recovery Password', '<html><h3 style="color: red">Your new password is: "'.$newPassword.'"</h3></html>');
 		if($db->login($username,$password)){ 
 			$_SESSION['username'] = $username;
 			header('Location: /account');
 			exit;
 	
 		} else {
-			$error[] = 'Usuario o Password no ha sido activada.';
+			$error[] = 'Error.';
 		}
-	}
 }//end if submit
 
 //define page title
@@ -62,6 +66,7 @@ require('layout/header.php');
 				<div id="content_containter">
 	<div class="content_div_1">
 		<div class="div_inline-block">
+		<form action="" method="post">
 		<table style="border-color: white; display: inline-block; " border="0px;">
 				<tr >
 					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
@@ -71,18 +76,16 @@ require('layout/header.php');
 				</tr>
 				<tr >
 					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 10px;">Password</p>
-						<input type="password" name="password" id="password" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
+						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 10px;">Email</p>
+						<input type="email" name="email" id="email" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
 					</td>
 				</tr>
 				
 		</table>
 			<br>
 			<button type="submit" id="submit" name="submit" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-			<button type="button" onclick="window.location='/register/'" style="background:url('/image/boton-nuevouser-70-70.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-			<button type="button" onclick="window.location='/account/recoveryPassword/'" style="background:url('/image/boton-modificar-34-34.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-
 		</form>
+
 <?php } ?>
 		</div>
 	</div>
