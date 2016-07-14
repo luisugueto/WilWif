@@ -18,7 +18,7 @@ if(isset($_POST['submit'])){
 	
 		if($db->login($username,$password)){ 
 			$_SESSION['username'] = $username;
-			header('Location: /');
+			header('Location: /account');
 			exit;
 	
 		} else {

@@ -41,7 +41,7 @@ if(isset($_POST['submit'])){
 	else{
 		$query_rol = mysql_query("SELECT * FROM rol WHERE code = '001'");
 		$assoc_rol = mysql_fetch_assoc($query_rol);
-		$stmt = mysql_query('INSERT INTO user (username,password,email, create_date, last_mod_date, security_question, status) VALUES ("'.$username.'", "'.$password.'", "'.$email.'", NOW(), NOW(),"Your pet name?", "Active" )');
+		$stmt = mysql_query('INSERT INTO user (username,password,email, create_date, last_mod_date, security_question, status, rol_id) VALUES ("'.$username.'", "'.$password.'", "'.$email.'", NOW(), NOW(),"Your pet name?", "Active" ,"'.$assoc_rol['id'].'")');
 
 		if($stmt == true)
 		{
@@ -58,6 +58,23 @@ if(isset($_POST['submit'])){
 			die("error");
 		}
 		die();
+		$mensaje[] = "Registro Exitoso";
+		
+		$username = htmlentities($_POST['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+		$password = md5($_POST['password']);	
+		if (!ereg("^[a-zA-Z0-9\-_]{3,20}$", $username)) { 
+		$error[] = 'El nombre de usuario tiene caracteres no validos';
+		} else {
+	
+		if($db->login($username,$password)){ 
+			$_SESSION['username'] = $username;
+			header('Location: /account');
+			exit;
+	
+		} else {
+			$error[] = 'Usuario o Password no ha sido activada.';
+		}
+	} 
 	}
 }
 
@@ -87,7 +104,7 @@ require('layout/header.php');
 <div id="content_containter">
 	<div class="content_div_1">
 		<div class="div_inline-block">
-		<form action="" method="post">
+		<form method="post" action="">
 		<table style="border-color: white; display: inline-block; " border="0px;">
 				<tr >
 					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">

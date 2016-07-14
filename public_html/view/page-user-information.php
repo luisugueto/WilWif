@@ -45,7 +45,7 @@ if($user->is_logged_in() )
 			$security_question = $_POST['question'];
 			$security_answer = $_POST['answer'];
 
-			$query_update = mysql_query("UPDATE user SET password = '".$password."', email = '".$email."', name = '".$name."', lastname = '".$lastname."', security_answer = '".$security_answer."', security_question = '".$security_question."' WHERE id = '".$_SESSION['id']."'") or die(mysql_error());
+			$query_update = mysql_query("UPDATE user SET password = '".$password."', email = '".$email."', name = '".$name."', lastname = '".$lastname."', security_answer = '".$security_answer."', security_question = '".$security_question."',  last_mod_date = NOW() WHERE id = '".$_SESSION['id']."'") or die(mysql_error());
 			header('Location: /account/');
 		}
 	}
