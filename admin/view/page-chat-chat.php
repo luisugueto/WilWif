@@ -208,11 +208,12 @@ require('layout/header.php');
 						
 		var chatMenuNameBolt = $("<b> "+username+" </b>");
 		chatMenuName.append( chatMenuNameBolt );
+		chatMenuNameBolt.addClass("MenuName");
 						
 		var logout = $("<p></p>"); 
 		logout.addClass("logout");
 						
-		var logoutIcon = $("<div>X</div>");
+		var logoutIcon = $("<div></div>");
 		logoutIcon.addClass("logouticon");
 		logout.append( logoutIcon );
 						
@@ -240,7 +241,8 @@ require('layout/header.php');
 		var inputmsg = $("<input name='usermsg' type='text' id='usermsg_"+chatCode+"' size='63' autocomplete='off'/>");
 		inputmsg.addClass( "usermsg");
 		var inputchatcode = $("<input name='chatcode' type='hidden' value="+chatCode+" class='chatcode' />");
-		var inputsubmit = $("<input name='submitmsg' type='submit'  id='"+chatCode+"' value='Send' />");
+		var inputsubmit = $("<input name='submitmsg' type='submit'  id='"+chatCode+"' value='    ' />");
+		inputsubmit.addClass('submit');
 		createClickEvent(chatContainer,inputsubmit,inputchatcode,inputmsg,chatbox,logout,chatMenu,chatc,chatMenuIcon,chatCode);
 		form.append(inputmsg);
 		form.append(inputchatcode);
@@ -269,18 +271,18 @@ require('layout/header.php');
 
 .chat_container{
 	width: 760px;
-	background-color: lightblue;
+	background-image: url('/image/fondo-435-374.png');
+	background-size: 100% 100%;
 }
 
 .chatbox{
 	width: 720px;
 	margin: auto;
 	height: 360px;
-	background-color: white;
 	text-align: left;
 }
 .menu{
-	width: 760px; background-color: lightblue;
+	width: 760px; 
 }
 
 .message_container{
@@ -291,14 +293,39 @@ require('layout/header.php');
 }
 
 .usermsg{
-	width: 650px;
+	width: 690px;
+	height: 40px;
+	background-image: url('/image/barra-reset-718-62.png');
+	background-size: 100% 100%;
+	position: relative;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-family: Times;
+	font-size: 25px; 
+	margin-top: -100px;
 }
 
 .logouticon{
-	height: 20px; 
-	text-align: right;
-	padding-right: 35px;
+	height: 60px; 
+	background-image: url('/image/boton-cancelar-57-57.png');
+	background-repeat: no-repeat;
+	background-position: right;
+	position: relative;
+	margin-top: -50px;
 }
+.submit{
+	width: 50px;
+	height: 40px;
+	background-image: url('/image/boton-seach-23-23.png');
+	background-size: 100% 100%;
+	border: 0px;
+	border-radius: 50%;
+}
+.MenuName{
+	color: white;
+	font-size: 30px;
+}
+</style>
 </style>
 <?php 
 //include header template

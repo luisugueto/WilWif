@@ -6,22 +6,7 @@ if($searchValue =='')
 $searchValue = (isset($_POST['s']))?  $_POST['s'] : '';
 
 $searchValue = ($searchValue == '' )? '':" where (code like '%".$searchValue."%' or id_user_create in ( select id from user where username like '%".$searchValue."%') or  id_user_invited in ( select id from user where username like '%".$searchValue."%'  ))";
-$query = "SELECT c.code as code , c.create_date as date,u.id as creator_id, u.username as creator,u2.id as invited_id,  u2.username as invited FROM chat  c ";
-$query = $query. " LEFT JOIN user u  ON c.id_user_create = u.id ";
-$query = $query. " LEFT JOIN user  u2  ON c.id_user_invited = u2.id ";
-$query = $query.$searchValue ." GROUP BY c.code";
 
-######### PAGINACION ###############
-$sql = mysql_query($query);
-$sql_assoc = mysql_fetch_assoc($sql);
-$total = mysql_num_rows($sql);
-$total = ($total < 1)?1: $total;
-$nrows = 10;
-$totalpages = ceil($total/$nrows);
-$page = isset($_POST['page'])? $_POST['page']:1;
-$query .= " LIMIT ".(($page-1)*$nrows).",".$nrows;
-$sql = mysql_query($query);
-$records = mysql_num_rows($sql);
 ############################################
 
 require('layout/header.php'); 
