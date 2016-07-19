@@ -8,6 +8,9 @@ if($path_urls[2])
 }
 
 switch ($path){
+	case 'read_notification':
+	   include 'includes/read-notification.php';
+	break;
 	case 'filecrop':
 	   include 'includes/filecrop.php';
 	break;

@@ -4,8 +4,10 @@ if(isset($_POST['employee_method']) &&  isset($_POST['username']))
 	if($_POST['employee_method'] == "blocked")
 	{
 		BlockUser($_POST['username']);
+		CreateRecord('Block Employee',"username:".$_POST['username']);
 	}else if($_POST['employee_method'] == "unblocked"){
 		UnblockUser($_POST['username']);
+		CreateRecord('Unblock Employee',"username:".$_POST['username']);
 	}
 }
 

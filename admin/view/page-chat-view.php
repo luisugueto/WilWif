@@ -66,7 +66,7 @@ require('layout/header.php');
 	
 	<div class="content_chat_div_1">
 		
-			<div style="height: 20%; border-style: solid; color: white; border-width: 0px 0px 4px;">
+			<div style="height: 20%; display: table; border-style: solid; color: white; border-width: 0px 0px 4px;">
 				<div style="width:33.3333%; float:left">
 					CREATOR: <?php echo $user_create; ?>
 				</div>
@@ -77,7 +77,7 @@ require('layout/header.php');
 					DATE: <?php echo $chat_date; ?>
 				</div>
 			</div>
-			<div style="height: 80%; overflow: auto; padding-bottom: 20px; padding-top: 20px;text-align: left; color:white;">
+			<div style="height: 80%; padding-bottom: 20px; padding-top: 20px;text-align: left; color:white;">
 			<?php echo $message; ?>
 			</div>
 			

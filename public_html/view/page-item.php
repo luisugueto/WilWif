@@ -2,33 +2,6 @@
 
 //include header template
 require('layout/header.php'); 
-if($user->is_logged_in() ){
-	if(isset($_POST['code']))
-	{
-		$code = $_POST['code'];
-	}
-	
-	if (isset($_POST['submit'])) {
-	 	$query_send = "UPDATE item SET status = 'Deleted' WHERE id = $code";
-	 	$send = mysql_query($query_send);
-	 	if($_POST['tipo']=='s')
-	 	{
-	 		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'Send Item.', NOW())";
-			$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
-	 	}
-	 	elseif($_POST['tipo']=='r')
-	 	{
-	 		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'Receive Item.', NOW())";
-			$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
-	 	}
-	}
-
-	if(isset($_POST['send']))
-	{
-
-	}
-
-}
 
 $item = new item($_GET['code']);
 ?>
@@ -86,18 +59,18 @@ $item = new item($_GET['code']);
 						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
 					</a>
 				</div>
-				<?php if($item->item_type=='Found') { ?>
+				<?php if($item->item_type=='Found' && ($user->is_logged_in() && $item->item_user_id !=$_SESSION['id'])) { ?>
 				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a href='/account/shipment/'>";?>
-						<img width="50" height="50" src="/image/boton-ordenar-50-50.png" style="cursor: pointer;">
-						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Shipment</p>
-					</a>
-				</div>
-				<?php } elseif ($item->item_type=='Lost') { ?>
-				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a href='/account/order/?code=$item->item_code'>";?>
+					<?php echo "<a href='/account/order/?item_code=$item->item_code'>";?>
 						<img width="50" height="50" src="/image/boton-ordenar-50-50.png" style="cursor: pointer;">
 						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Order</p>
+					</a>
+				</div>
+				<?php } elseif ($item->item_type=='Lost' && ($user->is_logged_in() && $item->item_user_id !=$_SESSION['id'])) { ?>
+				<div style="float: left; margin-right: 20px;">
+					<?php echo "<a href='/account/shipment/?item_code=$item->item_code'>";?>
+						<img width="50" height="50" src="/image/boton-ordenar-50-50.png" style="cursor: pointer;">
+						<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Shipment</p>
 					</a>
 				</div>			
 				<?php } ?>		

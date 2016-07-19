@@ -83,12 +83,12 @@ $objDrawing->setCoordinates('A1');
 			$searchValue = ($searchValue == '' )? '':"WHERE action like '%".$searchValue."%' or data like '%".$searchValue."%' or date like '%".$searchValue."%'";
 			$query = "SELECT h.*, u.username as username FROM history h LEFT JOIN user u ON h.id_user = u.id ".$searchValue;
 
-			$sql = mysql_query($query);
+			$sql = mysql_query($query) or die('error at try to access data' . mysql_error());
 			$i = 9;
 			while($row = mysql_fetch_assoc($sql))
 			{
 				$objPHPExcel->getActiveSheet()->mergeCells('D'.$i.':E'.$i.'');
-			$objPHPExcel->getActiveSheet()->mergeCells('F'.$i.':G'.$i.'');
+				$objPHPExcel->getActiveSheet()->mergeCells('F'.$i.':G'.$i.'');
 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$i,$row['username']);
 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$i,$row['action']);
 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$i,$row['data']);
@@ -131,8 +131,8 @@ $objPHPExcel->getActiveSheet()->getSheetView()->setView(PHPExcel_Worksheet_Sheet
 
 if($_POST['type'] == "excel")
 {	
-	header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="reporte.xlsx"');
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment;filename="records.xlsx"');
 header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
 header('Cache-Control: max-age=1');

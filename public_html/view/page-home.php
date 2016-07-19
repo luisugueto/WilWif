@@ -703,10 +703,14 @@ var ajaxData =  "s="+search_value_+filter_value_;
 						filterList.append(itemList);
 						//div_category_content += '<li style="cursor: pointer;" onclick=search_items("'+data.search_value+'","'+data.category_list[i]+'","");>-'+data.category_list[i]+'</li>';
 					}
-					 var itemList = $('<li></li>');
-						 itemList.html('Remove');
+					if(data.filter_value !="")
+					{
+						 var itemList = $('<li></li>');
+						 itemList.html('Less');
 						 addclickEventPaginatio(itemList,data.search_value,'',1);
 						filterList.append(itemList);
+					}
+					
 							
 					maxi = (data.page+2 <= data.pages )? data.page+2: ((data.page+1 <= data.pages )? data.page+1: data.pages);
 					mini = (data.page-2 >= 1 )? data.page-2: ((data.page-1 >= 1 )? data.page-1: 1);

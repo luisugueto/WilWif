@@ -15,8 +15,8 @@ $(document).ready(function(){
 		var chatContainer = $("<div></div>");
 		chatContainer.attr('id',"chat_container");
 		
-		var audioc = $("<audio id='audio' src='messagealert.mp3' autostart='false' ></audio>");
-		chatContainer.append(audioc);
+		//var audioc = $("<audio id='audio' src='messagealert.mp3' autostart='false' ></audio>");
+		//chatContainer.append(audioc);
 		
 		$("body").append(chatContainer);
 		setInterval (checkNewChat, 5000);

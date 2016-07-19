@@ -101,7 +101,7 @@ if(isset($_POST['item_code']) && !empty($_POST['item_code']))
 if(isset($_GET['item_code']))
 {
 	$item = new item($_GET['item_code']);
-	if(!isset($item->item_id) || $item->item_type !="Found")
+	if(!isset($item->item_id))
 	{
 		die("Item does not exist");
 	}
@@ -109,24 +109,27 @@ if(isset($_GET['item_code']))
 	die("Access Denied");
 }
 ?>
-
-<div id="content">
-<div class="header_div_1">
-	<div class="header_div_2">
-		<div id="menu_button">
+<header class="header_container" style=" background-image: url('/image/botonera-sola-1024-x-66/png'); height:100px">
+	<div class="row"  style="border-width: 0px 0px 3px; border-style: solid; border-color: white; line-height:49px">
+		<div class="col-xs-3 col-md-3">	
+		<a href='/items/found/'>
+			<p class="fontsize_3" style="margin-bottom: 0px;"><img src="/image/flecha2-27-46.png">back</p>
+		</a>
+		</div>
+		
+		<div class="col-xs-6 col-md-6">	
+			<a href="/">
+				<img style="margin-top: 2%; margin-bottom: 3%;" src="/image/Logotipo-110-x-32.png" title="logo" width="110" height="32" >
+			</a>
+		</div>
+		<div class="col-xs-3 col-md-3">
 		
 		</div>
-		<div class="header_div_3 header_div_found_item">
-			<h2 class="header_title_1">Found Item</h2>
-		</div>
 	</div>
-</div>
-<div>
-	<div id="menu" class="menu_close">
-		<?php require('layout/menu.php'); ?>
-	</div>
-</div>
-<div id="content_containter">
+</header>
+<div id="content">
+
+
 <?php 
 if(isset($error))
 {
@@ -134,39 +137,134 @@ if(isset($error))
 }
 ?>
 <form method="post">
-	<div class="content_chat_div_1">
-		<div  style="display: inline-block;">
-			<div class="images_container">
+
+
+			<div class="row">
+					<div class="col-xs-0 col-md-3" >
+					</div>
+					<div class="col-xs-12 col-md-6" >
+					<!--
+						<div class="images_holder">
 			
-						<div class="images_container">
-						<div class="images_control">
-						<a id="prevI"></a>
-						<a id="nextI"></a>
-						</div>
-						<div class="list_container">
-						<ul id="list_images" class="list_images">
-					
-							<?php if($item->HasPhoto())
-								{
-									for($i =0;$i<count($item->item_photos_url);$i++ )
-									{
-								?>
-									<li>
-										<div style="background: transparent url('http://wilwif.local:86<?php echo $item->item_photos_url[$i]?>') no-repeat scroll 0% 0% / 100% 100%;"></div>
-									</li>
-								<?php
-								}
-								}else{
-									?>
-									<div class="uploader_clasethumb" style="background: transparent url('http://wilwif.local:86/image/No_image_available_125x132.png') no-repeat scroll 0% 0% / 100% 100%;"></div>
-									<?php
-								}
-								?>
-						</ul>
-						</div>
 						</div>		
-			</div>	
-		</div>
+					-->
+					
+						<?php 
+						if($item->item_category_slug == 'Phone')
+						{
+							
+							echo '<img class="img_category_phone" src="/image/mobile-1-59-x-97.png"  width="59" height="97" >';
+							
+						}else if($item->item_category_slug == 'Key')
+						{
+							
+							echo '<img class="img_category_key" src="/image/key-1-97-x-97.png"  width="97" height="97" >';
+							
+						}else if($item->item_category_slug == 'Case')
+						{
+							
+							echo '<img  class="img_category_suitecase" src="/image/maleta-1-98-x-83.png"  width="98" height="83" >';
+							
+						}else if($item->item_category_slug == 'Tablet')
+						{
+							
+							echo '<img class="img_category_tablet" src="/image/tablet-1-73-x-96.png"  width="73" height="96" >';
+							
+						}else if($item->item_category_slug == 'Backpack')
+						{
+							
+							echo '<img class="img_category_backpack" src="/image/bulto-1-95-x-97.png"  width="95" height="97" >';
+							
+						}else if($item->item_category_slug == 'Luggage')
+						{
+							
+							echo '<img class="img_category_luggage" src="/image/maleta-rueda-1-55-x-97.png" width="55" height="97" >';
+							
+						}else if($item->item_category_slug == 'Laptop')
+						{
+							
+							echo '<img class="img_category_laptop" src="/image/laptop-1-97-x-67.png"  width="97" height="67" >';
+							
+						}else if($item->item_category_slug == 'Camera')
+						{
+							
+							echo '<img class="img_category_camera" src="/image/camara-1-98-x-70.png"  width="98" height="70" >';
+							
+						}else if($item->item_category_slug == 'Passport')
+						{
+							
+							echo '<img class="img_category_pass" src="/image/pass-68-x-94.png"  width="68" height="94" >';
+							
+						}else if($item->item_category_slug == 'Driver License')
+						{
+							
+							echo '<img class="img_category_identitycard" src="/image/ID-1-98-x-66.png"  width="98" height="66" >';
+							
+						}else if($item->item_category_slug == 'Credit / Debit Card')
+						{
+							
+							echo '<img class="img_category_creditcard" src="/image/credit-1-card-98-x-66.png"  width="98" height="66" >';
+							
+						}else if($item->item_category_slug == 'Other')
+						{
+							
+							echo '<img class="img_category_other" src="/image/crus-93-x-93.png"  width="93" height="93" >';
+							
+						}
+					
+					
+					?>
+					<input class="label_text_input" type="hidden" name="item_category_slug"  id="item_category_slug"   value="<?php if(isset($item->item_category_slug)){ echo $item->item_category_slug; } ?>"  readonly>
+					
+					<input class="label_text_input" type="hidden" name="item_category"  id="item_address"   value="<?php if(isset($item->item_category)){ echo $item->item_category; } ?>"  readonly>
+					</div>
+				</div>	
+			<div class="row">
+				<div class="col-xs-12 col-md-12" >	
+					<p style="color:black;"><strong><?php if(isset($item->item_category_slug)){ echo $item->item_category_slug; } ?> of</strong> <?php if(isset($item->item_user)){ echo $item->item_user; } ?></p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-md-12" >	
+					<p style="color:blue;"><span style="color:white;">Wilwif-Code:</span><span style="color:orange"> <?php if(isset($item->item_code)){ echo $item->item_code; } ?></span></p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-md-12" >	
+					<p style="color:blue;"><span style="color:white;">Posted Date:</span><?php if(isset($item->create_date)){ echo (new DateTime($item->item_date))->format('m-d-y');} ?></span></p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-md-12" >	
+					<p style="color:blue;"><span style="color:white;">Status:</span><span style="color:<?php if(isset($item->item_status)){ if($item->item_status == 'Active'){ echo 'greenyellow';}else if($item->item_status == 'Lost'){ echo 'red';}else if($item->item_status == 'Found'){ echo 'yellow'; }   } ?>"> <?php if(isset($item->item_status)){ echo $item->item_status; } ?></span></p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-md-12" >	
+					<p style="color:blue;"><span style="color:white;">Description:</span><span style="color:orange"><?php if(isset($item->item_description)){ echo $item->item_description; } ?></span></p>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-12 col-md-12" >	
+					<p style="color:blue;"><span style="color:white;">Brand:</span><span style="color:orange"><?php if(isset($item->item_brand)){ echo $item->item_brand; } ?></span></p>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-12 col-md-12" >	
+					<p style="color:blue;"><span style="color:white;">Color:</span><span style="color:orange"><?php if(isset($item->item_color)){ echo $item->item_color; } ?></span></p>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-12 col-md-12" >	
+					<p ><span style="color:white;">Model:</span><span style="color:orange"><?php if(isset($item->item_model)){ echo $item->item_model; } ?></span></p>
+				</div>
+			</div>
+	<!--		
+	<div class="content_chat_div_1">
+		
 			
 				<div >
 					<div class="row"> 
@@ -320,7 +418,7 @@ if(isset($error))
 							<?php	
 							}
 							?>		
-							
+		-->					
 							
 						
 					</div>
@@ -479,5 +577,6 @@ height: 32px; float: right; width: 28px;
 
 <?php 
 //include header template
+$actualpage = "Item";
 require('layout/footer.php');
 ?>

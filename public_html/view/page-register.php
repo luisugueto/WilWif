@@ -1,6 +1,7 @@
 <?php
 //process login form if submitted
 if(isset($_POST['submit'])){
+	
 	$password = md5($_POST['password']);
 	$passwordConfirm = md5($_POST['passwordConfirm']);
 	$username = htmlentities($_POST['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
@@ -15,38 +16,38 @@ if(isset($_POST['submit'])){
  	$row1 = mysql_num_rows($query1);
 	
 	if(strlen($username) < 3){
-		$error[] = 'Usuario muy corto.';
-	}	
-	
-	elseif (!preg_match('/^[a-zA-Z0-9]+$/', $username)) { 
-      $error[] = 'El usuario tiene caracteres no validos.';
-    } 
-	
- 	elseif(strlen($_POST['password']) < 3){
-		$error[] = 'Contraseña muy corta.';
+		$error = 'Username to short.';
+	}else if(strlen($_POST['password']) < 3){
+		$error = 'Password to short.';
 	}
 
-	elseif($passwordConfirm != $password){
-		$error[] = 'Las Contraseñas no coinciden.';
+	else if($passwordConfirm != $password){
+		$error = 'mismatch password.';
 	}
 
-	elseif($row==1){
-		$error[] = 'Username ya utilizado.';
+	else if($row==1){
+		$error = 'Username already registered.';
 	}
 
-	elseif($row1==1){
-		$error[] = 'Email ya utilizado.';
-	}
+	else if($row1==1){
+		$error = 'email already registered.';
+	}else
 
-	else{
+	if(!isset($_POST['phone']) || empty($_POST['phone'])){
+		$error = 'Phone number require.';
+	}else if(!isset($_POST['email']) || empty($_POST['email'])){
+		$error = 'Email require.';
+	}else{
+		$phone = $_POST['phone'];
+		$wilwifcode = (isset($_POST['wilwifcode']))? $_POST['wilwifcode']:"";
 		$query_rol = mysql_query("SELECT * FROM rol WHERE code = '001'");
 		$assoc_rol = mysql_fetch_assoc($query_rol);
-		$stmt = mysql_query('INSERT INTO user (username,password,email, create_date, last_mod_date, security_question, status, rol_id) VALUES ("'.$username.'", "'.$password.'", "'.$email.'", NOW(), NOW(),"Your pet name?", "Active" ,"'.$assoc_rol['id'].'")');
+		$stmt = mysql_query('INSERT INTO user (username,password,email, create_date, last_mod_date, security_question, status, rol_id,wilwifcode,phonenumber) VALUES ("'.$username.'", "'.$password.'", "'.$email.'", NOW(), NOW(),"Your pet name?", "Active" ,"'.$assoc_rol['id'].'","'.$wilwifcode.'","'.$phone.'")');
 
 		if($stmt == true)
 		{
 			echo "<script>
-			alert('Usuario Registrado.');
+			alert('Username already registered.');
 			</script>";
 			if($db->login($username,$password)){ 
 				header('Location: /');
@@ -68,11 +69,11 @@ if(isset($_POST['submit'])){
 	
 		if($db->login($username,$password)){ 
 			$_SESSION['username'] = $username;
-			header('Location: /account');
+			header('Location: /account/');
 			exit;
 	
 		} else {
-			$error[] = 'Usuario o Password no ha sido activada.';
+			$error = 'Usuario o Password no ha sido activada.';
 		}
 	} 
 	}
@@ -82,72 +83,233 @@ require('layout/header.php');
 ?>
 
 
-<div id="content">
-<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
-	<div style="width: 1440px; display: inline-block; text-align: left;">
-		<form method="get" action="/" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
-			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-		</form>
-	</div>
-</div>
-<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-	
-				<?php
-				//check for any errors
-				if(isset($error)){
-					foreach($error as $error){
-						echo '<p class="bg-danger">'.$error.'</p>';
-					}
-				} ?>
 
-<div id="content_containter">
-	<div class="content_div_1">
-		<div class="div_inline-block">
-		<form method="post" action="">
-		<table style="border-color: white; display: inline-block; " border="0px;">
-				<tr >
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">User Name</p>
-						<input type="text" name="username" id="username" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr >
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">Email Name</p>
-						<input type="text" name="email" id="email" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr>
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">Password</p>
-						<input type="password" name="password" id="password" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr>
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">Retry-Password</p>
-						<input type="password" name="passwordConfirm" id="passwordConfirm" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr>
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 5px;">Wilwif Code</p>
-						<input type="text" readonly name="code" id="passwordConfirm" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				
-		</table>
-			<br>
-			<input type="submit" id="submit" name="submit" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-			<p style="margin-top: -50px; margin-left: -40px; color:white">Accept</p>
-			<button type="submit" onclick="history.back()" id="submit" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-			<p style="margin-top: 50px; margin-left: -40px; color:white">Return</p>
-		</form>
-	</div>
-	</div>
+<div id="content">
+	<div  style="background-image: url('/image/botonera-sola-1024-x-66.png');margin-bottom:10px;background-size:100% 100%; margin-top: -1px;">
+		<div class="row">	
+			<div class="col-xs-3 col-md-2" >
+				<a href='/'>
+					<p>back</p>
+				</a>
+			</div>
+			
+			<div class="col-xs-6 col-md-8" >
+				<p></p>
+			</div>
+		</div>
+	</div>	
+			<?php 
+if(isset($error))
+{
+
+echo '<p class="bg-danger">'.$error.'</p>';
+}
+	
+?>
+<form  method="post" action="" autocomplete="off">
+
+	
+		<div class="row"  style="">
+
+            <div class="col-xs-12" style="margin-bottom:10px;">
+				<img src="/image/logo-187-187.png" title="logo" width="90" height="90" >
+			</div>
+		</div>
+		<div class="row"  style="">
+			<div class="col-xs-1 col-md-4">
+			
+			</div>
+			<div class="col-xs-10 col-md-4">
+				<input type="text" name="username" id="username" placeholder="Username" class="label_text_input"  value="<?php if(isset($username)){ echo $username; } ?>" require>
+			</div>
+		</div>
+		<div class="row"  style="">
+			<div class="col-xs-1 col-md-4">
+			
+			</div>
+			<div class="col-xs-10 col-md-4">
+			 <input type="text" name="email"  id="email" placeholder="Email" class="label_text_input"  value="<?php if(isset($email)){ echo $email; } ?>" require>
+			</div>
+		</div>
+		<div class="row"  style="">
+			<div class="col-xs-1 col-md-4">
+			
+			</div>
+			<div class="col-xs-10 col-md-4">
+		<input type="text" name="phone" id="phone" class="label_text_input" placeholder="Phone Number"  value="" require>
+		</div>
+		</div>
+		<div class="row"  style="">
+			<div class="col-xs-1 col-md-4">
+			
+			</div>
+			<div class="col-xs-10 col-md-4">
+		<input type="password" name="password" id="password" class="label_text_input" placeholder="Password"  value="" require>
+		</div>
+		</div>
+		<div class="row"  style="">
+			<div class="col-xs-1 col-md-4">
+			
+			</div>
+			<div class="col-xs-10 col-md-4">
+		<input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="Confirm your Password" class="label_text_input"  value="" require>
+		</div>
+		</div>
+		<div class="row"  style="">
+			<div class="col-xs-1 col-md-4">
+			
+			</div>
+			<div class="col-xs-10 col-md-4">
+		<input type="text" name="code" id="wilwifcode" class="label_text_input" placeholder="Wilwif-Code : xxx-xxx-xxx" value="<?php if(isset($_GET['wilwifcode'])){ echo $_GET['wilwifcode']; } ?>">
+		</div>
+		</div>
+		<div class="row" >
+			<div class="col-xs-1 col-md-4">
+			
+			</div>
+			<div class="col-xs-10 col-md-4">
+		<input  type="submit" name="submit" value="Sign Up"  style="background-color: transparent; color: rgb(0, 55, 123); border-width: 0px; font-size: 20px; cursor:pointer">
+		</div>
+		</div>
+
+
+		
+<script>
+	$("#wilwifcode").keyup(function(){
+    if($("#wilwifcode").val().length == 9){
+        var my_val = $("#wilwifcode").val();
+        $("#wilwifcode").val((my_val.substring(0, 3))+"-"+(my_val.substring(3, 6))+"-"+(my_val.substring(6, 9)));
+    }
+});
+</script>
+
+</form>
+<div class="row" style="color:blue; text-align: center; ">
+	
+	<div class="col-xs-12 col-md-12">
+		<p class="fontsize_4 p_button" >
+			<img class="botonera_button_principal" src="/image/logo-botonera-111-x-173.png" >
+		</P>
+	</div>	
 </div>
-<?php
+</div>
+ 
+<style>
+
+.label_text_input{
+		width: 100%;
+		height: 40px;
+		border-width: 2px;
+		padding-bottom: 1px;
+		text-align:left;
+		margin-bottom:5px;
+		padding-left: 50px;
+		border-style: solid;
+	}
+	
+
+
+html{
+	 background-image: none;
+}
+
+a{
+	
+		text-decoration:none;
+		color:white;
+	}
+	
+	a:hover{
+	
+		text-decoration:none;
+		color:white;
+		font-weight: bold;
+	}
+	
+
+.row{
+margin-right:0px;
+}
+
+#content{
+
+min-height:366px;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+#content{
+
+min-height:495px;
+}
+	
+	
+ }
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: @screen-md-min) {
+		#content{
+
+	min-height:600px;
+	}
+ }
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: @screen-lg-min) { 
+	
+}
+
+.botonera_button_principal{
+	width:83px;
+	height:129px;
+	margin-bottom: -50px
+ }
+
+ .maxp{
+	width:270px;
+	margin: auto;
+	text-align:left
+ }
+ 
+ maxpm{
+	width:230px;
+	margin: auto;
+	text-align:center
+ }
+ 
+ .row_margin_button{
+
+margin-top:80px;
+}
+ /* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+.facebook_login ,.google_login ,.email_login{
+
+	min-width:370px;
+	max-width:370px;
+	height: 54px;
+	padding-left:20px;
+}
+.maxp{
+	width:370px;
+ }
+ 
+ 
+ .row_margin_button{
+
+margin-top:20px;
+}
+ 
+ .botonera_button_principal{
+	width:111px;
+	height:176px;
+	margin-bottom: -50px;
+ }
+}
+
+</style>
+ <?php 
 //include header template
-require('layout/footer.php');
+require('layout/footer.php'); 
 ?>

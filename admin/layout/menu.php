@@ -1,14 +1,15 @@
 <ul class="menu_container" >
 	<li>
-		<a href="/" title="Home">
-			Home <img src="/image/home-21-18.png">
-		</a>
-	</li>
-	<li>
 		<a href="/account/" title="Account">
 			Account <img src="/image/boton-account-14-20.png">
 		</a>
 	</li>
+	<li>
+		<a href="/" title="Home">
+			Home <img src="/image/home-21-18.png">
+		</a>
+	</li>
+	
 	<li>
 		<a href="/chats/" title="Chats">
 			Chats <img src="/image/boton-chat-23-18.png">

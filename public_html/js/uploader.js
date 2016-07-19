@@ -214,13 +214,13 @@ function addFile(){
 			 $('#src').val(xhr.responseText);
 			var divCortar = document.createElement('div'); 
 				divCortar.className = ('uploader_guardar');	
-				divCortar.innerHTML = ('guardar');
+				divCortar.innerHTML = ('Save');
 				divCortar.addEventListener('click', function(e) {  			    
 					cropFile();
 					}, false);
 			var divCancelar = document.createElement('div'); 
 				divCancelar.className = ('uploader_cancelar');	
-				divCancelar.innerHTML = ('cancelar');
+				divCancelar.innerHTML = ('Cancel');
 				divCancelar.addEventListener('click', function(e) {  
 				     $.Jcrop('#modimagen').destroy();		
 				 	 $('.jcrop-holder').remove();
@@ -235,8 +235,8 @@ function addFile(){
 		}	
 	}
 	xhr.send(formData);
-	} else { alert('Error, la imagen pesa mas de 2 mb'); }	
-	} else { alert('Error, el archivo seleccionado no es una imagen valida'); }
+	} else { alert('Error, Image cant weight more than 2 mb'); }	
+	} else { alert('Error, Invalid image file'); }
  }
  
 function cropFile(){
@@ -245,6 +245,23 @@ function cropFile(){
 	var w = document.getElementById('w').value;
 	var h = document.getElementById('h').value;
 	var src = document.getElementById('src').value;
+	var ajaxData = "x="+ x +"&y="+ y +"&w="+ w +"&h="+h +"&imgurl="+src+"";
+	 $.ajax({
+         type: "POST",
+         url: "/execution/filecrop/filecrop.php",
+         data: ajaxData,
+		 success: function(data){
+		 
+				AddImageUploader(data);
+				$.Jcrop('#modimagen').destroy();	
+				$('.jcrop-holder').remove();
+				$('#modimagencont').html("");
+				$('#divMod').html("");
+				location.href = "#close";	
+			}
+    });
+	
+	/*
 	var xhr2 = new XMLHttpRequest();
 	var formData2 = new FormData();
 	formData2.append('x', x);
@@ -266,7 +283,7 @@ function cropFile(){
 		}
 		}	
 	}
-	xhr2.send(formData2);
+	xhr2.send(formData2);*/
 }
 
 function AddImageUploader(path_url)
@@ -286,7 +303,8 @@ function AddImageUploader(path_url)
 	var	row_img = document.createElement('li');	
 	var upload_img  = document.createElement('div'); 
 	upload_img.style.background = "url('"+ path_url +"')";
-	upload_img.style.backgroundSize = "100px 100px";
+	upload_img.style.backgroundSize = "100% 100%";
+	upload_img.style.backgroundRepeat ="no-repeat";
 	upload_img.className = "uploader_clasethumb";
 	row_img.appendChild(upload_img);
 	row_img.appendChild(eliminar);	

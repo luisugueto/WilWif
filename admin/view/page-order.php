@@ -151,13 +151,13 @@ if(isset($error))
 									{
 								?>
 									<li>
-										<div style="background: transparent url('http://wilwif.local:86<?php echo $order->order_item->item_photos_url[$i]?>') no-repeat scroll 0% 0% / 100% 100%;"></div>
+										<div style="background: transparent url('<?php echo $GLOBALS['configuration']->getOption('domain').$order->order_item->item_photos_url[$i]?>') no-repeat scroll 0% 0% / 100% 100%;"></div>
 									</li>
 								<?php
 								}
 								}else{
 									?>
-									<div class="uploader_clasethumb" style="background: transparent url('http://wilwif.local:86/image/No_image_available_125x132.png') no-repeat scroll 0% 0% / 100% 100%;"></div>
+									<div class="uploader_clasethumb" style="background: transparent url('/image/No_image_available_125x132.png') no-repeat scroll 0% 0% / 100% 100%;"></div>
 									<?php
 								}
 								?>

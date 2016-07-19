@@ -18,6 +18,13 @@ function UserAction()
 	return true;
 
 }
+
+function CreateRecord($action,$data)
+{
+	$_session_id = (isset($_SESSION['id'])) ? $_SESSION['id']: "";
+	$history = "INSERT INTO history (id_user, action,data, date) VALUES('".$_session_id."', '".$action."','".$data."', NOW())";
+	$sql = mysql_query($history)or die('error at try to access data' . mysql_error());
+}
 function CreatePassword()
 {
 	$password = "";
@@ -35,17 +42,114 @@ function CreatePassword()
 
 function CreateCode()
 {
-	/*$code = date("Y").'-'.date('m').date('d').'-';*/
+	$code = '';//date("Y").'-'.date('m').date('d').'-';*/
 	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZZZ';
 	for ($i = 0; $i < 9; $i++) 
 	{
 		$code = $code.$characters[rand(0, strlen($characters)-2)];
-		if($i == 3 ||$i == 6 )
+		if($i == 2 ||$i == 5 )
 		{
 			$code = $code.'-';
 		}
 	}
 	return $code;	
+}
+function RecoverPasswordUser($email)
+{
+	$password = CreatePassword();
+	$message = "<div><p>Password Change successful</p>";
+	$message .= "<p>New Password:".$password."</p>";
+	$message .= "<p>Click <a href=".$GLOBALS['configuration']->getOption('domain').">here</a> For login</p>";
+	$query = "UPDATE user SET";
+	$query = $query." password = '".md5($password)."'";
+	$query = $query.", last_mod_date = NOW()";
+	$query = $query." WHERE email ='".$email."'"; 
+		
+	$sql = mysql_query($query)or die('error at try to access data' . mysql_error());
+	
+	$errorCode = new errorCodes();
+	if (!$sql) {
+		$errorCode->AddError('user',mysql_error());
+		$errorCode->AddError('user_sql',$query);
+		return $errorCode;
+    }
+	SendMail( $email,'Wilwif Password Reset', $message);
+	$data = '<br>email:'.$email;
+	//CreateRecord('User Recover password',$data);
+	return true;
+}
+
+function ChangePasswordUser($username,$password)
+{
+	$user =new userInfo($username);
+	$message = "<div><p>Password Change successful</p>";
+	$query = "UPDATE user SET";
+	$query = $query." password = '".md5($password)."'";
+	$query = $query.", last_mod_date = NOW()";
+	$query = $query." WHERE username ='".$username."'"; 
+		
+	$sql = mysql_query($query)or die('error at try to access data' . mysql_error());
+	
+	$errorCode = new errorCodes();
+	if (!$sql) {
+		$errorCode->AddError('user',mysql_error());
+		$errorCode->AddError('user_sql',$query);
+		return $errorCode;
+    }
+	 SendMail( $user->user_email,'Wilwif Password Reset', $message);
+	$data = 'username:'.$username;
+	CreateRecord('User change password',$data);
+	return true;
+}
+
+function ChangePasswordEmployee($username,$password)
+{
+	$user =new userInfo($username);
+	$message = "<div><p>Password Change successful</p>";
+	$message .= "<p>New Password:".$password."</p>";
+	$message .= "<p>Click <a href=".$GLOBALS['configuration']->getOption('domainadmin').">here</a> For login</p>";
+	$query = "UPDATE user SET";
+	$query = $query." password = '".md5($password)."'";
+	$query = $query.", last_mod_date = NOW()";
+	$query = $query." WHERE username ='".$username."'"; 
+		
+	$sql = mysql_query($query)or die('error at try to access data' . mysql_error());
+	
+	$errorCode = new errorCodes();
+	if (!$sql) {
+		$errorCode->AddError('user',mysql_error());
+		$errorCode->AddError('user_sql',$query);
+		return $errorCode;
+    }
+	 SendMail( $user->user_email,'Wilwif Password Reset', $message);
+	$data = 'username:'.$username;
+	CreateRecord('Employee change password',$data);
+	return true;
+}
+
+function RecoverPasswordEmployee($username,$email)
+{
+	$password = CreatePassword();
+	$message = "<div><p>Password Change successful</p>";
+	$message .= "<p>New Password:".$password."</p>";
+	$message .= "<p>Click <a href=".$GLOBALS['configuration']->getOption('domainadmin').">here</a> For login</p>";
+	$query = "UPDATE user SET";
+	$query = $query." password = '".md5($password)."'";
+	$query = $query.", last_mod_date = NOW()";
+	$query = $query." WHERE username ='".$username."'"; 
+		
+	$sql = mysql_query($query)or die('error at try to access data' . mysql_error());
+	
+	$errorCode = new errorCodes();
+	if (!$sql) {
+		$errorCode->AddError('user',mysql_error());
+		$errorCode->AddError('user_sql',$query);
+		return $errorCode;
+    }
+		SendMail( $email,'Wilwif Password Reset', $message);
+	$data = 'username:'.$username.' email:'.$email;
+	//CreateRecord('Recover User',$data);
+	return true;
 }
 
  function is_logged_in()
@@ -68,8 +172,7 @@ function CreateCode()
 }
 
 function CreateUser($username,$password,$email,$name,$lastname,$rol_id,$security_question,$security_answer)
-{
-	$query =  'INSERT INTO user (';
+{$query =  'INSERT INTO user (';
 	$query =  $query. 'username' ;
 	$query =  $query. ',password' ;
 	$query =  $query. ',email' ;
@@ -77,8 +180,14 @@ function CreateUser($username,$password,$email,$name,$lastname,$rol_id,$security
 	$query =  $query. ',lastname' ;
 	$query =  $query. ',rol_id' ;
 	$query =  $query. ',status' ;
-	$query =  $query. ',security_question' ;
-	$query =  $query. ',security_answer' ;
+	if($security_question != "")
+	{
+		$query =  $query. ',security_question' ;
+	}
+	if($security_question != "")
+	{
+		$query =  $query. ',security_answer' ;
+	}
 	$query =  $query. ',create_date' ;
 	$query =  $query. ',last_mod_date' ;
 	$query =  $query. ')' ;
@@ -90,8 +199,14 @@ function CreateUser($username,$password,$email,$name,$lastname,$rol_id,$security
 	$query =  $query. ',"'.$lastname.'"' ;
 	$query =  $query. ','.$rol_id.'' ;
 	$query =  $query. ',"Active"' ;
-	$query =  $query. ',"'.$security_question.'"' ;
-	$query =  $query. ',"'.$security_answer.'"' ;
+	if($security_question != "")
+	{
+		$query =  $query. ',"'.$security_question.'"' ;
+	}
+		if($security_question != "")
+	{
+		$query =  $query. ',"'.$security_answer.'"' ;
+	}
 	$query =  $query. ',NOW()' ;
 	$query =  $query. ',NOW()' ;
 	$query =  $query. ')' ;
@@ -104,6 +219,8 @@ function CreateUser($username,$password,$email,$name,$lastname,$rol_id,$security
 		$errorCode->AddError('user_sql',$query);
 		return $errorCode;
     }
+	$data = 'username:'.$username."email:".$email;
+	CreateRecord('New User',$data);
 	$user = new userInfo($username);
 	return $user;
 }
@@ -123,7 +240,8 @@ function DeletedUser($username)
 		$errorCode->AddError('user_sql',$query);
 		return $errorCode;
     }
-
+	$data = 'username:'.$username;
+	CreateRecord('Deleted User',$data);
 	$user = new userInfo($username);
 	return $user;
 }
@@ -144,7 +262,8 @@ function BlockUser($username)
 		$errorCode->AddError('user_sql',$query);
 		return $errorCode;
     }
-
+	$data = 'username:'.$username;
+	CreateRecord('Block User',$data);
 	$user = new userInfo($username);
 	return $user;
 }
@@ -166,17 +285,16 @@ function UnblockUser($username)
     }
 
 	$user = new userInfo($username);
+	$data = 'username:'.$username;
+	CreateRecord('Unblock User',$data);
 	return $user;
 }
 
-function ModifyUser($username,$email,$name,$lastname,$rol_id,$security_question,$security_answer)
+function ModifyAccountEmployee($username,$email,$name,$lastname)
 {
 	$query = "UPDATE user SET";
 	$query = $query." name = '".$name."'";
 	$query = $query.", lastname = '".$lastname."'";
-	$query = $query.", rol_id = '".$rol_id."'";
-	$query = $query.", security_question = '".$security_question."'";
-	$query = $query.", security_answer = '".$security_answer."'";
 	$query = $query.", email = '".$email."'";
 	$query = $query.", last_mod_date = NOW()";
 	$query = $query." WHERE username ='".$username."'"; 
@@ -191,11 +309,58 @@ function ModifyUser($username,$email,$name,$lastname,$rol_id,$security_question,
     }
 
 	$user = new userInfo($username);
+	$data = 'username:'.$username. ' email:'.$email.' name:'.$name.'lastname'.$lastname;
+	CreateRecord('Employee change info',$data);
 	return $user;
 }
 
-function CreateItem($item_name, $item_title, $item_description, $item_country,
- $item_city, $item_address, $item_category, $item_type , $imgs_path)
+function ModifyUser($username,$email,$name,$lastname,$security_question,$security_answer,$img_path)
+{
+	$query = "UPDATE user SET";
+	$query = $query." name = '".$name."'";
+	$query = $query.", lastname = '".$lastname."'";
+	$query = $query.", security_question = '".$security_question."'";
+	$query = $query.", security_answer = '".$security_answer."'";
+	$query = $query.", email = '".$email."'";
+	$query = $query.", last_mod_date = NOW()";
+	$query = $query." WHERE username ='".$username."'"; 
+	$sql = mysql_query($query)or die('error at try to access data' . mysql_error());
+	
+	$errorCode = new errorCodes();
+	if (!$sql) {
+		$errorCode->AddError('user',mysql_error());
+		$errorCode->AddError('user_sql',$query);
+		return $errorCode;
+    }
+
+	$user = new userInfo($username);
+	
+	$query = 'select * from user_photo where id_user='.$user->user_id;
+	$sql = mysql_query($query);
+	if($row = mysql_fetch_assoc($sql))
+	{
+		$query = "UPDATE user_photo SET";
+		$query = $query." path = ".$img_path."";
+		$query = $query." WHERE id_user =".$user->user_id.""; 
+		$sql = mysql_query($query);
+	}else
+	{
+		$query =  'INSERT INTO user_photo (';
+		$query =  $query. 'id_user' ;
+		$query =  $query. ',path' ;
+		$query =  $query. ')' ;
+		$query =  $query. ' VALUES (' ;
+		$query =  $query. ' '.$user->user_id.'' ;
+		$query =  $query. ','.$img_path.'' ;
+		$query =  $query. ')' ;
+		$sql = mysql_query($query);
+	}
+	$data = 'username:'.$username. ' email:'.$email.' name:'.$name.'lastname'.$lastname.' security answer:'.$security_answer;
+	CreateRecord('User change info',$data);
+	return $user;
+}
+
+function CreateItem($item_name, $item_title, $item_description, $item_country,$item_city, $item_address, $item_category, $item_type , $imgs_path,$item_brand ,$item_color ,$item_number ,$item_model)
 {
 	
 	/*Load  Logged User ID and generate the item code*/
@@ -227,6 +392,10 @@ function CreateItem($item_name, $item_title, $item_description, $item_country,
 	$sql =  $sql. ',id_user' ;
 	$sql =  $sql. ',country' ;
 	$sql =  $sql. ',city' ;
+	$sql =  $sql. ',model' ;
+	$sql =  $sql. ',brand' ;
+	$sql =  $sql. ',color' ;
+	$sql =  $sql. ',number' ;
 	$sql =  $sql. ',create_date' ;
 	$sql =  $sql. ',last_mod_date' ;
 	$sql =  $sql. ')' ;
@@ -242,6 +411,10 @@ function CreateItem($item_name, $item_title, $item_description, $item_country,
 	$sql =  $sql. ','.$item_user.'' ;
 	$sql =  $sql. ',"'.$item_country.'"' ;
 	$sql =  $sql. ',"'.$item_city.'"' ;
+	$sql =  $sql. ',"'.$item_model.'"' ;
+	$sql =  $sql. ',"'.$item_brand.'"' ;
+	$sql =  $sql. ',"'.$item_color.'"' ;
+	$sql =  $sql. ',"'.$item_number.'"' ;
 	$sql =  $sql. ',NOW()' ;
 	$sql =  $sql. ',NOW()' ;
 	$sql =  $sql. ')' ;
@@ -252,7 +425,7 @@ function CreateItem($item_name, $item_title, $item_description, $item_country,
 	if (!$query) {
 		$errorCode->AddError('item',mysql_error());
 		$errorCode->AddError('item_sql',$sql);
-		
+		echo mysql_error();
 		return $errorCode;
     }
 		
@@ -271,12 +444,15 @@ function CreateItem($item_name, $item_title, $item_description, $item_country,
 		$query = mysql_query($sql)or die('error at try to access data' . mysql_error());;
 	}
 	$item = new item($item_code);
+	$data = 'wilwif code:'.$item_code. 'brand:'.$item_brand.' color:'.$item_color.' number'.$item_number;
+	CreateRecord('CreateItem',$data);
+	
 	return $item;	
 		
 }
 
 function ModifyItem($item_code,$item_name, $item_title, $item_description, $item_country,
- $item_city, $item_address, $item_category, $item_type , $imgs_path)
+ $item_city, $item_address, $item_category, $item_type , $imgs_path,$item_brand ,$item_color ,$item_number,$item_model)
  {
 	/*Guardamos el item en la base de datos*/
 	$item = new item($item_code);
@@ -291,6 +467,10 @@ function ModifyItem($item_code,$item_name, $item_title, $item_description, $item
 	$query = $query.", id_category = ".$item_category."";
 	$query = $query.", country = '".$item_country."'";
 	$query = $query.", city = '".$item_city."'";
+	$query = $query.", model = '".$item_model."'";
+	$query = $query.", brand = '".$item_brand."'";
+	$query = $query.", color = '".$item_color."'";
+	$query = $query.", number = '".$item_number."'";
 	$query = $query.", last_mod_date = NOW()";
 	$query = $query." WHERE id=".$item_id; 
 		
@@ -320,6 +500,8 @@ function ModifyItem($item_code,$item_name, $item_title, $item_description, $item
 	}
 	
 	$item = new item($item_code);
+	$data = 'wilwif code:'.$item_code. 'brand:'.$item_brand.' color:'.$item_color.' number'.$item_number;
+	CreateRecord('Modify',$data);
 	return $item;
  }
  
@@ -338,6 +520,8 @@ function ModifyItem($item_code,$item_name, $item_title, $item_description, $item
 		$errorCode->AddError('item_sql',$sql);
 		return $errorCode;
     }	
+	$data = 'wilwif code:'.$item_code;
+	CreateRecord('Unblock Item',$data);
 	return true;
 }
 
@@ -356,6 +540,8 @@ function BlockItem($item_code)
 		$errorCode->AddError('item_sql',$sql);
 		return $errorCode;
     }	
+	$data = 'wilwif code:'.$item_code;
+	CreateRecord('Block Item',$data);
 	return true;
 }
 
@@ -374,10 +560,30 @@ function BlockItem($item_code)
 		$errorCode->AddError('item_sql',$sql);
 		return $errorCode;
     }	
+	$data = 'wilwif code:'.$item_code . 'status'.$status;
+	CreateRecord('Change Status Item',$data);
 	return true;
 }
 
-
+function LostItem($item_code)
+{
+	$item = new item($item_code);
+	$item_id = $item->item_id;
+	$sql = "UPDATE item SET";
+	$sql = $sql." status = 'Lost'";
+	$sql = $sql.", last_mod_date = NOW()";
+	$sql = $sql." WHERE id=".$item_id; 
+	$query = mysql_query($sql)or die('error at try to access data' . mysql_error());
+	$errorCode = new errorCodes();
+	if (!$query) {
+		$errorCode->AddError('item',mysql_error());
+		$errorCode->AddError('item_sql',$sql);
+		return $errorCode;
+    }
+	$data = 'wilwif code:'.$item_code;
+	CreateRecord('Lost Item',$data);	
+	return true;
+}
  function DeleteItem($item_code)
  {
 	$item = new item($item_code);
@@ -392,7 +598,9 @@ function BlockItem($item_code)
 		$errorCode->AddError('item',mysql_error());
 		$errorCode->AddError('item_sql',$sql);
 		return $errorCode;
-    }	
+    }
+	$data = 'wilwif code:'.$item_code;
+	CreateRecord('Deleted Item',$data);	
 	return true;
 }
 
@@ -405,7 +613,7 @@ function CreateOrder($order_code, $order_item_id, $order_message,
 	while(!$valide_code)
 	{
 		$order_code = CreateCode();
-		$sql = "select * from order where code='".$order_code."'";
+		$sql = "select * from `order` where code='".$order_code."'";
 		$query = mysql_query($sql);
 		if(!$row = mysql_fetch_assoc($query))
 		{
@@ -448,19 +656,42 @@ function CreateOrder($order_code, $order_item_id, $order_message,
 		return $errorCode;
     }	
 	/*Safe the Photos in the DB*/
+	
+	$message = "You have created an order";
+	$username;
+	$sql = "select username from user where id=".$order_user_send_id."";
+	$query = mysql_query($sql);
+	if($row = mysql_fetch_assoc($query))
+	{
+			$username =$row['username'];
+			CreateNotification($username,$message);
+	}
+	
+	$message = "You have received an order";
+	$username;
+	$sql = "select username from user where id=".$order_user_reviced_id."";
+	$query = mysql_query($sql);
+	if($row = mysql_fetch_assoc($query))
+	{
+			$username =$row['username'];
+			CreateNotification($username,$message);
+	}
+	
 	$orden = new order($order_code);
+	$data = 'order code:'.$order_code . ' wilwif code'.$order_item_id;
+	CreateRecord('New Order',$data);
 	return $orden;		
 }
 
 
-function ModifyOrder($order_code,$order_name,$order_message,$order_title,$order_address,$order_user_reviced_id)
+function ModifyOrder($order_code,$order_status,$order_message,$order_title,$order_address,$order_user_reviced_id)
 {
 	/*Guardamos el item en la base de datos*/
 	$order = new order($order_code);
 	$order_id = $order->order_id;
 		
 	$sql = "UPDATE `order` SET";
-	$sql = $sql." status = '".$order_name."'";
+	$sql = $sql." status = '".$order_status."'";
 	$sql = $sql.", message = '".$order_message."'";
 	$sql = $sql.", title = '".$order_title."'";
 	$sql = $sql.", address = '".$order_address."'";
@@ -478,6 +709,8 @@ function ModifyOrder($order_code,$order_name,$order_message,$order_title,$order_
     }	
 	
 	$order = new order($order_code);
+	$data = 'order code:'.$order_code ;
+	CreateRecord('Change Order',$data);
 	return $order;
 }
 
@@ -496,6 +729,8 @@ function BlockOrder($order_code)
 		$errorCode->AddError('order_sql',$sql);
 		return $errorCode;
     }	
+		$data = 'order code:'.$order_code ;
+	CreateRecord('Block Order',$data);
 	return true;
 }
 
@@ -514,6 +749,8 @@ function UnblockOrder($order_code)
 		$errorCode->AddError('order_sql',$sql);
 		return $errorCode;
     }	
+	$data = 'order code:'.$order_code ;
+	CreateRecord('Unblock Order',$data);
 	return true;
 }
 
@@ -533,6 +770,8 @@ function ModifyStatusOrder($order_code,$status)
 		$errorCode->AddError('order_id_sql',$sql);
 		return $errorCode;
     }	
+	$data = 'order code:'.$order_code ;
+	CreateRecord('Change status Order',$data);
 	return true;
 }
 
@@ -551,6 +790,8 @@ function DeleteOrder($order_code)
 		$errorCode->AddError('order_sql',$sql);
 		return $errorCode;
     }	
+	$data = 'order code:'.$order_code ;
+	CreateRecord('Deleted Order',$data);
 	return true;
 }
 
@@ -578,7 +819,7 @@ function CreateShipment($shipment_code, $shipment_item_id, $shipment_message,
 		}
 	}
 	
-	$order_code = CreateCode();
+	//$order_code = CreateCode();
 	/*Safe the item in the DB*/
 	$sql =  'INSERT INTO submit (';
 	$sql =  $sql. 'code' ;
@@ -588,7 +829,7 @@ function CreateShipment($shipment_code, $shipment_item_id, $shipment_message,
 	$sql =  $sql. ',title' ;
 	$sql =  $sql. ',address' ;
 	$sql =  $sql. ',id_user_send' ;
-	$sql =  $sql. ',id_user_recived' ;
+	$sql =  $sql. ',id_user_recive' ;
 	$sql =  $sql. ',create_date' ;
 	$sql =  $sql. ',last_mod_date' ;
 	$sql =  $sql. ')' ;
@@ -613,8 +854,32 @@ function CreateShipment($shipment_code, $shipment_item_id, $shipment_message,
 		return $errorCode;
     }	
 	/*Safe the Photos in the DB*/
-	$orden = new order($order_code);
-	return $orden;		
+	$shipment = new shipment($shipment_code);
+	$data = 'shipment code:'.$shipment_code .' wilwif code:'.$shipment_item_id;
+	
+	$message = "You have created a shipment";
+	$username;
+	$sql = "select username from user where id=".$shipment_user_send_id."";
+	$query = mysql_query($sql);
+	if($row = mysql_fetch_assoc($query))
+	{
+			$username =$row['username'];
+			CreateNotification($username,$message);
+	}
+	
+	
+	$message = "You have received a shipment";
+	$username;
+	$sql = "select username from user where id=".$shipment_user_reviced_id."";
+	$query = mysql_query($sql);
+	if($row = mysql_fetch_assoc($query))
+	{
+			$username =$row['username'];
+			CreateNotification($username,$message);
+	}
+	
+	CreateRecord('Sent shipment',$data);
+	return $shipment;		
 }
 
 
@@ -643,6 +908,8 @@ function ModifyShipment($shipment_code,$shipment_name,$shipment_message,$shipmen
     }	
 	
 	$shipment = new shipment($shipment_code);
+	$data = 'shipment code:'.$shipment_code ;
+	CreateRecord('Change shipment',$data);
 	return $shipment;
 }
 
@@ -661,6 +928,8 @@ function BlockShipment($shipment_code)
 		$errorCode->AddError('shipment_sql',$sql);
 		return $errorCode;
     }	
+	$data = 'shipment code:'.$shipment_code ;
+	CreateRecord('Block shipment',$data);
 	return true;
 }
 
@@ -679,6 +948,8 @@ function UnblockShipment($shipment_code)
 		$errorCode->AddError('shipment_sql',$sql);
 		return $errorCode;
     }	
+	$data = 'shipment code:'.$shipment_code ;
+	CreateRecord('Unblock shipment',$data);
 	return true;
 }
 
@@ -697,6 +968,8 @@ function ModifyStatusShipment($shipment_code,$status)
 		$errorCode->AddError('shipment_sql',$sql);
 		return $errorCode;
     }	
+	$data = 'shipment code:'.$shipment_code.' status'.$status ;
+	CreateRecord('Change status shipment',$data);
 	return true;
 }
 
@@ -715,6 +988,8 @@ function DeleteShipment($shipment_code)
 		$errorCode->AddError('shipment_sql',$sql);
 		return $errorCode;
     }	
+	$data = 'shipment code:'.$shipment_code;
+	CreateRecord('Deleted shipment',$data);
 	return true;
 }
 
@@ -732,7 +1007,7 @@ function ReadNotification($id_notification)
 		$errorCode->AddError('notification_sql',$query);
 		return $errorCode;
     }
-	true;
+	return true;
 }
 
 function DeleteNotification($id_notification)
@@ -771,11 +1046,12 @@ function CreateNotification($username,$message)
 	$sql = mysql_query($query);
 	$errorCode = new errorCodes();
 	if (!$sql) {
-		echo mysql_error();
 		$errorCode->AddError('notification',mysql_error());
 		$errorCode->AddError('notification_sql',$query);
 		return $errorCode;
     }
+	
+	SendMail( $user->user_email,'Wilwif New Notification', $message);
 	return true;
 }
 
@@ -789,7 +1065,8 @@ $mail = new PHPMailer();
 //$mail->Username = "";
 //$mail->Password = "";
 //$mail->Sender = "";
-$from = $GLOBALS['configuration']->getOption('email');;
+$from = $GLOBALS['configuration']->getOption('email');
+
 $mail->From = $from; // email from
 $mail->AddReplyTo($from); // email from
 $mail->FromName = "Wilwif"; // name from
@@ -801,9 +1078,9 @@ $mail->WordWrap = 50;
 
 
 if(!$mail->Send()) {
-  echo "Mailer Error: " . $mail->ErrorInfo;
+  return "Mailer Error: " . $mail->ErrorInfo;
 } else {
-  echo "Message sent!";
+  return "Message sent!";
 }
 }
 

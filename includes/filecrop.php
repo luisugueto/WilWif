@@ -3,9 +3,10 @@ $x = $_POST["x"];
 $y = $_POST["y"];
 $w = $_POST["w"];
 $h = $_POST["h"];
-$img_path = $_POST["src"];
+$img_path = $_POST["imgurl"];
 $relative_path = "../public_html";
 $isImg = getimagesize($relative_path.$img_path);
+
 if($isImg !== false) {
 $ext = explode('.', $img_path);
 $type = $ext[count($ext) - 1];

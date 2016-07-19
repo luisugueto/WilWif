@@ -89,5 +89,6 @@ require('layout/header.php');
 
 <?php
 //include header template
+$actualpage = "Reset Password";
 require('layout/footer.php');
 ?>

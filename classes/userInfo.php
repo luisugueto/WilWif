@@ -7,12 +7,14 @@ class userInfo{
 	public $user_lastname;
 	public $user_status;
 	public $user_security_question;
+	public $user_security_answer;
 	public $user_blocked;
 	public $user_login_attemps;
 	public $user_create_date;
 	public $user_last_mod_date;
 	public $user_rol_code;
 	public $user_rol_slug;
+	public $user_img;
 	
 	function __construct($user_username_,$especial = false) 
 	{
@@ -37,6 +39,8 @@ class userInfo{
 			$this->user_lastname = $row["lastname"];
 			$this->user_status= $row["status"]; 
 			$this->user_security_question = $row["security_question"];
+			$this->user_security_answer = $row["security_answer"];
+			
 			$this->user_blocked = $row["blocked"];
 			$this->user_login_attemps = $row["login_attemps"];
 			$this->user_create_date = $row["create_date"];
@@ -48,6 +52,14 @@ class userInfo{
 			{
 				$this->user_rol_slug = $row2["slug"];
 				$this->user_rol_code = $row2["code"];
+			}
+			
+			$this->user_img ='';
+			$sql = 'SELECT path FROM user_photo where id_user ='.$this->user_id.'';
+			$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
+			if($row2 = mysql_fetch_assoc($query))
+			{
+				$this->user_img = $row2["path"];
 			}
 		}	
 	

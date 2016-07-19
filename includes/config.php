@@ -14,8 +14,8 @@ date_default_timezone_set('America/Caracas');
 //application address
 #define('DIR','http://domain.com/');
 #define('SITEEMAIL','noreply@domain.com');
-$db=mysql_connect("localhost","root","");
-mysql_select_db("ap_wilwif",$db);
+$db=mysql_connect("localhost","zuarunet_appadmi","d)*a-0CDLH]2");
+mysql_select_db("zuarunet_app_wilwif",$db);
 // try {
 
 // 	//create PDO connection

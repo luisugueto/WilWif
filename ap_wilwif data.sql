@@ -308,10 +308,10 @@ VALUES ( 'modify configurations', 'modify configurations', '422');
 /* start Add roles */
 
 INSERT INTO `rol` ( `code`, `name`, `description`, `slug`) VALUES
-( '001', 'user', 'is the default rol for register people', 'user');
+( '001', 'user', 'is the default rol for register people', 'User');
 
 INSERT INTO `rol` ( `code`, `name`, `description`, `slug`) VALUES
-('010', 'Administrator', 'is the user with all the permitions', 'admin');
+('010', 'Administrator', 'is the user with all the permitions', 'Admin');
 
 /* end Add Roles */
 
@@ -621,10 +621,6 @@ VALUES ( (select id from permission where code ="422"),(select id from rol where
 
 /* end  permitions to tol */
 
-/* create admin user clave admin2016in*/
-
-INSERT INTO `ap_wilwif`.`user` (`name`,`username`,`password`,`email`)
-VALUES ("Administrator","Admin", "7c4927148c45e356a9a93231a595cd50", "info@zuaru.com");
 
 /* end create admin user */
 
@@ -727,3 +723,57 @@ INSERT INTO `ap_wilwif`.`item_category` ( `name`, `slug`)
  INSERT INTO `ap_wilwif`.`item_category` ( `name`, `slug`)
  VALUES ( 'Etc', 'Other');
 /*  End item Category Base*/
+
+INSERT INTO `ap_wilwif`.`configuration` (
+`id` ,
+`option` ,
+`value`
+)
+VALUES (
+NULL , 'domain', 'http://wilwif.zuaru.com'
+), (
+NULL , 'domainadmin', 'http://adminwilwif.zuaru.com'
+);
+
+
+INSERT INTO `ap_wilwif`.`configuration` (
+`id` ,
+`option` ,
+`value`
+)
+VALUES (
+NULL , 'email', 'wilwif@wilwif.com'
+), (
+NULL , 'maxattemps', '3'
+), (
+NULL , 'nresult', '10'
+);
+
+
+INSERT INTO `ap_wilwif`.`status` (
+`id` ,
+`status` ,
+`description`
+)
+VALUES (
+NULL , 'Shipped', 'Shipped'
+), (
+NULL , 'In transit', ''
+), (
+NULL , 'Out For Delivery', ''
+), (
+NULL , 'Delivered', ''
+);
+
+INSERT INTO `ap_wilwif`.`status` (
+`id` ,
+`status` ,
+`description`
+)
+VALUES (
+NULL , 'Block', ''
+);
+/* create admin user clave admin2016in*/
+
+INSERT INTO `ap_wilwif`.`user` (`name`,`username`,`password`,`email`,`rol_id`,`status`)
+VALUES ("Administrator","Admin", "7c4927148c45e356a9a93231a595cd50", "info@zuaru.com",(select id from rol where code ="010"),'Active');

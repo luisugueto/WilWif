@@ -1,32 +1,19 @@
 <?php 
 require('layout/header.php'); 
-$error = array();
-$error['error'] = false;
+
 $method="";
 if(!$user->is_logged_in() ){
-	header('Location: /register/');
+	header('Location: /');
 }
-
-$type = $_GET['type'];
-
 if (isset($_POST['submit_create'])) 
 {
-	if(isset($_POST['item_name']) && !empty($_POST['item_name']))
-	{
-		$item_name =   	$_POST['item_name'];
-	}else
-	{
-		$error['error'] = true;
-		$error['item_name'] = 'Field Required';
-	}
-
 	if(isset($_POST['item_title']) && !empty($_POST['item_title']))
 	{
 		$item_title =   $_POST['item_title'];
 	}else
 	{
-		$error['error'] = true;
-		$error['item_title'] = 'Field Required';
+		
+		$error = 'Title Required';
 	}
 
 	if(isset($_POST['item_description']) && !empty($_POST['item_description']))
@@ -35,6 +22,7 @@ if (isset($_POST['submit_create']))
 	}else
 	{
 		
+		$error = 'Description Required';
 	}
 
 	if(isset($_POST['item_country']) && !empty($_POST['item_country']))
@@ -42,8 +30,8 @@ if (isset($_POST['submit_create']))
 		$item_country =   $_POST['item_country'];
 	}else
 	{
-		$error['error'] = true;
-		$error['item_country'] = 'Field Required';
+		
+		$error = 'contry Required';
 	}
 
 	if(isset($_POST['item_city']) && !empty($_POST['item_city']))
@@ -51,46 +39,32 @@ if (isset($_POST['submit_create']))
 		$item_city =   $_POST['item_city'];
 	}else
 	{
-		$error['error'] = true;
-		$error['item_city'] = 'Field Required';
+		
+		$error = 'City Field Required';
 	}
 
-	if(isset($_POST['item_address']) && !empty($_POST['item_address']))
-	{
-		$item_address =   $_POST['item_address'];
-	}else
-	{
-		
-		//$error['item_address'] = 'Field Required';
-	}
+	
 
 	if(isset($_POST['item_category']) && !empty($_POST['item_category']))
 	{
 		$item_category =   $_POST['item_category'];
 	}else
 	{
-		$error['error'] = true;
-		$error['item_category'] = 'Field Required';
+		
+		$error = 'Category Field Required';
 	}
 
-	if(isset($_POST['foundlost']) && !empty($_POST['foundlost']))
-	{
-		$foundlost =   $_POST['foundlost'];
-	}else
-	{
-		$error['error'] = true;
-		$error['foundlost'] = 'Field Required';
-	}
 	
-	if(isset($_POST['foundlost']) && !empty($_POST['foundlost']))
-	{
-		$item_type =   $_POST['foundlost'];
-	}else
-	{
-		$error['error'] = true;
-		$error['foundlost'] = 'Field Required';
-	}
+
+	$item_type =  (isset($_POST['foundlost'])) ?  $_POST['foundlost']: '';
+	$item_address = (isset($_POST['item_address'])) ?  $_POST['item_address']: '';
+	$item_name = (isset($_POST['item_name'])) ?  $_POST['item_name']: '';
 	
+	$item_category_slug = (isset($_POST['item_category_slug'])) ?  $_POST['item_category_slug']: '';
+	$item_color = (isset($_POST['item_color'])) ?  $_POST['item_color']: '';
+	$item_brand = (isset($_POST['item_brand'])) ?  $_POST['item_brand']: '';
+	$item_number = (isset($_POST['item_number'])) ?  $_POST['item_number']: '';
+	$item_model = (isset($_POST['item_model'])) ?  $_POST['item_model']: '';
 	/*Terminar de verificar todos los datos*/
 	/*Cargamos el id del usuario y las imagenes y generamos el cod del item*/
 	$imgs_path = array();
@@ -101,10 +75,9 @@ if (isset($_POST['submit_create']))
 			array_push($imgs_path, $_POST['url_img'][$i]);	
 		}
 	}
-	if(!$error['error'])
+	if(!isset($error))
 	{
-		$item = CreateItem($item_name, $item_title, $item_description, $item_country,
-		$item_city, $item_address, $item_category, $item_type , $imgs_path);
+		$item = CreateItem($item_name, $item_title, $item_description, $item_country,$item_city, $item_address, $item_category, $item_type , $imgs_path,$item_brand,$item_color,$item_number,$item_model);
 		if (is_a($item, 'errorCodes')) {
 			$errors = $item->GetErrors();
 			echo "<p>type Error</p>";
@@ -113,7 +86,7 @@ if (isset($_POST['submit_create']))
 				echo "<p>type Error".$error."</p>";
 			}
 			
-		}
+		}else{
 		$method="modify";
 		$item_code = $item->item_code;
 		$item_name = $item->item_name;
@@ -125,7 +98,8 @@ if (isset($_POST['submit_create']))
 		$imgs_path =  $item->item_photos_url;
 		$item_country = $item->item_country;
 		$item_city = $item->item_city;
-	
+		$item_category_slug = $item->item_category_slug;
+		}
 	}
 }else if(isset($_POST['submit_modify'])){
 	$method = 'modify';
@@ -135,26 +109,18 @@ if (isset($_POST['submit_create']))
 		$item_code =   	$_POST['item_code'];
 	}else
 	{
-		$error['error'] = true;
-		$error['message'] = 'Field Code Required';
+		$error = 'Field Code Required';
 	}
 	
-	if(isset($_POST['item_name']) && !empty($_POST['item_name']))
-	{
-		$item_name =   	$_POST['item_name'];
-	}else
-	{
-		$error['error'] = true;
-		$error['message'] = 'Field Name Required';
-	}
+	
 
 	if(isset($_POST['item_title']) && !empty($_POST['item_title']))
 	{
 		$item_title =   $_POST['item_title'];
 	}else
 	{
-		$error['error'] = true;
-		$error['message'] = 'Field Title Required';
+		
+		$error ='Field Title Required';
 	}
 
 	if(isset($_POST['item_description']) && !empty($_POST['item_description']))
@@ -170,8 +136,7 @@ if (isset($_POST['submit_create']))
 		$item_country =   $_POST['item_country'];
 	}else
 	{
-		$error['error'] = true;
-		$error['message'] = 'Field Country Required';
+		$error ='Field Country Required';
 	}
 
 	if(isset($_POST['item_city']) && !empty($_POST['item_city']))
@@ -179,36 +144,20 @@ if (isset($_POST['submit_create']))
 		$item_city =   $_POST['item_city'];
 	}else
 	{
-		$error['error'] = true;
-		$error['message'] = 'Field City Required';
-	}
-
-	if(isset($_POST['item_address']) && !empty($_POST['item_address']))
-	{
-		$item_address =   $_POST['item_address'];
-	}else
-	{
 		
-		//$error['item_address'] = 'Field Required';
+		$error = 'Field City Required';
 	}
 
+	
 	if(isset($_POST['item_category']) && !empty($_POST['item_category']))
 	{
 		$item_category =   $_POST['item_category'];
 	}else
 	{
-		$error['error'] = true;
-		$error['message'] = 'Field Category Required';
+		$error = 'Field Category Required';
 	}
 
-	if(isset($_POST['foundlost']) && !empty($_POST['foundlost']))
-	{
-		$item_type =   $_POST['foundlost'];
-	}else
-	{
-		$error['error'] = true;
-		$error['message'] = 'Field Type Required';
-	}
+	
 	/*Terminar de verificar todos los datos*/
 	/*Cargamos el id del usuario y las imagenes y generamos el cod del item*/
 	
@@ -221,10 +170,18 @@ if (isset($_POST['submit_create']))
 		}
 	}
 	
-	if(!$error['error'])
+	$item_address = (isset($_POST['item_address'])) ?  $_POST['item_address']: '';
+	$item_name = (isset($_POST['item_name'])) ?  $_POST['item_name']: '';
+	
+	$item_type =  (isset($_POST['foundlost'])) ?  $_POST['foundlost']: '';
+	$item_color = (isset($_POST['item_color'])) ?  $_POST['item_color']: '';
+	$item_brand = (isset($_POST['item_brand'])) ?  $_POST['item_brand']: '';
+	$item_number = (isset($_POST['item_number'])) ?  $_POST['item_number']: '';
+	$item_model = (isset($_POST['item_model'])) ?  $_POST['item_model']: '';
+	if(!isset($error))
 	{		
 		$item = ModifyItem($item_code,$item_name, $item_title, $item_description, $item_country,
-		$item_city, $item_address, $item_category, $item_type , $imgs_path);
+		$item_city, $item_address, $item_category, $item_type , $imgs_path,$item_brand,$item_color,$item_number,$item_model);
 		if (is_a($item, 'errorCodes')) {
 			$errors = $item->GetErrors();
 			echo "<p>type Error</p>";
@@ -233,7 +190,7 @@ if (isset($_POST['submit_create']))
 				echo "<p>type Error".$error."</p>";
 			}
 			
-		}
+		}else{
 		$item_code = $item->item_code;
 		$item_name = $item->item_name;
 		$item_description = $item->item_description;
@@ -244,25 +201,29 @@ if (isset($_POST['submit_create']))
 		$imgs_path =  $item->item_photos_url;
 		$item_country = $item->item_country;
 		$item_city = $item->item_city;
+		$item_category_slug = $item->item_category_slug;
+		}
 	}else
 	{
-		echo "<p>Error".$error['message']."</p>";
+		echo "<p>Error".$error."</p>";
 	}
 
-}else if(isset($_POST['submit_delete'])){
+}else if(isset($_POST['submit_lost'])){
 
+	
 	if(isset($_POST['item_code']) && !empty($_POST['item_code']))
 	{
+		
 			$item_code =   	$_POST['item_code'];
 	}else
 	{
-		$error['error'] = true;
-		$error['item_code'] = 'Field Required';
+		$error = 'Field Required';
 	}
 	
-	if(!$error['error'])
+	if(!isset($error))
 	{
-		if (DeleteItem($item_code)) {
+		echo 'Pase';
+		if (LostItem($item_code)) {
 			header('Location: /account/found-items/');
 		}
 	}
@@ -284,439 +245,551 @@ $item_category = $item->item_category_id;
 $imgs_path =  $item->item_photos_url;
 $item_country = $item->item_country;
 $item_city = $item->item_city;
+$item_category_slug = $item->item_category_slug;
+$item_color =  $item->item_color;
+$item_brand = $item->item_brand;
+$item_number = $item->item_number;
+$item_model = $item->item_model;
+}else if(isset($_GET['item_category'])){
+	$item_category_slug = $_GET['item_category'];
+	$query = 'select id from item_category where slug="'.$item_category_slug.'"';
+	$sql = mysql_query($query);
+	if($row = mysql_fetch_assoc($sql))
+	{
+		$item_category = $row['id'];
+	}else{
+		header('Location: /account/found-items/');
+	}
+	
+	
+}else{
+	header('Location: /account/found-items/');
 }
 
 ?>
-<div id="content">
-<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
-	<div style="width: 1440px; display: inline-block; text-align: left;">
-		<form method="get" action="/" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
-			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-		</form>
+<script src="/js/uploader.js"></script>
+<div  style="background-image: url('/image/botonera-sola-1024-x-66.png');margin-bottom:10px;background-size:100% 100%; margin-top: -1px;">
+	<div class="row">	
+	<div class="col-xs-3 col-md-2" >
+	<?php 
+					if(isset($_GET['item_category']))
+					{
+						echo "<a href='/account/found-category/'>";
+					}else{
+						echo "<a href='/account/found-items/'>";
+					}
+					?>
+	<p>back</p></a>
+	</div>
+	
+	<div class="col-xs-6 col-md-8" >
+		<p></p>
+	</div>
+					
+	<div class="col-xs-3 col-md-2" >
+	
+	</div>
 	</div>
 </div>
-<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-	<form role="form" method="post" action="" autocomplete="off">
-	
-	<div style="width: 1160px; height: 550px; display: inline-block; border-radius: 20px; padding: 80px 70px; background-image: url('/image/cuadro-generico3-1014-487.png'); background-size: 100% 100%;color:white">
-			<div>
-			<div style="float: left; width: 500px;  padding-left: 0px; padding-right: 0px;">
-				<div>
-					<div style="background-color: rgba(240, 240, 240, 0.8); display: inline-block; border-radius: 20px; padding: 10px;">					
-						<div class="images_holder">
-						</div>
-					</div>
-				</div>
-				<?php if (!$type == 'v') { ?>
-					<div class="row">	
-						<div class="input_container_form">
-							<div class="input_container_label_form">
-								<label class="input_label_form">Item Code</label>
-							</div>
-							<div class="input_container_text_form">
-								<input type="label" name="item_code" class="input_text_form"  id="item_code" placeholder="2016-0708-RG4D-F4VG" value="<?php if(isset($item_code)){ echo $item_code; } ?>" tabindex="1" readonly>
-							</div>
-						</div>
-					</div>
-
-				<?php } ?>
-				
-			
-				<div class="row">	
-					<div class="input_container_form" >
-						<div  class="input_container_label_form">
-							<label for="item_name" class="input_label_form">Item Name</label>
-						</div>
-						<div  class="input_container_text_form">
-							<input type="text" name="item_name" class="input_text_form"  id="item_name" placeholder="Marcos Passport" value="<?php if(isset($item_name)){ echo $item_name; } ?>" required tabindex="1">
-						</div>
-					</div>
-				</div>
-				<div class="row">	
-					<div class="input_container_form">
-						<div class="input_container_label_form">
-							<label for="item_title" class="input_label_form">Title</label>
-						</div>
-						<div class="input_container_text_form">
-							<input type="text" name="item_title" class="input_text_form"  id="item_title"  placeholder="Marcos Passport" value="<?php if(isset($item_title)){ echo $item_title; } ?>" required tabindex="2">
-						</div>
-					</div>
-				</div>
-				
-			</div>
-			<div style="float: left; width: 500px;  padding-left: 0px; padding-right: 0px;">
-				
-				<div class="row" style="margin-top: 25px;">	
-					<div class="input_container_form">
-						<div class="input_container_label_form">
-							<label for="item_category" class="input_label_form">Category</label>
-						</div>
-						<div class="input_container_text_form">
-							<select class="input_select_form" name="item_category" id="item_category" >	
-								<option value="">Select a Category</option>
-									<?php
-									$sql = "select slug,id from item_category";
-									$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
-									while($row = mysql_fetch_assoc($query))
-									{
-										echo "<option value=".$row['id'].">".$row['slug']."</option>"; 
-													
-									}
-								?>
-								
-							</select>
-						</div>
-					</div>
-				</div>
-				
-				<div class="row">	
-					<div class="input_container_form">
-						<div class="input_container_label_form">
-							<label for="foundlost" class="input_label_form">Lost/Found?</label>
-						</div>
-						<div class="input_container_text_form" >
-							<input type="text" name="foundlost" class="input_text_form"  id="item_address" class="form-control input-lg" placeholder="Fruisof-402, Postal Code 35745" value="<?php if(isset($item_type)){echo $item_type;}else echo "Found"; ?>" required tabindex="5" readonly>
-						</div>
-					</div>
-				</div>
-				
-				
-				<div class="row">	
-					<div class="input_container_form">
-						<div class="input_container_label_form">
-							<label for="item_country" class="input_label_form">Country</label>
-						</div>
-						<div class="input_container_text_form" >
-							<select class="input_select_form" name="item_country" id="item_country" >
-								<option value="">Select a Country</option>
-								<option value="AF">Afghanistan</option>
-								<option value="AX">Åland Islands</option>
-								<option value="AL">Albania</option>
-								<option value="DZ">Algeria</option>
-								<option value="AS">American Samoa</option>
-								<option value="AD">Andorra</option>
-								<option value="AO">Angola</option>
-								<option value="AI">Anguilla</option>
-								<option value="AQ">Antarctica</option>
-								<option value="AG">Antigua and Barbuda</option>
-								<option value="AR">Argentina</option>
-								<option value="AM">Armenia</option>
-								<option value="AW">Aruba</option>
-								<option value="AU">Australia</option>
-								<option value="AT">Austria</option>
-								<option value="AZ">Azerbaijan</option>
-								<option value="BS">Bahamas</option>
-								<option value="BH">Bahrain</option>
-								<option value="BD">Bangladesh</option>
-								<option value="BB">Barbados</option>
-								<option value="BY">Belarus</option>
-								<option value="BE">Belgium</option>
-								<option value="BZ">Belize</option>
-								<option value="BJ">Benin</option>
-								<option value="BM">Bermuda</option>
-								<option value="BT">Bhutan</option>
-								<option value="BO">Bolivia, Plurinational State of</option>
-								<option value="BQ">Bonaire, Sint Eustatius and Saba</option>
-								<option value="BA">Bosnia and Herzegovina</option>
-								<option value="BW">Botswana</option>
-								<option value="BV">Bouvet Island</option>
-								<option value="BR">Brazil</option>
-								<option value="IO">British Indian Ocean Territory</option>
-								<option value="BN">Brunei Darussalam</option>
-								<option value="BG">Bulgaria</option>
-								<option value="BF">Burkina Faso</option>
-								<option value="BI">Burundi</option>
-								<option value="KH">Cambodia</option>
-								<option value="CM">Cameroon</option>
-								<option value="CA">Canada</option>
-								<option value="CV">Cape Verde</option>
-								<option value="KY">Cayman Islands</option>
-								<option value="CF">Central African Republic</option>
-								<option value="TD">Chad</option>
-								<option value="CL">Chile</option>
-								<option value="CN">China</option>
-								<option value="CX">Christmas Island</option>
-								<option value="CC">Cocos (Keeling) Islands</option>
-								<option value="CO">Colombia</option>
-								<option value="KM">Comoros</option>
-								<option value="CG">Congo</option>
-								<option value="CD">Congo, the Democratic Republic of the</option>
-								<option value="CK">Cook Islands</option>
-								<option value="CR">Costa Rica</option>
-								<option value="CI">Côte d'Ivoire</option>
-								<option value="HR">Croatia</option>
-								<option value="CU">Cuba</option>
-								<option value="CW">Curaçao</option>
-								<option value="CY">Cyprus</option>
-								<option value="CZ">Czech Republic</option>
-								<option value="DK">Denmark</option>
-								<option value="DJ">Djibouti</option>
-								<option value="DM">Dominica</option>
-								<option value="DO">Dominican Republic</option>
-								<option value="EC">Ecuador</option>
-								<option value="EG">Egypt</option>
-								<option value="SV">El Salvador</option>
-								<option value="GQ">Equatorial Guinea</option>
-								<option value="ER">Eritrea</option>
-								<option value="EE">Estonia</option>
-								<option value="ET">Ethiopia</option>
-								<option value="FK">Falkland Islands (Malvinas)</option>
-								<option value="FO">Faroe Islands</option>
-								<option value="FJ">Fiji</option>
-								<option value="FI">Finland</option>
-								<option value="FR">France</option>
-								<option value="GF">French Guiana</option>
-								<option value="PF">French Polynesia</option>
-								<option value="TF">French Southern Territories</option>
-								<option value="GA">Gabon</option>
-								<option value="GM">Gambia</option>
-								<option value="GE">Georgia</option>
-								<option value="DE">Germany</option>
-								<option value="GH">Ghana</option>
-								<option value="GI">Gibraltar</option>
-								<option value="GR">Greece</option>
-								<option value="GL">Greenland</option>
-								<option value="GD">Grenada</option>
-								<option value="GP">Guadeloupe</option>
-								<option value="GU">Guam</option>
-								<option value="GT">Guatemala</option>
-								<option value="GG">Guernsey</option>
-								<option value="GN">Guinea</option>
-								<option value="GW">Guinea-Bissau</option>
-								<option value="GY">Guyana</option>
-								<option value="HT">Haiti</option>
-								<option value="HM">Heard Island and McDonald Islands</option>
-								<option value="VA">Holy See (Vatican City State)</option>
-								<option value="HN">Honduras</option>
-								<option value="HK">Hong Kong</option>
-								<option value="HU">Hungary</option>
-								<option value="IS">Iceland</option>
-								<option value="IN">India</option>
-								<option value="ID">Indonesia</option>
-								<option value="IR">Iran, Islamic Republic of</option>
-								<option value="IQ">Iraq</option>
-								<option value="IE">Ireland</option>
-								<option value="IM">Isle of Man</option>
-								<option value="IL">Israel</option>
-								<option value="IT">Italy</option>
-								<option value="JM">Jamaica</option>
-								<option value="JP">Japan</option>
-								<option value="JE">Jersey</option>
-								<option value="JO">Jordan</option>
-								<option value="KZ">Kazakhstan</option>
-								<option value="KE">Kenya</option>
-								<option value="KI">Kiribati</option>
-								<option value="KP">Korea, Democratic People's Republic of</option>
-								<option value="KR">Korea, Republic of</option>
-								<option value="KW">Kuwait</option>
-								<option value="KG">Kyrgyzstan</option>
-								<option value="LA">Lao People's Democratic Republic</option>
-								<option value="LV">Latvia</option>
-								<option value="LB">Lebanon</option>
-								<option value="LS">Lesotho</option>
-								<option value="LR">Liberia</option>
-								<option value="LY">Libya</option>
-								<option value="LI">Liechtenstein</option>
-								<option value="LT">Lithuania</option>
-								<option value="LU">Luxembourg</option>
-								<option value="MO">Macao</option>
-								<option value="MK">Macedonia, the former Yugoslav Republic of</option>
-								<option value="MG">Madagascar</option>
-								<option value="MW">Malawi</option>
-								<option value="MY">Malaysia</option>
-								<option value="MV">Maldives</option>
-								<option value="ML">Mali</option>
-								<option value="MT">Malta</option>
-								<option value="MH">Marshall Islands</option>
-								<option value="MQ">Martinique</option>
-								<option value="MR">Mauritania</option>
-								<option value="MU">Mauritius</option>
-								<option value="YT">Mayotte</option>
-								<option value="MX">Mexico</option>
-								<option value="FM">Micronesia, Federated States of</option>
-								<option value="MD">Moldova, Republic of</option>
-								<option value="MC">Monaco</option>
-								<option value="MN">Mongolia</option>
-								<option value="ME">Montenegro</option>
-								<option value="MS">Montserrat</option>
-								<option value="MA">Morocco</option>
-								<option value="MZ">Mozambique</option>
-								<option value="MM">Myanmar</option>
-								<option value="NA">Namibia</option>
-								<option value="NR">Nauru</option>
-								<option value="NP">Nepal</option>
-								<option value="NL">Netherlands</option>
-								<option value="NC">New Caledonia</option>
-								<option value="NZ">New Zealand</option>
-								<option value="NI">Nicaragua</option>
-								<option value="NE">Niger</option>
-								<option value="NG">Nigeria</option>
-								<option value="NU">Niue</option>
-								<option value="NF">Norfolk Island</option>
-								<option value="MP">Northern Mariana Islands</option>
-								<option value="NO">Norway</option>
-								<option value="OM">Oman</option>
-								<option value="PK">Pakistan</option>
-								<option value="PW">Palau</option>
-								<option value="PS">Palestinian Territory, Occupied</option>
-								<option value="PA">Panama</option>
-								<option value="PG">Papua New Guinea</option>
-								<option value="PY">Paraguay</option>
-								<option value="PE">Peru</option>
-								<option value="PH">Philippines</option>
-								<option value="PN">Pitcairn</option>
-								<option value="PL">Poland</option>
-								<option value="PT">Portugal</option>
-								<option value="PR">Puerto Rico</option>
-								<option value="QA">Qatar</option>
-								<option value="RE">Réunion</option>
-								<option value="RO">Romania</option>
-								<option value="RU">Russian Federation</option>
-								<option value="RW">Rwanda</option>
-								<option value="BL">Saint Barthélemy</option>
-								<option value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
-								<option value="KN">Saint Kitts and Nevis</option>
-								<option value="LC">Saint Lucia</option>
-								<option value="MF">Saint Martin (French part)</option>
-								<option value="PM">Saint Pierre and Miquelon</option>
-								<option value="VC">Saint Vincent and the Grenadines</option>
-								<option value="WS">Samoa</option>
-								<option value="SM">San Marino</option>
-								<option value="ST">Sao Tome and Principe</option>
-								<option value="SA">Saudi Arabia</option>
-								<option value="SN">Senegal</option>
-								<option value="RS">Serbia</option>
-								<option value="SC">Seychelles</option>
-								<option value="SL">Sierra Leone</option>
-								<option value="SG">Singapore</option>
-								<option value="SX">Sint Maarten (Dutch part)</option>
-								<option value="SK">Slovakia</option>
-								<option value="SI">Slovenia</option>
-								<option value="SB">Solomon Islands</option>
-								<option value="SO">Somalia</option>
-								<option value="ZA">South Africa</option>
-								<option value="GS">South Georgia and the South Sandwich Islands</option>
-								<option value="SS">South Sudan</option>
-								<option value="ES">Spain</option>
-								<option value="LK">Sri Lanka</option>
-								<option value="SD">Sudan</option>
-								<option value="SR">Suriname</option>
-								<option value="SJ">Svalbard and Jan Mayen</option>
-								<option value="SZ">Swaziland</option>
-								<option value="SE">Sweden</option>
-								<option value="CH">Switzerland</option>
-								<option value="SY">Syrian Arab Republic</option>
-								<option value="TW">Taiwan, Province of China</option>
-								<option value="TJ">Tajikistan</option>
-								<option value="TZ">Tanzania, United Republic of</option>
-								<option value="TH">Thailand</option>
-								<option value="TL">Timor-Leste</option>
-								<option value="TG">Togo</option>
-								<option value="TK">Tokelau</option>
-								<option value="TO">Tonga</option>
-								<option value="TT">Trinidad and Tobago</option>
-								<option value="TN">Tunisia</option>
-								<option value="TR">Turkey</option>
-								<option value="TM">Turkmenistan</option>
-								<option value="TC">Turks and Caicos Islands</option>
-								<option value="TV">Tuvalu</option>
-								<option value="UG">Uganda</option>
-								<option value="UA">Ukraine</option>
-								<option value="AE">United Arab Emirates</option>
-								<option value="GB">United Kingdom</option>
-								<option value="US">United States</option>
-								<option value="UM">United States Minor Outlying Islands</option>
-								<option value="UY">Uruguay</option>
-								<option value="UZ">Uzbekistan</option>
-								<option value="VU">Vanuatu</option>
-								<option value="VE">Venezuela</option>
-								<option value="VN">Viet Nam</option>
-								<option value="VG">Virgin Islands, British</option>
-								<option value="VI">Virgin Islands, U.S.</option>
-								<option value="WF">Wallis and Futuna</option>
-								<option value="EH">Western Sahara</option>
-								<option value="YE">Yemen</option>
-								<option value="ZM">Zambia</option>
-								<option value="ZW">Zimbabwe</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				
-				
-				<div class="row">	
-					<div class="input_container_form">
-						<div class="input_container_label_form">
-							<label for="item_city" class="input_label_form">City</label>
-						</div>
-						<div class="input_container_text_form" >
-							<input type="text" name="item_city" class="input_text_form" id="item_city" class="form-control input-lg" placeholder="Caracas" value="<?php if(isset($item_city)){ echo $item_city; } ?>" required tabindex="4">
-						</div>
-					</div>
-				</div>
-				
-				<div class="row">	
-					<div class="input_container_form">
-						<div class="input_container_label_form">
-							<label for="item_address" class="input_label_form">Address</label>
-						</div>
-						<div class="input_container_text_form">
-							<input type="text" name="item_address" class="input_text_form"id="item_address" class="form-control input-lg" placeholder="Fruisof-402, Postal Code 35745" value="<?php if(isset($item_address)){ echo $item_address; } ?>" required tabindex="5">
-						</div>
-					</div>
-				</div>
-			</div>
-			</div>
-			<div>
-				<div class="row">	
-					<div style="width: 950px; background-size: 100% 100%; height: 90px; background-image: url('/image/barra-reset-718-62.png'); display: inline-block; padding: 15px;">
-						<textarea rows="4" cols="50" maxlength="200"  style="resize: none; border-width: 0px; margin-top: 0px; background-color: transparent; height: 60px; width: 920px;"  name="item_description" id="item_description" placeholder="Description: is a new passport from Germany"><?php if(isset($item_description)){ echo $item_description; } ?></textarea> 
-					</div>
-				</div>
-			</div>
-		</div>
-	
-	
-	
-	
-	
-	
-	
+<div class="row"  style="border-color:gray; color:blue;margin-bottom: 5px; border-width: 0px 0px 1px; border-style: solid;">
+	<div class="col-xs-4 col-md-4" >
 		
+	</div>
+	<div class="col-xs-4 col-md-4" >
+		<p>Keep it Safe</p>
+	</div>
+	
+</div>
+<div class="container">	
+
+	<?php
+	if(isset($error))
+	{
+		echo '<p>'.$error.'</p>';
+	}
+
+	?>
+	
+	
+	<form role="form" method="post" action="" autocomplete="off">
+				<div class="row">
+					<div class="col-xs-0 col-md-3" >
+					</div>
+					<div class="col-xs-12 col-md-6" >
+					<!--
+						<div class="images_holder">
+			
+						</div>		
+					-->
+					
+					<?php 
+						if($item_category_slug == 'Phone')
+						{
+							
+							echo '<img class="img_category_phone" src="/image/mobile-1-59-x-97.png"  width="59" height="97" >';
+							
+						}else if($item_category_slug == 'Key')
+						{
+							
+							echo '<img class="img_category_key" src="/image/key-1-97-x-97.png"  width="97" height="97" >';
+							
+						}else if($item_category_slug == 'Case')
+						{
+							
+							echo '<img  class="img_category_suitecase" src="/image/maleta-1-98-x-83.png"  width="98" height="83" >';
+							
+						}else if($item_category_slug == 'Tablet')
+						{
+							
+							echo '<img class="img_category_tablet" src="/image/tablet-1-73-x-96.png"  width="73" height="96" >';
+							
+						}else if($item_category_slug == 'Backpack')
+						{
+							
+							echo '<img class="img_category_backpack" src="/image/bulto-1-95-x-97.png"  width="95" height="97" >';
+							
+						}else if($item_category_slug == 'Luggage')
+						{
+							
+							echo '<img class="img_category_luggage" src="/image/maleta-rueda-1-55-x-97.png" width="55" height="97" >';
+							
+						}else if($item_category_slug == 'Laptop')
+						{
+							
+							echo '<img class="img_category_laptop" src="/image/laptop-1-97-x-67.png"  width="97" height="67" >';
+							
+						}else if($item_category_slug == 'Camera')
+						{
+							
+							echo '<img class="img_category_camera" src="/image/camara-1-98-x-70.png"  width="98" height="70" >';
+							
+						}else if($item_category_slug == 'Passport')
+						{
+							
+							echo '<img class="img_category_pass" src="/image/pass-68-x-94.png"  width="68" height="94" >';
+							
+						}else if($item_category_slug == 'Driver License')
+						{
+							
+							echo '<img class="img_category_identitycard" src="/image/ID-1-98-x-66.png"  width="98" height="66" >';
+							
+						}else if($item_category_slug == 'Credit / Debit Card')
+						{
+							
+							echo '<img class="img_category_creditcard" src="/image/credit-1-card-98-x-66.png"  width="98" height="66" >';
+							
+						}else if($item_category_slug == 'Other')
+						{
+							
+							echo '<img class="img_category_other" src="/image/crus-93-x-93.png"  width="93" height="93" >';
+							
+						}
+					
+					
+					?>
+					<p style="color:blue;"><?php if(isset($item_category_slug)){ echo $item_category_slug; } ?></p>
+					<input class="label_text_input" type="hidden" name="item_category_slug"  id="item_category_slug"   value="<?php if(isset($item_category_slug)){ echo $item_category_slug; } ?>"  readonly>
+					
+					<input class="label_text_input" type="hidden" name="item_category"  id="item_address"   value="<?php if(isset($item_category)){ echo $item_category; } ?>"  readonly>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-0 col-md-3" >
+					</div>
+					<div class="col-xs-12 col-md-6" >
+						<input class="label_text_input" type="text" name="item_title" placeholder="Title"   id="item_title"  value="<?php if(isset($item_title)){ echo $item_title; } ?>" required tabindex="1">
+					</div>	
+				</div>
 				
 					
 				
+		
+				<?php 
+					if($method=='modify')
+					{
+					?>
+						<div class="row">	
+							<div class="col-xs-0 col-md-3" >
+							</div>
+							<div class="col-xs-12 col-md-6" >
+								<input class="label_text_input" type="label" name="item_code"   id="item_code" class="form-control input-lg"  value="<?php if(isset($item_code)){ echo $item_code; } ?>" required  readonly>
+							</div>
+						</div>
+					<?php 
+					}
+					?>
+					
+				
+				<div class="row">
+					<div class="col-xs-0 col-md-3" >
+					</div>
+					<div class="col-xs-12 col-md-6" >
+						<input type="text"class="label_text_input"  name="item_description" placeholder="Description"  id="item_description"  value="<?php if(isset($item_description)){echo $item_description;} ?>" required tabindex="3">
+					</div>
+				</div>
+				
+				
+				<div class="row">	
+					<div class="col-xs-0 col-md-3" >
+					</div>
+					<div class="col-xs-12 col-md-6" >
+						<input type="text" class="label_text_input" name="item_brand" placeholder="Brand"  id="item_brand"  value="<?php if(isset($item_brand)){ echo $item_brand; } ?>"  tabindex="4">
+					</div>
+				</div>
 				
 				
 				
 				<div class="row">
-					<?php 
-					if(!$method=='modify')
-					{
-					?>
-				<div>
-					<button type="submit" id="submit" name="submit" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-					<p style="width: 62px;margin-bottom: 0px; color:white; margin-top: 30px">Add</p>
-				</div>
-					<?php 
-					}
-					else{
-					?>
-					<div>
-						<button type="submit" name="submit_delete" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-						<p style="width: 62px;margin-bottom: 0px; color:white; margin-top: 30px">Delete</p>
-						<button type="submit" name="submit_modify" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-						<p style="width: 62px;margin-bottom: 0px; color:white; margin-top: 30px">Edit</p>
+					<div class="col-xs-0 col-md-3" >
 					</div>
-					<?php
-					}
-					?>
-				</div>	
-</form>
-</div>
+					<div class="col-xs-12 col-md-6" >
+						<input type="text" class="label_text_input" name="item_color" placeholder="Color"   id="item_color"   value="<?php if(isset($item_color)){ echo $item_color; } ?>" tabindex="5">
+					</div>
+				</div>
+				
+				<div class="row">	
+					<div class="col-xs-0 col-md-3" >
+					</div>
+					<div class="col-xs-12  	col-md-6" >
+						<input type="text" class="label_text_input" name="item_model"  placeholder="Model"   id="item_model"   value="<?php if(isset($item_model)){ echo $item_model; } ?>"  tabindex="6">
+					</div>
+				</div>
+				
+				<div class="row">	
+					<div class="col-xs-0 col-md-3" >
+					</div>
+					<div class="col-xs-12 col-md-6" >
+						<input type="text" class="label_text_input" name="item_number" placeholder="Number"   id="item_number"   value="<?php if(isset($item_number)){ echo $item_number; } ?>" tabindex="7" >
+					</div>
+				</div>
+				
+					
+				<div class="row">
+					<div class="col-xs-0 col-md-3" >
+					</div>
+					<div class="col-xs-12 col-md-6" >
+						<select class="label_text_input" name="item_country" id="item_country" tabindex="8">
+										<option value="<?php if(isset($item_country)){echo $item_country;}?>" selected="selected"><?php if(isset($item_country)){echo $item_country;}else echo 'Country';?></option>
+										<option value="United States">United States</option>
+										<option value="Afghanistan">Afghanistan</option>
+										<option value="Åland Islands">Åland Islands</option>
+										<option value="Albania">Albania</option>
+										<option value="Algeria">Algeria</option>
+										<option value="American Samoa">American Samoa</option>
+										<option value="Andorra">Andorra</option>
+										<option value="Angola">Angola</option>
+										<option value="Anguilla">Anguilla</option>
+										<option value="Antarctica">Antarctica</option>
+										<option value="Antigua and Barbuda">Antigua and Barbuda</option>
+										<option value="Argentina">Argentina</option>
+										<option value="Armenia">Armenia</option>
+										<option value="Aruba">Aruba</option>
+										<option value="Australia">Australia</option>
+										<option value="Austria">Austria</option>
+										<option value="Azerbaijan">Azerbaijan</option>
+										<option value="Bahamas">Bahamas</option>
+										<option value="Bahrain">Bahrain</option>
+										<option value="Bangladesh">Bangladesh</option>
+										<option value="Barbados">Barbados</option>
+										<option value="Belarus">Belarus</option>
+										<option value="Belgium">Belgium</option>
+										<option value="Belize">Belize</option>
+										<option value="Benin">Benin</option>
+										<option value="Bermuda">Bermuda</option>
+										<option value="Bhutan">Bhutan</option>
+										<option value="Bolivia, Plurinational State of">Bolivia, Plurinational State of</option>
+										<option value="Bonaire, Sint Eustatius and Saba">Bonaire, Sint Eustatius and Saba</option>
+										<option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+										<option value="Botswana">Botswana</option>
+										<option value="Bouvet Island">Bouvet Island</option>
+										<option value="Brazil">Brazil</option>
+										<option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
+										<option value="Brunei Darussalam">Brunei Darussalam</option>
+										<option value="Bulgaria">Bulgaria</option>
+										<option value="Burkina Faso">Burkina Faso</option>
+										<option value="Burundi">Burundi</option>
+										<option value="Cambodia">Cambodia</option>
+										<option value="Cameroon">Cameroon</option>
+										<option value="Canada">Canada</option>
+										<option value="Cape Verde">Cape Verde</option>
+										<option value="Cayman Islands">Cayman Islands</option>
+										<option value="Central African Republic">Central African Republic</option>
+										<option value="Chad">Chad</option>
+										<option value="Chile">Chile</option>
+										<option value="China">China</option>
+										<option value="Christmas Island">Christmas Island</option>
+										<option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
+										<option value="Colombia">Colombia</option>
+										<option value="Comoros">Comoros</option>
+										<option value="Congo">Congo</option>
+										<option value="Congo, the Democratic Republic of the">Congo, the Democratic Republic of the</option>
+										<option value="Cook Islands">Cook Islands</option>
+										<option value="Costa Rica">Costa Rica</option>
+										<option value="Côte d'Ivoire">Côte d'Ivoire</option>
+										<option value="Croatia">Croatia</option>
+										<option value="Cuba">Cuba</option>
+										<option value="Curaçao">Curaçao</option>
+										<option value="Cyprus">Cyprus</option>
+										<option value="Czech Republic">Czech Republic</option>
+										<option value="Denmark">Denmark</option>
+										<option value="Djibouti">Djibouti</option>
+										<option value="Dominica">Dominica</option>
+										<option value="Dominican Republic">Dominican Republic</option>
+										<option value="Ecuador">Ecuador</option>
+										<option value="Egypt">Egypt</option>
+										<option value="El Salvador">El Salvador</option>
+										<option value="Equatorial Guinea">Equatorial Guinea</option>
+										<option value="Eritrea">Eritrea</option>
+										<option value="Estonia">Estonia</option>
+										<option value="Ethiopia">Ethiopia</option>
+										<option value="Falkland Islands (Malvinas)">Falkland Islands (Malvinas)</option>
+										<option value="Faroe Islands">Faroe Islands</option>
+										<option value="Fiji">Fiji</option>
+										<option value="Finland">Finland</option>
+										<option value="France">France</option>
+										<option value="French Guiana">French Guiana</option>
+										<option value="French Polynesia">French Polynesia</option>
+										<option value="French Southern Territories">French Southern Territories</option>
+										<option value="Gabon">Gabon</option>
+										<option value="Gambia">Gambia</option>
+										<option value="Georgia">Georgia</option>
+										<option value="Germany">Germany</option>
+										<option value="Ghana">Ghana</option>
+										<option value="Gibraltar">Gibraltar</option>
+										<option value="Greece">Greece</option>
+										<option value="Greenland">Greenland</option>
+										<option value="Grenada">Grenada</option>
+										<option value="Guadeloupe">Guadeloupe</option>
+										<option value="Guam">Guam</option>
+										<option value="Guatemala">Guatemala</option>
+										<option value="Guernsey">Guernsey</option>
+										<option value="Guinea">Guinea</option>
+										<option value="Guinea">Guinea-Bissau</option>
+										<option value="Guyana">Guyana</option>
+										<option value="Haiti">Haiti</option>
+										<option value="Heard Island and McDonald Islands">Heard Island and McDonald Islands</option>
+										<option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option>
+										<option value="Honduras">Honduras</option>
+										<option value="Hong Kong">Hong Kong</option>
+										<option value="Hungary">Hungary</option>
+										<option value="Iceland">Iceland</option>
+										<option value="India">India</option>
+										<option value="Indonesia">Indonesia</option>
+										<option value="Iran, Islamic Republic of">Iran, Islamic Republic of</option>
+										<option value="Iraq">Iraq</option>
+										<option value="Ireland">Ireland</option>
+										<option value="Isle of Man">Isle of Man</option>
+										<option value="Israel">Israel</option>
+										<option value="Italy">Italy</option>
+										<option value="Jamaica">Jamaica</option>
+										<option value="Japan">Japan</option>
+										<option value="Jersey">Jersey</option>
+										<option value="Jordan">Jordan</option>
+										<option value="Kazakhstan">Kazakhstan</option>
+										<option value="Kenya">Kenya</option>
+										<option value="Kiribati">Kiribati</option>
+										<option value="Korea, Democratic People's Republic of">Korea, Democratic People's Republic of</option>
+										<option value="Korea, Republic of">Korea, Republic of</option>
+										<option value="Kuwait">Kuwait</option>
+										<option value="Kyrgyzstan">Kyrgyzstan</option>
+										<option value="Lao People's Democratic Republic">Lao People's Democratic Republic</option>
+										<option value="Latvia">Latvia</option>
+										<option value="Lebanon">Lebanon</option>
+										<option value="Lesotho">Lesotho</option>
+										<option value="Liberia">Liberia</option>
+										<option value="Libya">Libya</option>
+										<option value="Liechtenstein">Liechtenstein</option>
+										<option value="Lithuania">Lithuania</option>
+										<option value="Luxembourg">Luxembourg</option>
+										<option value="Macao">Macao</option>
+										<option value="Macedonia, the former Yugoslav Republic of">Macedonia, the former Yugoslav Republic of</option>
+										<option value="Madagascar">Madagascar</option>
+										<option value="Malawi">Malawi</option>
+										<option value="Malaysia">Malaysia</option>
+										<option value="Maldives">Maldives</option>
+										<option value="Mali">Mali</option>
+										<option value="Malta">Malta</option>
+										<option value="Marshall Islands">Marshall Islands</option>
+										<option value="Martinique">Martinique</option>
+										<option value="Mauritania">Mauritania</option>
+										<option value="Mauritius">Mauritius</option>
+										<option value="Mayotte">Mayotte</option>
+										<option value="Mexico">Mexico</option>
+										<option value="Micronesia, Federated States of">Micronesia, Federated States of</option>
+										<option value="Moldova, Republic of">Moldova, Republic of</option>
+										<option value="Monaco">Monaco</option>
+										<option value="Mongolia">Mongolia</option>
+										<option value="Montenegro">Montenegro</option>
+										<option value="Montserrat">Montserrat</option>
+										<option value="Morocco">Morocco</option>
+										<option value="Mozambique">Mozambique</option>
+										<option value="Myanmar">Myanmar</option>
+										<option value="Namibia">Namibia</option>
+										<option value="Nauru">Nauru</option>
+										<option value="Nepal">Nepal</option>
+										<option value="Netherlands">Netherlands</option>
+										<option value="New Caledonia">New Caledonia</option>
+										<option value="New Zealand">New Zealand</option>
+										<option value="Nicaragua">Nicaragua</option>
+										<option value="Niger">Niger</option>
+										<option value="Nigeria">Nigeria</option>
+										<option value="Niue">Niue</option>
+										<option value="Norfolk Island">Norfolk Island</option>
+										<option value="Northern Mariana Islands">Northern Mariana Islands</option>
+										<option value="Norway">Norway</option>
+										<option value="Oman">Oman</option>
+										<option value="Pakistan">Pakistan</option>
+										<option value="Palau">Palau</option>
+										<option value="Palestinian Territory, Occupied">Palestinian Territory, Occupied</option>
+										<option value="Panama">Panama</option>
+										<option value="Papua New Guinea">Papua New Guinea</option>
+										<option value="Paraguay">Paraguay</option>
+										<option value="Peru">Peru</option>
+										<option value="Philippines">Philippines</option>
+										<option value="Pitcairn">Pitcairn</option>
+										<option value="Poland">Poland</option>
+										<option value="Portugal">Portugal</option>
+										<option value="Puerto Rico">Puerto Rico</option>
+										<option value="Qatar">Qatar</option>
+										<option value="Réunion">Réunion</option>
+										<option value="Romania">Romania</option>
+										<option value="Russian Federation">Russian Federation</option>
+										<option value="Rwanda">Rwanda</option>
+										<option value="Saint Barthélemy">Saint Barthélemy</option>
+										<option value="Saint Helena, Ascension and Tristan da Cunha">Saint Helena, Ascension and Tristan da Cunha</option>
+										<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+										<option value="Saint Lucia">Saint Lucia</option>
+										<option value="Saint Martin (French part)">Saint Martin (French part)</option>
+										<option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option>
+										<option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+										<option value="Samoa">Samoa</option>
+										<option value="San Marino">San Marino</option>
+										<option value="Sao Tome and Principe">Sao Tome and Principe</option>
+										<option value="Saudi Arabia">Saudi Arabia</option>
+										<option value="Senegal">Senegal</option>
+										<option value="Serbia">Serbia</option>
+										<option value="Seychelles">Seychelles</option>
+										<option value="Sierra Leone">Sierra Leone</option>
+										<option value="Singapore">Singapore</option>
+										<option value="Sint Maarten (Dutch part)">Sint Maarten (Dutch part)</option>
+										<option value="Slovakia">Slovakia</option>
+										<option value="Slovenia">Slovenia</option>
+										<option value="Solomon Islands">Solomon Islands</option>
+										<option value="Somalia">Somalia</option>
+										<option value="South Africa">South Africa</option>
+										<option value="South Georgia and the South Sandwich Islands">South Georgia and the South Sandwich Islands</option>
+										<option value="South Sudan">South Sudan</option>
+										<option value="Spain">Spain</option>
+										<option value="Sri Lanka">Sri Lanka</option>
+										<option value="Sudan">Sudan</option>
+										<option value="Suriname">Suriname</option>
+										<option value="Svalbard and Jan Mayen">Svalbard and Jan Mayen</option>
+										<option value="Swaziland">Swaziland</option>
+										<option value="Sweden">Sweden</option>
+										<option value="Switzerland">Switzerland</option>
+										<option value="Syrian Arab Republic">Syrian Arab Republic</option>
+										<option value="Taiwan, Province of China">Taiwan, Province of China</option>
+										<option value="Tajikistan">Tajikistan</option>
+										<option value="Tanzania, United Republic of">Tanzania, United Republic of</option>
+										<option value="Thailand">Thailand</option>
+										<option value="Timor-Leste">Timor-Leste</option>
+										<option value="Togo">Togo</option>
+										<option value="Tokelau">Tokelau</option>
+										<option value="Tonga">Tonga</option>
+										<option value="Trinidad and Tobago">Trinidad and Tobago</option>
+										<option value="Tunisia">Tunisia</option>
+										<option value="Turkey">Turkey</option>
+										<option value="Turkmenistan">Turkmenistan</option>
+										<option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
+										<option value="Tuvalu">Tuvalu</option>
+										<option value="Uganda">Uganda</option>
+										<option value="Ukraine">Ukraine</option>
+										<option value="United Arab Emirates">United Arab Emirates</option>
+										<option value="United Kingdom">United Kingdom</option>
+										<option value="United States">United States</option>
+										<option value="United States Minor Outlying Islands">United States Minor Outlying Islands</option>
+										<option value="Uruguay">Uruguay</option>
+										<option value="Uzbekistan">Uzbekistan</option>
+										<option value="Vanuatu">Vanuatu</option>
+										<option value="Venezuela">Venezuela</option>
+										<option value="Viet Nam">Viet Nam</option>
+										<option value="Virgin Islands, British">Virgin Islands, British</option>
+										<option value="Virgin Islands, U.S.">Virgin Islands, U.S.</option>
+										<option value="Wallis and Futuna">Wallis and Futuna</option>
+										<option value="Western Sahara">Western Sahara</option>
+										<option value="Yemen">Yemen</option>
+										<option value="Zambia">Zambia</option>
+										<option value="Zimbabwe">Zimbabwe</option>
+							</select>
+					</div>
+				</div>
+				
+				
+				<div class="row" >	
+					<div class="col-xs-0 col-md-3" >
+					</div>
+					<div class="col-xs-12 col-md-6" >
+						<input type="text" class="label_text_input"  name="item_city"  id="item_city" placeholder="City"  value="<?php if(isset($item_city)){ echo $item_city; } ?>" required tabindex="9">
+					</div>
+				</div>
 
-	</div>
+				<div class="row" style="margin-bottom: 40px; margin-top: 10px; border-style: solid; border-color: gray; border-left: 0px solid gray; border-right: 0px solid gray;">	
+					
+					<div class="col-xs-12 col-md-12" >
+						<a href="/insurace/"><p style="color: orange; margin-bottom: 3px; margin-top: 3px;">LOST AND STOLEN INSURACE?</p></a>
+					</div>
+				</div>
+				
+				<div class="row">	
+					<div class="col-xs-3 col-md-3"  >
+						
+					</div>
+					<div class="col-xs-2 col-md-2" >
+					</div>
+					<div class="col-xs-2 col-md-2">
+						
+					</div>
+					<div class="col-xs-2 col-md-2" >
+					<?php if($method=='modify')
+						{
+						?>
+							<input type="submit" name="submit_lost" value="" style="width: 48px; height: 43px; background-image: url('/image/VIEW-&-EDIT-ITEMS-Lost-48-x-43.png'); background-size: 100% 100%; background-repeat: no-repeat; border-width: 0px;">
+						<?php
+						}
+						?>
+					</div>
+					<div class="col-xs-2 col-md-3" >
+					</div>
+				</div>
+				<div class="row div_input_principal"  style="color:blue; text-align: center; ">
+					<div class="col-xs-12 col-md-12">
+						<p class="fontsize_4 p_button" >
+							<?php 
+						if(!$method=='modify')
+						{
+						?>
+							<input type="submit" value="Save" class="input_button" name="submit_create">
+							<input type="submit" value="" class="botonera_button_principal"  name="submit_create">
+							
+						<?php 
+						}
+						else{
+						?>
+							<input type="submit" value="Edit" class="input_button"  name="submit_modify">
+							
+							<input type="submit" value="" class="botonera_button_principal"  name="submit_modify">
+							
+						<?php
+						}
+						?>
+						
+						
+						
+						</div>	
+				</div>
+</form>
+
+
 </div>
 <script>	
 
@@ -738,61 +811,81 @@ $item_city = $item->item_city;
 						?>;
 							
 	
- $(document).ready(function()
- {	
-		//$('#foundlost').val('<?php if(isset($item_type)){echo $item_type;} ?>');
-		$('#item_category').val('<?php if(isset($item_category)){echo $item_category;} ?>');
-		$('#item_country').val('<?php if(isset($item_country)){echo $item_country;} ?>');
- });
+			 $(document).ready(function()
+			 {	
+				$('#item_country').val('<?php if(isset($item_country)){echo $item_country;} ?>');
+			 });
 	
-	
-	
-	
-	
-	
-	
+		
 </script>
 <style>
-.input_text_form{
-padding-top: 0px;
- padding-left: 20px;
- border-width: 0px;
- width: 350px;
- padding-right: 20px;
- height: 50px;
- background-color: transparent;
- text-align: center;
+.input_button{
+	margin-bottom: 0px;
+	background-color: transparent;
+	border-width: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
 }
-.input_select_form {
- height: 50px;
- background-color: transparent;
- text-align: center;
- border-width: 0px;
- width: 370px;
+.label_text_input{
+		width: 100%;
+		height: 40px;
+		border-width: 2px;
+		padding-bottom: 1px;
+		text-align:left;
+		margin-bottom:5px;
+		padding-left: 50px;
+		border-style: solid;
+		
+	}
+	
+.div_input_principal{
+	height: 110px;
+
 }
 
-.input_container_text_form{
-	float: left;
-	width: 350px;
-	overflow: hidden;
+.botonera_button_principal{
+ margin-bottom:-50px;
+background-image: url("/image/logo-add-111-x-171.png");
+background-color: transparent;
+background-size:100% 100%;
+border-width: 0px;
+width:83px;
+height:129px;
+position: absolute;
+margin-left: -41px;
+ margin-top: 30px;
+left:50%;
+
+}
+	
+
+	
+	/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+.botonera_button_principal{
+	width:111px;
+	height:176px;
+	margin-top:70px;
+	margin-top: 0px;
+	bottom: -90px;
+	left: 50%;
+	margin-left: -50px;	
+	padding-left: 0px;
+	padding-right: 0px;
+	margin-left: -55px;
+	top: 25px;
+ }
+ 
+ .div_input_principal{
+	height: 150px;
+
 }
 
-.input_container_form{
-	width: 460px;
-	background-size: 100% 100%;
-	height: 50px;
-	background-image: url('/image/barra-register-405-26.png');
-	display: inline-block;
-}
 
-.input_container_label_form{
-	float: left;
-	height: 50px;
-	width: 110px;
-	padding-top: 15px;
-}
+	
+ }
 </style>
-
 <?php
 //include header template
 require('layout/footer.php');

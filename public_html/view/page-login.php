@@ -9,12 +9,13 @@ $db = new DB();
 #if( $db->is_logged_in() ){ header('Location: index.php'); } 
 
 //process login form if submitted
-if(isset($_POST['submit'])){
-	$username = htmlentities($_POST['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+if(isset($_POST['submit']) &&	isset($_POST['username'])&&	isset($_POST['password'])){
+
+	if(!empty($_POST['username']) || !empty($_POST['password']))
+	{
+	$username = $_POST['username'];//htmlentities($_POST['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
 	$password = md5($_POST['password']);	
-	if (!ereg("^[a-zA-Z0-9\-_]{3,20}$", $username)) { 
-      $error[] = 'El nombre de usuario tiene caracteres no validos';
-    } else {
+	
 	
 		if($db->login($username,$password)){ 
 			$_SESSION['username'] = $username;
@@ -22,9 +23,9 @@ if(isset($_POST['submit'])){
 			exit;
 	
 		} else {
-			$error[] = 'Usuario o Password no ha sido activada.';
+			$error = 'Username or Password invalid.';
 		}
-	}
+	}else $error = 'Username and Password Require.';
 }//end if submit
 
 //define page title
@@ -35,66 +36,246 @@ require('layout/header.php');
 ?>
 
 <div id="content">
-<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
-	<div style="width: 1440px; display: inline-block; text-align: left;">
-		<form method="get" action="/" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
-			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-		</form>
-	</div>
-</div>
-<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-	
-	<div class="row">
-
-	    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-<?php if( !$user->is_logged_in() ){ ?>
-
-			<form role="form" method="post" action="" autocomplete="off">
-				<?php
-				//check for any errors
-				if(isset($error)){
-					foreach($error as $error){
-						echo '<p class="bg-danger">'.$error.'</p>';
-					}
-				}				
-				?>
-				<div id="content_containter">
-	<div class="content_div_1">
-		<div class="div_inline-block">
-		<table style="border-color: white; display: inline-block; " border="0px;">
-				<tr >
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 100px; padding-left: 17px; color: white; font-size: 18px; margin-top: 10px;">User Name</p>
-						<input type="text" name="username" id="username" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr >
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 10px;">Password</p>
-						<input type="password" name="password" id="password" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				
-		</table>
-			<br>
-			<button type="submit" id="submit" name="submit" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-			<button type="button" onclick="window.location='/register/'" style="background:url('/image/boton-nuevouser-70-70.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-			<button type="button" onclick="window.location='/account/recoveryPassword/'" style="background:url('/image/boton-modificar-34-34.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-
-		</form>
-<?php } ?>
+<div  style="background-image: url('/image/botonera-sola-1024-x-66.png');margin-bottom:10px;background-size:100% 100%; margin-top: -1px;">
+		<div class="row">	
+			<div class="col-xs-3 col-md-2" >
+				<a href='/'>
+					<p>back</p>
+				</a>
+			</div>
+			
+			<div class="col-xs-6 col-md-8" >
+				<p></p>
+			</div>
 		</div>
+	</div>	
+	<?php 
+if(isset($error))
+{
+	echo '<p>'.$error.'</p>';
+}
+?>
+<form method="post" action="">
+
+		<div class="row"  style="">
+
+            <div class="col-xs-12" style="margin-bottom:10px;">
+				<img src="/image/logo-187-187.png" title="logo" width="90" height="90" >
+			</div>
+		</div>
+		<div class="row"  style="">
+			
+			<div class="col-xs-12 col-md-12">
+				<input type="text" name="username" placeholder="Username/Email" class="username_login"  id="username"  value="<?php if(isset($username)){ echo $username; } ?>">
+			</div>
+		</div>
+		<div class="row"  style="">
+			
+			<div class="col-xs-12 col-md-12">
+				<input type="password" name="password" placeholder="Password" class="password_login"  id="password"   value="" >
+			</div>
+		</div>
+		<div class="row" style="color:blue; text-align: right;">
+			
+			<div class="col-xs-12 col-md-12">
+				<a href="/reset/">
+					<p class="maxpr"style="color:blue">Forgot your password?</p>
+				</a>
+			</div>
+		</div>
+			
+				
+				
+				<div class="row">
+	
+	<div class="col-xs-12 col-md-12">
+		<input type="button" class="facebook_login" value="Login with Facebook">
 	</div>
+	
+</div>
 
+<div class="row">
+	<div class="col-xs-0 col-md-0">
+	</div>
+	<div class="col-xs-12 col-md-12">
+		<input type="button" class="google_login" value="Login with Google">
+	</div>
+</div>
+<div class="row" style="color:blue; ">
+	<div class="col-xs-0 col-md-0">
+	</div>
+	<div class="col-xs-12 col-md-12">
+		<p class="maxpr" >
+		Remember me<input type='checkbox' name='agree' value='Agree' id="agree" /><br>
+		</P>
+	</div>
+</div>
 
+	<div class="row div_input_principal"  style="color:blue; text-align: center; ">
+	
+	<div class="col-xs-12 col-md-12">
+		<p class="fontsize_4 p_button" >
+			<input type="submit" value="" class="botonera_button_principal" type="submit" name="submit">
+			
+		</P>
+	</div>	
+</div>
+</form>
+	
 
 </div>
 
-</div>
-</div>
+<style>
 
-<?php 
+.div_input_principal{
+margin-bottom: -50px;
+ margin-top: 50px;
+}
+.botonera_button_principal{
+ 
+background-image: url("/image/logo-botonera-111-x-173.png");
+background-color: transparent;
+background-size:100% 100%;
+border-width: 0px;
+width:83px;
+height:129px;
+
+}
+
+
+.label_text_input{
+		width: 100%;
+		height: 40px;
+		border-width: 2px;
+		padding-bottom: 1px;
+		text-align:left;
+		margin-bottom:5px;
+		padding-left: 50px;
+		border-style: solid;
+	}
+.maxpr{
+	width:186px;
+	margin:auto;
+	text-align:right;
+}
+	.username_login{
+		width: 186px;
+		background-image: url("/image/Usuario.png-364-x-53.png");
+		background-size: 100% 100%;
+		height: 33px;
+		border-width: 0px;
+		min-width:186px;
+		max-width:186px;
+		padding-left:25px;
+		background-repeat:no-repeat;
+	}
+	
+	.password_login{
+		width: 192px;
+		background-image: url("/image/Lock-364-x-53.png");
+		background-size: 100% 100%;
+		height: 33px;
+		border-width: 0px;
+		margin-top:2px;
+		min-width:186px;
+		max-width:186px;
+		padding-left:25px;
+	}
+ .facebook_login{
+	width: 192px;
+	background-image: url("/image/Facebook-Label-370-x-54.png");
+	background-size: 100% 100%;
+	height: 30px;
+	border-width: 0px;
+	margin-top:50px;
+	min-width:186px;
+	max-width:186px;
+	color:white;
+	padding-left:20px;
+ }
+ 
+ .google_login{
+	width: 100%;
+	background-image: url("/image/Google-Label-370-x-54.png");
+	background-size: 100% 100%;
+	height: 30px;
+	border-width: 0px;
+	margin-top:10px;
+	margin-bottom:10px;
+	min-width:192px;
+	max-width:192px;
+	padding-left:20px;
+}
+ 
+ .email_login{
+	width: 100%;
+	background-image: url("/image/SING-UP-REGISTER-192-X-30-Mail.png");
+	background-size:100% 100%;
+	height: 30px;
+	border-width: 0px;
+	margin-top:10px;
+	min-width:192px;
+	max-width:192px;
+	margin-bottom:10px;
+	color:white;
+	padding-left:20px;
+ }
+
+
+ .maxp{
+	width:270px;
+	margin: auto;
+	text-align:left
+ }
+ 
+ maxpm{
+	width:230px;
+	margin: auto;
+	text-align:center
+ }
+ 
+ .row_margin_button{
+
+margin-top:80px;
+}
+ /* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+
+.maxpl{
+	width:370px;
+}
+.facebook_login ,.google_login ,.email_login,.username_login,.password_login{
+
+	min-width:370px;
+	max-width:370px;
+	height: 54px;
+	padding-left:20px;
+}
+.username_login,.password_login{
+	padding-left:60px;
+}
+.maxpr{
+	width:370px;
+ }
+ 
+ 
+ .row_margin_button{
+
+margin-top:20px;
+}
+ 
+ .botonera_button_principal{
+	width:111px;
+	height:176px;
+	
+ }
+ 
+ 
+}
+</style>
+
+ <?php 
 //include header template
-require('layout/footer.php');
+require('layout/footer.php'); 
 ?>

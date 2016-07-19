@@ -1,36 +1,147 @@
-<?php if( $user->is_logged_in() ){ ?>
+
 	<script src="/js/zuaruchat.js"></script>
 	<link rel="stylesheet" type="text/css" href="/js/zuaruchat.css">
-<?php } ?>
-<script>
-	$("#menu_button").click(function() {
-		if($("#menu").hasClass( "menu_open" ))
-		{
-			$("#menu").removeClass( "menu_open" );
-			$("#menu").addClass( "menu_close" );
-		}else{
-			$("#menu").removeClass( "menu_close" );
-			$("#menu").addClass( "menu_open" );
-		}
-	});
+
+
 	
-</script>
-<!--
-	<footer id="main-footer" style="height: 60px; background-image: url('../image/background_1024x175.png'); padding-top: 25px; color:white">
-		<div id="footer-bottom">
-			<div style="padding-right: 20px;">
-				<p id="designer-info" style="float: left; padding-left: 20px;">
-					Design & Power by
-					<a href="http://www.zuaru.com" title="Zuaru | Creative Programing" style="color: orange">Zuaru</a>
-				</p>
-				<p id="footer-info" style="float: right;">
-					© 2016 Wilwif, C.A. All Rights Reserved -
-					<a href="/terms-conditions" style="color: orange">Terms of Service</a>
-				</p>
-			</div>
+ <?php 
+if($user->is_logged_in() ){
+ ?>
+
+ <footer style="background-image: url('/image/botonera-sola-1024-x-66.png'); background-repeat: no-repeat; background-size: 100% 100%; width:100%; height:66px;">
+	<div class="row"  style="height: 66px;">
+		<a href="/account/" title="home">
+		<?php 
+		if($pagelocation =="home")
+		{
+		?>
+			<div class="col-xs-2 col-md-2 home_footer_icon_on" >
+		
+		<?php
+		}else{
+		?>
+			<div class="col-xs-2 col-md-2 home_footer_icon_off" >
+		
+		<?php
+		}
+		?>
 		</div>
-	</footer> -->
- </div>
+		<a/>
+		<a href="/account/notifications/" title="Notification">
+		<?php
+			$query = "SELECT * FROM notification WHERE id_user = '".$_SESSION['id']."' AND status != 'Erased' AND status != 'Read'";
+			$sql = mysql_query($query);
+			$sql_row = mysql_num_rows($sql);
+			if($sql_row > 0)
+			{
+			?>
+				<div class="col-xs-2 col-md-2 notification_footer_icon_on" >
+				
+			<?php
+				echo $sql_row;
+			}else{
+			?>
+			
+			<?php 
+			if($pagelocation =="notification")
+			{
+			?>
+				<div class="col-xs-2 col-md-2 notification_footer_icon_on" >
+			
+			<?php
+			}else{
+			?>
+				<div class="col-xs-2 col-md-2 notification_footer_icon_off" >
+			
+			<?php
+			}
+			?>
+			<?php
+			}
+			?>
+			
+			</div>
+		<a/>
+		<div class="col-xs-4 col-md-4">
+		
+		</div>
+		
+		<a href="/account/profile/" title="Profile">
+		<?php 
+			if($pagelocation =="profile")
+			{
+			?>
+				<div class="col-xs-2 col-md-2 profile_footer_icon_on" >
+			
+			<?php
+			}else{
+			?>
+				<div class="col-xs-2 col-md-2 profile_footer_icon_off" >
+			
+			<?php
+			}
+			?>
+			
+		
+		</div>
+		<a/>
+		<a href="/share/" title="Share">
+		
+		<?php 
+			if($pagelocation =="share")
+			{
+			?>
+				<div class="col-xs-2 col-md-2 share_footer_icon_on" >
+			
+			<?php
+			}else{
+			?>
+				<div class="col-xs-2 col-md-2 share_footer_icon_off" >
+			
+			<?php
+			}
+			?>
+			
+		
+		</div>
+		<a/>
+	</div>
+ </footer>
+ <?php 
+ }else{
+  ?>
+	<footer style="background-image: url('/image/botonera-sola-1024-x-66.png'); background-repeat: no-repeat; background-size: 100% 100%; width:100%; height:66px;">
+	<div class="row"  style="height: 66px;">
+		
+		<div class="col-xs-2 col-md-2" >
+		
+		</div>
+		
+		
+		<div class="col-xs-2 col-md-2" >
+		
+		
+		
+		
+		<div class="col-xs-4 col-md-4" >
+		
+		</div>
+		
+		
+		<div class="col-xs-2 col-md-2" >
+		
+		</div>
+		
+		
+		<div class="col-xs-2 col-md-2" >
+		
+		</div>
+		
+	</div>
+ </footer>
+  <?php
+ }
+?>
 </div>
 
 </body>

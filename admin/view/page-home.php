@@ -2,113 +2,205 @@
 //include header template
 require('layout/header.php'); 
 ?>
+
+<header class="header_container" style=" background-image: url('/image/botonera-sola-1024-x-66/png');height:100px">
+	<div class="row"  style="border-width: 0px 0px 3px; border-style: solid; border-color: white; line-height:49px">
+		<div class="col-xs-4">	
+		<a href='/logout/'>
+			<p class="fontsize_4" style="margin-bottom: 0px;">logout</p></a>
+		</div>
+		<div class="col-xs-4">	
+			<img style="margin-top: 2%; margin-bottom: 3%;" src="/image/Logotipo-110-x-32.png" title="logo" width="110" height="32" >
+		</div>
+		<div class="col-xs-4">
+		
+		</div>
+	</div>
+</header>
 <div id="content">
-<div class="header_div_1">
-	<div class="header_div_2">
-		<div id="menu_button">
-		
+	<div class="row">
+		<div class="col-xs-4 col-md-3 option_menu">	
+			<a href="/account/">
+				<img class="admin_home_account" src="/image/Account-Icon-79-x-96.png">
+				<p>Account</p>
+			</a>
 		</div>
-		<div class="header_div_3 header_div_home">
-			<h1 class="header_title_1">Home</h1>
+		<div class="col-xs-4 col-md-3 option_menu">	
+			<a href="/chats/">
+				<img class="admin_home_chat" src="/image/Chats.png">
+				<p>Chats</p>
+			</a>
 		</div>
-	</div>
-</div>
-<div>
-	<div id="menu" class="menu_close">
-		<?php require('layout/menu.php'); ?>
-	</div>
-</div>
-<div id="content_containter">
-	<div class="content_div_1">
-		<div class="div_inline-block">
+		<div class="col-xs-4 col-md-3 option_menu">	
+			<a href="/configurations/">
+				<img class="admin_home_configuration" src="/image/Configuration-Icon-97-x-95.png">
+				<p>Configurations</p>
+			</a>
+		</div>
+		<div class="col-xs-4 col-md-3 option_menu">	
+			<a href="/employees/">
 			
-			<div class="home_option">
-				<a href="/chats/" title="Chats">
-					<div id="home_chat_div" class="home_div">
-					</div>
-				</a>
-				<div>
-					<h2 class="margin_top_0">Chats</h2>
-				</div>
-			</div>
-			<div  class="home_option">
-				<a href="/employees/" title="Employees">
-					<div id="home_employee_div" class="home_div">
-					</div>
-				</a>
-				<div>
-					<h2 class="margin_top_0">Employees</h2>
-				</div>
-			</div>
-				<div class="home_option">
-				<a href="/items/" title="Items">
-					<div id="home_item_div" class="home_div">
-					</div>
-				</a>
-				<div>
-					<h2 class="margin_top_0">Items</h2>
-				</div>
-			</div>
-			
-			<div class="home_option">
-				<a href="/notifications/" title="Notifications">
-					<div id="home_notification_div" class="home_div">
-					</div>
-				</a>
-				<div>
-					<h2 class="margin_top_0">Notifications</h2>
-				</div>
-			</div>
-			<div class="home_option">
-				<a href="/orders/" title="Orders">
-					<div id="home_order_div" class="home_div" >
-					</div>
-				</a>
-				<div>
-					<h2 class="margin_top_0">Orders</h2>
-				</div>
-			</div>
-			<div class="home_option">
-				<a href="/records/" title="Record">
-					<div id="home_record_div" class="home_div">
-					</div>
-				</a>
-				<div>
-					<h2 class="margin_top_0">Record</h2>
-				</div>
-			</div>
-			
-			
-			
-		
-			<div class="home_option">
-				<a href="/shipments/" title="Shipments">
-					<div id="home_shipment_div" class="home_div">
-					</div>
-				</a>
-				<div>
-					<h2 class="margin_top_0">Shipments</h2>
-				</div>
-			</div>
-			
-			
-			<div class="home_option">
-				<a href="/users/" title="Users">
-					<div id="home_user_div" class="home_div">
-					</div>
-				</a>
-				<div>
-					<h2 class="margin_top_0">Users</h2>
-				</div>
-			</div>
+			<img class="admin_home_employee" src="/image/Employee-Icon-87-x-97.png">
+			<p>Employees</p>
+			</a>
+		</div>
+		<div class="col-xs-4 col-md-3 option_menu">	
+			<a href="/items/found/">
+				<img class="admin_home_item" src="/image/Items-Icon-94-x-94.png">
+				<p>Items</p>
+			</a>
+		</div>
+		<div class="col-xs-4 col-md-3 option_menu">	
+			<a href="/notifications/">
+				<img class="admin_home_notifications" src="/image/Category-Icon-97-x-97.png">
+				<p>Notifications</p>
+			</a>
+		</div>
+		<div class="col-xs-4 col-md-3 option_menu" >	
+			<a href="/shipments/">
+				<img class="admin_home_shipment" src="/image/Plane-97-x-97.png">
+				<p>Shipments</p>
+			</a>
+		</div>
+		<div class="col-xs-4 col-md-3 option_menu">	
+			<a href="/records/">
+				<img class="admin_home_record" src="/image/record-Icon-97-x-97.png">
+				<p>Record</p>
+			</a>
+		</div>
+		<div class="col-xs-4 col-md-3 option_menu">	
+			<a href="/orders/">
+				<img class="admin_home_order" src="/image/Category-Icon-96-x-96.png">
+				<p>Order</p>
+			</a>
+		</div>
+		<div class="col-xs-4 col-md-3 option_menu">	
+			<a href="/users/">
+				<img class="admin_home_user" src="/image/Security-Icon-96-x-96.png">
+				<p>User</p>
+			</a>
 		</div>
 	</div>
-</div>
+
 </div>
 <style>
+.option_menu{
+height:150px;
+}
 
+.admin_home_account{
+		width:40px;
+		height:48px;
+}
+
+.admin_home_chat{
+	width:48px;
+	height:48px;
+}
+
+.admin_home_configuration{
+	width:48px;
+	height:47px;
+}
+
+.admin_home_employee{
+	width:43px;
+	height:48px;
+}
+
+.admin_home_item{
+	width:47px;
+	height:47px;
+}
+
+.admin_home_notifications{
+	width:48px;
+	height:48px;
+}
+
+
+.admin_home_shipment{
+	width:47px;
+	height:47px;
+}
+
+.admin_home_record{
+	width:47px;
+	height:47px;
+}
+
+
+.admin_home_order{
+	width:48px;
+	height:48px;
+}
+
+
+.admin_home_user{
+	width:48px;
+	height:48px;
+}
+
+
+	/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+	.admin_home_account{
+		width:79px;
+		height:96px;
+}
+
+.admin_home_chat{
+	width:97px;
+	height:97px;
+}
+
+.admin_home_configuration{
+	width:97px;
+	height:95px;
+}
+
+.admin_home_employee{
+	width:87px;
+	height:97px;
+}
+
+.admin_home_item{
+	width:94px;
+	height:94px;
+}
+
+.admin_home_notifications{
+	width:97px;
+	height:97px;
+}
+
+
+.admin_home_shipment{
+	width:97px;
+	height:97px;
+}
+
+.admin_home_record{
+	width:97px;
+	height:97px;
+}
+
+
+.admin_home_order{
+	width:96px;
+	height:96px;
+}
+
+
+.admin_home_user{
+	width:96px;
+	height:96px;
+}
+}
 </style>
 <?php 
 //include header template
+$actualpage="Home";
 require('layout/footer.php');
 ?>

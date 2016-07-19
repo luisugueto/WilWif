@@ -65,7 +65,7 @@ require('layout/header.php');
 					<div class="header_column_result header_column_1_5 column_cel_no_display">
 						Create date
 					</div>
-					<div class="header_column_result header_column_1_5 column_cel_1_3">
+					<div class="header_column_result header_column_1_5 column_cel_no_display">
 						Options
 					</div>
 				</div>
@@ -87,13 +87,13 @@ require('layout/header.php');
 							<div class="row_column_result header_column_1_5 column_cel_1_3">
 								<?php echo $row['action']; ?>
 							</div>
-							<div class="row_column_result header_column_1_5 column_cel_no_display">
+							<div class="row_column_result header_column_1_5 column_cel_1_3">
 								<?php echo $row['data']; ?>	
 							</div>
 							<div class="row_column_result header_column_1_5 column_cel_no_display">
 								<?php echo $row['date']; ?>
 							</div>
-							<div class="row_column_result header_column_1_5  column_cel_1_3">
+							<div class="row_column_result header_column_1_5  column_cel_no_display">
 								x
 							</div>
 						</div>

@@ -1,120 +1,238 @@
 <?php
+if (isset($_POST['item_method']) && isset($_POST['item_code'])) {
+	$item_method = $_POST['item_method'];
+
+if($item_method == "deleted")
+	{
+			$item_code = $_POST['item_code'];
+		$query = "UPDATE item SET status = 'Erased' WHERE code = '".$item_code."'";
+		$sql = mysql_query($query);
+	
+	}
+}
 require('layout/header.php');
 ?>
 
-<div id="content">
-<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
-	<div style="width: 1440px; display: inline-block; text-align: left;padding-right: 81px; padding-left: 221px;">
-		<div style="background-image: url('/image/barra-account-534-78.png'); background-repeat: no-repeat; height: 82px; display: inline-block; margin-left: 0px; margin-top: 15px; width: 540px; padding-left: 90px;">
-			<h1 style="height: 38px; color: white; width: 220px; font-family: arial,rial;">Found Item</h1>
-		</div>
-		<form method="get" action="/" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
-			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-		</form>
+<div id="content" style="min-height:375px;">
+<div  style="background-image: url('/image/botonera-sola-1024-x-66.png');margin-bottom:10px;background-size:100% 100%; margin-top: -1px;">
+	
+<div class="row">	
+	<div class="col-xs-3 col-md-2" >
+		<a href='/account/'>
+			<p>back</p>
+		</a>
 	</div>
-</div>
-<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-	<div style="width: 890px; height: 508px; display: inline-block; background-color: rgba(240, 240, 240, 0.5); border-radius: 20px;overflow: auto;padding-top: 20px; padding-bottom: 20px;">
+	
+	<div class="col-xs-6 col-md-8" >
+		<p></p>
+	</div>
+					
+	<div class="col-xs-3 col-md-2" >
+	<a id="edititem"><p>edit</p></a>
+	</div>
+	</div>
+	</div>
+<div class="row"  style="border-color:gray;color:blue;margin-bottom: 5px; margin-top: 10px;">
+	<div class="col-xs-0 col-md-4" >
 		
-		<div class="rows" style=" display: block;">
+	</div>
+	<div class="col-xs-12 col-md-4" >
+		<p>My List</p>
+	</div>
+	<div class="col-xs-0 col-md-2" >
+		
+	</div>
+	
+	
+</div>
+
+		
 			<?php
-				$query = "SELECT code FROM item WHERE id_user = '".$_SESSION['id']."' AND type='Found' AND status != 'Deleted'";
+				$query = "SELECT code FROM item WHERE id_user = '".$_SESSION['id']."' AND status != 'Erased'";
 				$sql = mysql_query($query);
 				$sql_row = mysql_num_rows($sql);
 				if($sql_row == 0)
 				{
 					echo "<tr>
-					<td colspan='4'>No tiene articulos.</td>
+					<td colspan='4'>No item to display.</td>
 					</tr>";
 				}
 				while($sql_assoc = mysql_fetch_assoc($sql))
 				{
 					$item = new item($sql_assoc['code']);
 			?>
-				<div class="item-row"  >
-					<div style=" display: inline-block;">
-						<div style="clear: both; content: ''; display: table; background-color: transparent; width: 750px; background-image: url('/image/cuadro_generico1_786x144.png'); height: 157px; border-radius: 20px; background-size: 110% 110%; color: white; padding: 10px;">
-							<div style="float: left;">
-								<?php if($item->HasPhoto())
-								{
-									echo  '<img src="'.$item->item_photos_url[0].'" width="125" height="132" title="item photo">';	
-								}else{
-									echo '<img src="/image/No_image_available_125x132.png" width="125" height="132" title="item photo">';	
-								}
-								?>
-							</div>
-							<div style="float: left; width: 400px; height: 137px; padding-left: 10px; padding-right: 10px;">
-								<div style="height: 50px; font-size: 30px;">
-									<?php echo $item->item_name; ?>
-								</div>
-								<div style="height: 82px; background-image: url('/image/barra-generica1-479-66.png'); background-size: 100% auto; padding: 10px 25px 10px 10px; text-align: left; font-size: 13px; line-height: 20px;">
-									<div>
-										<label style="display: inline-block; width: 300px; overflow: hidden;">Code: <?php echo $item->item_code; ?></label>
-									</div>
-									<div>
-										<label style="display: inline-block; width: 150px; overflow: hidden;">Date: <?php echo $item->item_date; ?></label>
-										<label style="display: inline-block; width: 150px; overflow: hidden;">Country: <?php echo $item->item_country; ?></label>
-									</div>
-									<div>
-										<label style="display: inline-block; width: 150px; overflow: hidden;">Status: <?php echo $item->item_status; ?></label>
-										<label style="display: inline-block; width: 150px; overflow: hidden;">City: <?php echo $item->item_city; ?></label>
-									</div>
-									
-								</div>
-							</div>
-							<div style="float: left; height: 137px; width: 100px;  padding-top: 20px;">
-								<?php echo "<a href='/item/?code=".$item->item_code."&type=v'>";?>
-									<img width="81" height="81" src="/image/boton-ver-81-81.png" style="cursor: pointer;">
-								</a>
-								<?php echo "<a href='/item/?code=".$item->item_code."&type=v'>";?>
-									<p style="margin-top: 0px;">View</p>
-								</a>
-							</div>
-							<div style="float: left; height: 137px; width: 100px; padding-top: 40px;">
-								<div>
-									<?php echo "<a href='/account/found-item/?code=".$item->item_code."'>";?>
-										<img width="34" height="34" src="/image/boton-modificar-34-34.png" style="cursor: pointer;">
-										<p style="width: 62px; float: right; margin-top: 7px;margin-bottom: 0px;">Modify</p>
-									</a>
-								</div>
-								
-								<div>
-									<?php echo "<a href='/item/?code=".$item->item_code."'>";?>
-										<img width="34" height="34" src="/image/boton-eliminar1-34-34.png" style="cursor: pointer;">
-										<p style="width: 62px; float: right; margin-top: 7px;margin-bottom: 0px;">Trash</p>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>		
+				<div class="row row_item" id="<?php echo $item->item_code;?>"onclick="SelectRow('<?php echo $item->item_code;?>')">
+				
+				<div class="col-xs-2 col-md-4" >
+						
+						<?php 
+						if($item->item_category_slug == 'Phone')
+						{
+							
+							echo '<img class="img_category_phone" src="/image/mobile-1-59-x-97.png"  width="59" height="97" >';
+							
+						}else if($item->item_category_slug == 'Key')
+						{
+							
+							echo '<img class="img_category_key" src="/image/key-1-97-x-97.png"  width="97" height="97" >';
+							
+						}else if($item->item_category_slug == 'Case')
+						{
+							
+							echo '<img  class="img_category_suitecase" src="/image/maleta-1-98-x-83.png"  width="98" height="83" >';
+							
+						}else if($item->item_category_slug == 'Tablet')
+						{
+							
+							echo '<img class="img_category_tablet" src="/image/tablet-1-73-x-96.png"  width="73" height="96" >';
+							
+						}else if($item->item_category_slug == 'Backpack')
+						{
+							
+							echo '<img class="img_category_backpack" src="/image/bulto-1-95-x-97.png"  width="95" height="97" >';
+							
+						}else if($item->item_category_slug == 'Luggage')
+						{
+							
+							echo '<img class="img_category_luggage" src="/image/maleta-rueda-1-55-x-97.png" width="55" height="97" >';
+							
+						}else if($item->item_category_slug == 'Laptop')
+						{
+							
+							echo '<img class="img_category_laptop" src="/image/laptop-1-97-x-67.png"  width="97" height="67" >';
+							
+						}else if($item->item_category_slug == 'Camera')
+						{
+							
+							echo '<img class="img_category_camera" src="/image/camara-1-98-x-70.png"  width="98" height="70" >';
+							
+						}else if($item->item_category_slug == 'Passport')
+						{
+							
+							echo '<img class="img_category_pass" src="/image/pass-68-x-94.png"  width="68" height="94" >';
+							
+						}else if($item->item_category_slug == 'Driver License')
+						{
+							
+							echo '<img class="img_category_identitycard" src="/image/ID-1-98-x-66.png"  width="98" height="66" >';
+							
+						}else if($item->item_category_slug == 'Credit / Debit Card')
+						{
+							
+							echo '<img class="img_category_creditcard" src="/image/credit-1-card-98-x-66.png"  width="98" height="66" >';
+							
+						}else if($item->item_category_slug == 'Other')
+						{
+							
+							echo '<img class="img_category_other" src="/image/crus-93-x-93.png"  width="93" height="93" >';
+							
+						}
+						?>
+				</div>
+				<div class="col-xs-6 col-md-4 label_code">
+					<p class="fontsize_5" style="margin-bottom: 0px;">WilWif Code: <?php echo $item->item_code;?></p>
+				</div>
+				
+				<div class="col-xs-4 col-md-4" class="text-align:left">
+					<?php 
+						if($item->item_status =="Lost")
+						{
+							echo '<img class="img_lost_icon" src="/image/VIEW-&-EDIT-ITEMS-Lost-48-x-43.png" title="logo" width="50" height="39" >';
+						}
+					?>
+				</div>
+				</div>
+					
+					
+					
+					
+			
+					
 			<?php	 
 				}
 			?>
-		</div>
-	</div>
-	<div style="width: 890px; display: inline-block; padding-top: 10px; padding-bottom: 10px;">
-		
-			<div style="clear: both; content: ''; display: table; float: right;">
-				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a href='/account/'>";?>
-						<img width="50" height="50" src="/image/boton-volver-50-50.png" style="cursor: pointer;">
-						<p style="width: 62px;margin-bottom: 0px;">Return</p>
-					</a>
-				</div>
-				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a href='/account/found-item/?type=v'>";?>
-						<img width="50" height="50" src="/image/boton-aceptar-39-39.png" style="cursor: pointer;">
-						<p style="width: 62px; margin-bottom: 0px;">Add</p>
-					</a>
-				</div>
-			</div>
-		
-	</div>
+	<div class="row div_input_principal"  style="color:blue; text-align: center; ">
+	<div class="col-xs-12 col-md-12">
+		<p class="fontsize_4 p_button" >
+			<img  class="botonera_button_principal" src="/image/logo-botonera-111-x-173.png">
+		</P>
+	</div>	
 </div>
 </div>
-</div>
+<script>
+
+var preview=null;
+function SelectRow(itemcode){
+	if(preview)
+	{
+		$( "#"+preview ).removeClass( "selected_highlight" );
+	}
+	preview = itemcode;
+	$( "#"+itemcode ).addClass( "selected_highlight" );
+	$("#edititem").attr("href", "/account/found-item/?code="+itemcode);
+}
+</script>
+<style>
+
+.botonera_button_principal{
+ margin-bottom:-50px;
+
+background-color: transparent;
+background-size:100% 100%;
+border-width: 0px;
+width:83px;
+height:129px;
+margin-top:50px;
+
+}
+
+
+
+
+.row{
+		margin-right:0px;
+	}
+	
+	.selected_highlight
+	{
+		background-color:orangered;
+		color:white !important;
+	}
+	
+	
+	.row_item
+	{	
+		height:75px;
+		color:orange;
+		border-width: 1px 0px;
+		border-style: solid;
+		border-color: gray;
+	}	
+	
+	.label_code{
+		line-height:75px;
+	}	
+	
+
+	/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	.row_item
+	{	
+		height:100px;
+	}
+	
+	.label_code{
+		line-height:100px;
+	}
+	
+	.botonera_button_principal{
+	width:111px;
+	height:176px;
+	margin-top:0px;
+ }
+}
+
+</style>
 <?php
 //include header template
 require('layout/footer.php');

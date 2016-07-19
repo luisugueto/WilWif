@@ -17,15 +17,16 @@ $GLOBALS['configuration'] = $configuration;
 	$GLOBALS['configuration']->getOption('email');
 	$GLOBALS['configuration']->getOption('nresult');
 	$GLOBALS['configuration']->getOption('maxattemps');
+	$GLOBALS['configuration']->getOption('domainadmin');
 */
 
 //SendMail( $to,$subject, $message) 
-
+//CreateNotification(id_user,$message))
 if(!$debug)
 {
 	error_reporting(0);
 }
-//CreateNotification(id_user,$message))
+
 
 $db = new DB();
 //define page title
@@ -42,6 +43,12 @@ if($path_urls[1])
 
 
 switch ($path){	
+	case 'account':
+	   include 'view/page-account.php';
+		break;
+	case 'changepassword':
+	   include 'view/page-change-password.php';
+		break;
 	case 'execution':
 	   include '../execution-controler.php';
 		break;

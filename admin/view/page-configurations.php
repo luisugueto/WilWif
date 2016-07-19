@@ -6,11 +6,17 @@ if(isset($_POST['save']))
 	$attemps = $_POST['attemps'];
 	$email = $_POST['email'];
 	$domain = $_POST['domain'];
+	$domainadmin = $_POST['domainadmin'];
+	
+	$query = "UPDATE configuration SET";
+	$query = $query." `value` ='".$domainadmin."'";
+	$query = $query." WHERE `option` ='domainadmin' "; 
+	$sql = mysql_query($query)or die('error at try to access data' . mysql_error());
+	
 	
 	$query = "UPDATE configuration SET";
 	$query = $query." `value` ='".$email."'";
 	$query = $query." WHERE `option` ='email' "; 
-	echo  $query;
 	$sql = mysql_query($query)or die('error at try to access data' . mysql_error());
 
 	$query = "UPDATE configuration SET";
@@ -52,94 +58,117 @@ if(isset($_POST['save']))
 			$domain = $row['value'];
 		}
 		
+		if($row['option']=="domainadmin")
+		{
+			$domainadmin = $row['value'];
+		}
+		
 	}
 require('layout/header.php'); 
 ?>
-<div id="content">
-<div class="header_div_1">
-	<div class="header_div_2">
-		<div id="menu_button">
+<header class="header_container" style=" background-image: url('/image/botonera-sola-1024-x-66/png');">
+	<div class="row"  style="border-width: 0px 0px 3px; border-style: solid; border-color: white; line-height:49px">
+		<div class="col-xs-3 col-md-3">	
+		<a href='/'>
+			<p class="fontsize_3" style="margin-bottom: 0px;"><img src="/image/flecha2-27-46.png">back</p>
+		</a>
+		</div>
+		
+		<div class="col-xs-6 col-md-6">	
+			<a href="/">
+				<img style="margin-top: 2%; margin-bottom: 3%;" src="/image/Logotipo-110-x-32.png" title="logo" width="110" height="32" >
+			</a>
+		</div>
+		<div class="col-xs-3 col-md-3">
 		
 		</div>
-		<div class="header_div_3 header_div_home">
-			<h2 class="header_title_1">Configurations</h2>
-		</div>
 	</div>
-</div>
-<div>
-	<div id="menu" class="menu_close">
-		<?php require('layout/menu.php'); ?>
-	</div>
-</div>
-<div id="content_containter">
+</header>
+<div id="content" style="margin-top:30px;">
+
 	<form method="post">
-				<div class="content_chat_div_1">
-		
-				<div >
-					<div class="row"> 
-						 <div class="input_container_form">
-							  <div class="input_container_label_form">
-								<label for="email" class="input_label_form">Main email</label>
-							  </div>
-							  <div class="input_container_text_form">
-								<input type="text" name="email" class="input_text_form"  id="email"  value="<?php if(isset($email)){ echo $email; } ?>">
-							  </div>
-						 </div>
-					</div>	
-					<div class="row"> 
-						 <div class="input_container_form">
-							  <div class="input_container_label_form">
-								<label for="domain" class="input_label_form">User domain</label>
-							  </div>
-							  <div class="input_container_text_form">
-								<input type="text" name="domain" class="input_text_form"  id="domain"   value="<?php if(isset($domain)){ echo $domain; } ?>" >
-							  </div>
-						 </div>
-					</div>
-					<div class="row"> 
-						 <div class="input_container_form">
-							  <div class="input_container_label_form">
-								<label for="attemps" class="input_label_form">Max login attemps</label>
-							  </div>
-							  <div class="input_container_text_form">
-								<input type="text" name="attemps" class="input_text_form"  id="attemps"   value="<?php if(isset($attemps)){ echo $attemps; } ?>" >
-							  </div>
-						 </div>
-					</div>
-					<div class="row"> 
-						 <div class="input_container_form">
-							  <div class="input_container_label_form">
-								<label for="resultShow" class="input_label_form">Result show</label>
-							  </div>
-							  <div class="input_container_text_form">
-								<input type="text" name="resultShow" class="input_text_form"  id="resultShow"   value="<?php if(isset($resultShow)){ echo $resultShow; } ?>">
-							  </div>
-						 </div>
-					</div>
-					
-				</div>
-				</div>
-				<div class="options_container_page">
-					<div class="options_frame_page">
-						<div class="option_container_page" >
-							<a href="/">
-								<input class="search_option_result option_back" type="button">
-								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
-							</a>
-						</div>
-						
+	
+						<div class="row ">
 							
-							<div class="option_container_page">
-								<input class="search_option_result option_create" type="submit" name="save" value="">
-								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Save</p>
+							<div class="col-xs-12 col-md-12 ">
+								<div>
+								<label class="label_input_text" class="fontsize_4">Email:</label><input type="text" name="email" class="label_text_input fontsize_2"  id="email"  value="<?php if(isset($email)){ echo $email; } ?>">
+								</div>
 							</div>
+						</div>	
+						<hr>
+						<div class="row ">
+							<div class="col-xs-12 col-md-12 ">
+								<div>	
+									<label class="label_input_text"  class="fontsize_4">Domain:</label><input type="text" name="domain" class="label_text_input fontsize_2"  id="domain"   value="<?php if(isset($domain)){ echo $domain; } ?>" >
+								</div>
+							</div>
+						</div>
+						<hr>						
+						<div class="row ">
+							<div class="col-xs-12 col-md-12 ">
+								<div>
+								<label class="label_input_text"  class="fontsize_4">Domain Admin:</label><input type="text" name="domainadmin" class="label_text_input fontsize_2"  id="domainadmin"   value="<?php if(isset($domainadmin)){ echo $domainadmin; } ?>">
+								</div>
+							</div>
+						</div>
+						<hr>						
+						<div class="row ">
+							<div class="col-xs-12 col-md-12 ">
+								<div>
+									<label class="label_input_text" class="fontsize_4">Max Attemps:</label><input type="text" name="attemps" class="label_text_input fontsize_2"  id="attemps"   value="<?php if(isset($attemps)){ echo $attemps; } ?>">
+								</div>
+							</div>
+						</div>	
+						<hr>
+						<div class="row ">
+							<div class="col-xs-12 col-md-12 " >
+								<div>
+									<label class="label_input_text" class="fontsize_4">Result Shows</label><input type="text" name="resultShow" class="label_text_input fontsize_2"  id="resultShow"   value="<?php if(isset($resultShow)){ echo $resultShow; } ?>">
+								</div>
+							</div>
+						</div>	
+						<div class="row ">
+							<div class="col-xs-12 col-md-12 ">
+							<input   class="fontsize_3 " style="border-width: 0px; background-color: transparent; color: white;text-align:center; margin:auto;" type="submit" name="save" value="Save">
+							</div>
+						</div>	
 							
-						
-					</div>
-				</div>
+					
 				</form>
 </div>
 <style>
+
+.label_input_text{
+	color:white;
+	width:200px;
+	text-align: center;
+
+}
+
+
+.label_text_input{
+		width: 300px;
+		height: 40px;
+		border-width: 2px;
+		padding-bottom: 1px;
+		text-align:left;
+		margin-bottom:5px;
+		border-style: solid;
+		padding-left:10px;
+	}
+	/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+.label_input_text{
+
+text-align:left;
+}
+.label_text_input{
+	width: 500px;
+}
+
+}
 @media all and (max-width: 1024px)
 {
 	.content_chat_div_1{
@@ -156,5 +185,6 @@ require('layout/header.php');
 </style>
 <?php 
 //include header template
+$actualpage = "Configurations";
 require('layout/footer.php');
 ?>

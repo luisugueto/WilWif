@@ -11,16 +11,19 @@ if (isset($_POST['item_method']) && isset($_POST['item_code'])) {
 	{
 		$query = "UPDATE item SET status = 'Locked' WHERE code = '".$item_code."'";
 		$sql = mysql_query($query);
+		CreateRecord('Lock Item',"wilwif code:".$item_code);
 	
 	}else if($item_method == "unlocked")
 	{
 		$query = "UPDATE item SET status = 'Active' WHERE code = '".$item_code."'";
 		$sql = mysql_query($query);
+		CreateRecord('Unlock Item',"wilwif code:".$item_code);
 	
 	}else if($item_method == "deleted")
 	{
 		$query = "UPDATE item SET status = 'Erased' WHERE code = '".$item_code."'";
 		$sql = mysql_query($query);
+		CreateRecord('Delete Item',"wilwif code:".$item_code);
 	
 	}
 }

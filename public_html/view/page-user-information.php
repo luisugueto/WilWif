@@ -9,10 +9,8 @@ if($user->is_logged_in() )
 	$assoc = mysql_fetch_assoc($sql);
 
 
-	if (isset($_POST['submit'])) {
+	if (isset($_POST['modify'])) {
 
-		$password = md5($_POST['password']);
-		$passwordConfirm = md5($_POST['retrypassword']);
 		$username = htmlentities($_POST['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
 		$email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 
@@ -22,147 +20,469 @@ if($user->is_logged_in() )
 	 	$row1 = mysql_num_rows($query1);
 		
 		if(strlen($username) < 3){
-			$error[] = 'Usuario muy corto.';
+			$error = 'Usuario muy corto.';
 		}	
 		
 		elseif (!preg_match('/^[a-zA-Z0-9]+$/', $username)) { 
-	      $error[] = 'El usuario tiene caracteres no validos.';
-	    } 
-		
-	 	elseif(strlen($_POST['password']) < 3){
-			$error[] = 'Contraseña muy corta.';
-		}
-
-		elseif($passwordConfirm != $password){
-			$error[] = 'Las Contraseñas no coinciden.';
-		}
-
-		else{
+	     $error = 'El usuario tiene caracteres no validos.';
+	    }else{
 
 			$username = $_POST['username'];
-			$name = $_POST['name'];
-			$lastname = $_POST['lastname'];
-			$security_question = $_POST['question'];
-			$security_answer = $_POST['answer'];
-
-			$query_update = mysql_query("UPDATE user SET password = '".$password."', email = '".$email."', name = '".$name."', lastname = '".$lastname."', security_answer = '".$security_answer."', security_question = '".$security_question."',  last_mod_date = NOW() WHERE id = '".$_SESSION['id']."'") or die(mysql_error());
-			header('Location: /account/');
+			$name =(isset($_POST['name']))?$_POST['name']: ""; 
+			$lastname = (isset($_POST['lastname']))?$_POST['lastname']: ""; 
+			$security_question =(isset($_POST['security_question']))?$_POST['security_question']: "";
+			$security_answer =(isset($_POST['security_answer']))?$_POST['security_answer']: "";
+			$img_path = (isset($_POST['url_img']))? $_POST['url_img']:'';
+			$userinfo = ModifyUser($username,$email,$name,$lastname,$security_question,$security_answer,$img_path);
+			if (is_a($userinfo, 'errorCodes')) {
+				$errors = $userinfo->GetErrors();
+				echo "<p>type Error</p>";
+				foreach($errors as $error)
+				{
+					echo "<p>type Error".$error."</p>";
+				}
+			}else{
+			
+				header('Location: /account/');
+			}
+			
 		}
+	}else  if (isset($_POST['modifypass'])){
+	
+	if(!isset($_POST['password']) || empty($_POST['password']))
+	{
+		$error = 'Password is require.';
+			
+	}
+
+	if(!isset($_POST['retrypassword']) || empty($_POST['retrypassword']))
+	{
+		$error = 'Retry-Password is require.';
+			
 	}
 	
+	if($_POST['password']!=$_POST['retrypassword'])
+	{
+		$error = 'Passwords does not match.';
+	}
+	$username = $_SESSION['username'];
+	$password	=$_POST['password'];
+		if(!isset($error))
+		{	
+			$userinfo = ChangePasswordUser($username,$password);
+			if (is_a($userinfo, 'errorCodes')) {
+				$errors = $userinfo->GetErrors();
+				echo "<p>type Error</p>";
+				foreach($errors as $error)
+				{
+					echo "<p>type Error".$error."</p>";
+				}
+			}else
+			{
+				$error = 'Passwords change successful.';
+			}
+		}
+		
+
+}
+	
+	$userinfo = new userInfo($_SESSION['username']);
+	if(isset($userinfo->user_id))
+	{
+		$username = $userinfo->user_username;
+		$email = $userinfo->user_email;
+		$name = $userinfo->user_name;
+		$img = $userinfo->user_img;
+		$lastname = $userinfo->user_lastname;
+		$status = $userinfo->user_status;
+		$security_question =$userinfo->user_security_question;
+		$security_answer  =$userinfo->user_security_answer;
+	}else{
+		die("User Does Not Exist");
+	}
+
 }
 
 ?>
+
 <div id="content">
-<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
-	<div style="width: 1440px; display: inline-block; text-align: left;">
-		<form method="get" action="/" style="background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
-			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-		</form>
+<form method="post" action="">
+<div  style="background-image: url('/image/botonera-sola-1024-x-66.png');margin-bottom:10px;background-size:100% 100%; margin-top: -1px;">
+
+<div class="row">	
+	<div class="col-xs-3 col-md-2" >
+		<a href='/account/'>
+		<p>back</p>
+		</a>
 	</div>
-</div>
-<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
 	
-	<div class="row">
-
-	    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-<?php if( $user->is_logged_in() ){ ?>
-
-			<form role="form" method="post" action="" autocomplete="off">
-				<?php
-				//check for any errors
-				if(isset($error)){
-					foreach($error as $error){
-						echo '<p class="bg-danger">'.$error.'</p>';
-					}
-				}				
-				?>
-				<div id="content_containter">
-	<div class="content_div_1">
-		<div class="div_inline-block">
-		<form action="" method="post">
-		<table style="border-color: white; display: inline-block; " border="0px;">
-				<tr >
-				<th>User Name</th>
-
-					<td style="background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<input readonly value="<?php echo $assoc['username']; ?>" type="text" name="username" id="username" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr >
-				<th>Status</th>
-					<td style="background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<input readonly value="<?php echo $assoc['status']; ?>" type="text" name="status" id="username" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr >
-				<th>Email</th>
-					<td style="background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<input value="<?php echo $assoc['email']; ?>" type="email" name="email" id="username" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr >
-				<th>Name</th>
-					<td style="background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<input value="<?php echo $assoc['name']; ?>" type="text" name="name" id="username" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr >
-				<th>Last Name</th>
-					<td style="background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<input value="<?php echo $assoc['lastname']; ?>" type="text" name="lastname" id="username" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr >
-				<th>Security Question</th>
-					<td>
-					<select id="question" name="question">
-							<option value="" selected>- Select -</option>
-							<?php 
-							$query_answers = mysql_query("SELECT * FROM security_question");
-							while ($assoc = mysql_fetch_assoc($query_answers)) { ?>
-								<option value="<?php echo $assoc['label']; ?>"><?php echo $assoc['label']; ?></option>
-							<?php } ?>
-
-						</select>
-					</td>
-				</tr>
-				<tr >
-				<th>Security Answer</th>
-					<td style="background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<input value="<?php echo $assoc['security_answer']; ?>" type="text" name="answer" id="username" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr >
-				<th>Password</th>
-					<td style="background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<input type="password" name="password" id="password" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr >
-				<th>Confirm Password</th>
-					<td style="background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<input type="password" name="retrypassword" id="username" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				
-		</table>
-			<br>
-			<button type="submit" id="submit" name="submit" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-			<button type="button" onclick="window.location='/account/'" style="background:url('/image/boton-nuevouser-70-70.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-		</form>
-<?php } ?>
-		</div>
+	
+	<div class="col-xs-6 col-md-9" >
+		<p></p>
 	</div>
+					
+	<div class="col-xs-3 col-md-1" style="text-align:center">
+	<input type="submit" name="modify" value="done" style="text-align: center;height: 20px; background-color: transparent; border-width: 0px; color: white; cursor: pointer;"> 
+	</div>
+	</div>
+</div>	
 
-
-
+	<?php 
+if(isset($error))
+{
+	echo '<p>'.$error.'</p>';
+}
+?>
+		<div class="row">
+					
+					<div class="col-xs-6 col-md-6" style="text-align:right">
+						<div class="images_holder" style="padding-left: 0px;"> 
+							<div class="upload_container_inner">
+							<ul id="lista-imagenes" class="uploader_lista-imagenes">
+								<?php
+									if($img !="")
+									{
+									?>
+										<div class="uploader_clasethumb" style="background: transparent url('<?php echo $img;?>') no-repeat scroll 0% 0% / 100% 100%;"></div>
+										<input id="url_img" type="hidden" name="url_img" value="'<?php echo $img;?>'">
+									<?php
+									}
+								
+								?>
+							</ul>
+							</div>
+						<div class="upload_container_input">
+							<input id="testinput" class="uploader_hidden" type="file" name="pic" accept="image/*">
+						</div>
+						<div class="upload_container_crop_controls">
+							<div id="cortar" class="uploader_modalDialog">
+								<div id="inSide">
+									<div id="modimagencont"></div>
+									<div id="divMod" style="clear: both;"></div>
+									<div id="progreso" class="uploader_progresoCont">
+										<div class="uploader_barra">
+											<div id="uploader_progreso" class="uploader_progreso" style="width: 100%;"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<input id="x" type="hidden" name="x" value="0">
+							<input id="y" type="hidden" name="y" value="0">
+							<input id="w" type="hidden" name="w" value="200">
+							<input id="h" type="hidden" name="h" value="200">
+							<input id="src" type="hidden" name="src" value="/tmp/2016-0714-Rci6-KZGW-wallet.jpg">
+						</div>
+					</div>
+					</div>
+					<div class="col-xs-6 col-md-6" style="text-align:left">
+						<p class="fontsize_2" style="margin-top: 55px;font-weight: bold;"><?php if(isset($username)){ echo $username; }?></p>
+						<p class="fontsize_4">Your Code: Manuel001</p>
+						<input type="hidden" name="username" class="input_text_form"  id="username"  value="<?php if(isset($username)){ echo $username; } ?>" readonly>
+						<input type="hidden" name="name" class="input_text_form"  id="name"   value="<?php if(isset($name)){ echo $name; } ?>" >
+							  	 
+					</div>
+				</div>
+				
+						
+					<input type="hidden" name="status" class="input_text_form"  id="status"  value="<?php if(isset($status)){ echo $status; } ?>" readonly>
+							
+					<div class="row" style="text-align:left;border-color:gray;margin-bottom: 5px; border-width: 0px 0px 1px; border-style: solid;"> 
+						<div class="col-xs-0 col-md-4 maxp" >
+						</div>
+						<div class="col-xs-12 col-md-4 maxp" >
+							<p class="fontsize_4"><img src="/image/Sobre-28-x-19.png" style="margin-right: 10px;" width="28" height="19" tittle="Password"><?php if(isset($email)){ echo $email; } ?></p>
+						</div>
+						 <input type="hidden" name="email" class="input_text_form"  id="email"   value="<?php if(isset($email)){ echo $email; } ?>" >
+					</div>
+					
+					
+					<div class="row" style="text-align:left;border-color:gray;margin-bottom: 5px; border-width: 0px 0px 1px; border-style: solid;"> 
+						<div class="col-xs-0 col-md-4 maxp" >
+						</div>
+						<div class="col-xs-12 col-md-4" >
+						<p class="fontsize_4 maxp color:black"><img src="/image/telf-28-x-29.png" style="margin-right: 10px;"  width="28" height="29" tittle="Password">+1305-456-7898</p>
+						</div>
+						 <input type="hidden" name="email" class="input_text_form"  id="email"   value="<?php if(isset($email)){ echo $email; } ?>" >
+					</div>
+					
+					<div class="row" style="text-align:left;border-color:gray;margin-bottom: 5px; border-width: 0px 0px 1px; border-style: solid;">
+						<div class="col-xs-0 col-md-4 maxp" >
+						</div>
+						<div class="col-xs-12 col-md-4" >
+							<p class="fontsize_4" style="line-height:20px"><img src="/image/candado-23-x-29.png" style="margin-right: 10px;" width="23" height="29" tittle="Password"><span class="fontsize_5">******</span> Change Your Password</p>
+							<input type="hidden" name="password" class="input_text_form"  id="password"   value="" >
+							   <input type="hidden" name="retrypassword" class="input_text_form"  id="retrypassword"   value="" >
+						</div>
+					</div>
+					
+					<div class="row" style="text-align:left;border-color:gray;margin-bottom: 5px; border-width: 0px 0px 1px; border-style: solid;"> 
+						<div class="col-xs-0 col-md-4 maxp" >
+						</div>
+						<div class="col-xs-12 col-md-4" >
+						<p class="fontsize_4"><img src="/image/Gender.png" tittle="Gender" style="margin-right: 10px;" width="29" height="29">Gender</p>
+						</div>
+						 <input type="hidden" name="email" class="input_text_form"  id="email"   value="<?php if(isset($email)){ echo $email; } ?>" >
+					</div>
+				<hr style="border-color:black">
+				
+				<div class="row" style="text-align:left"> 
+						<div class="col-xs-0 col-md-4 maxp" >
+						</div>
+						<div class="col-xs-12 col-md-4 fontsize_5" >
+						<p class="fontsize_4">I want to be contact by:</p>
+						 <input type="radio" name="contactby" value="Email" checked>Email
+						 <input type="radio" name="contactby" value="Text" disabled>Text Message
+						  <input type="radio" name="contactby" value="Text" disabled>Call<br>
+						</div>
+						 <input type="hidden" name="email" class="input_text_form"  id="email"   value="<?php if(isset($email)){ echo $email; } ?>" >
+					</div>
+					
+					
+				</form>
 </div>
-
+<div class="row div_input_principal"  style="color:blue; text-align: center; ">
+	<div class="col-xs-12 col-md-12">
+		<p class="fontsize_4 p_button" >
+			<img  class="botonera_button_principal" src="/image/logo-botonera-111-x-173.png">
+		</P>
+	</div>	
 </div>
-</div>
+<script>
+	$(document).ready(function() {
+	
+	$('#lista-imagenes').click(function() {
+	HandleUploadClick(); 
+	});
+		
+	$('#testinput').change(function() {
+	addFile();
+	this.value=null;
+	return false;
+	});
+	 
+	
+});
 
+function borrarBarras(){
+	$( ".progresoCont" ).empty();
+}
+function HandleUploadClick(){
+    var clickHandle = document.getElementById("testinput");
+    clickHandle.click();
+}
+function showCoords(c){
+	$('#x').val(c.x);
+    $('#y').val(c.y);
+    $('#w').val(c.w);
+    $('#h').val(c.h);
+}
+function addFile(){
+	location.href = "#cortar";
+	var file = document.getElementById('testinput').files[0];
+	if ((/\.(jpg|png|gif|jpeg)$/i).test(file.name)) {
+	if (file.size < 1024 * 1024 * 2) {
+	if($('#progreso').length)
+	{
+		progresss = document.getElementById('uploader_progreso');
+	}else
+	{
+	var progresss = document.createElement('div'); 
+		progresss.className = "uploader_progreso";
+		progresss.id = "uploader_progreso";
+    var progressBarr = document.createElement('div'); 
+		progressBarr.className = "uploader_barra";
+		progressBarr.appendChild(progresss);
+	var progreso = document.createElement('div');
+		progreso.id = "progreso";
+		progreso.className = "uploader_progresoCont";
+		progreso.appendChild(progressBarr);
+	var inSide = document.getElementById('inSide');
+		inSide.appendChild(progreso);
+	}
+	var xhr = new XMLHttpRequest();
+	var formData = new FormData();
+	formData.append('file', file);
+	xhr.open('POST', '/execution/fileuploader/');
+	xhr.upload.onprogress = function (e) {
+		
+	if (e.lengthComputable) {	
+		progresss.style.width=(e.loaded/e.total)*100+"%"; 
+		}
+	}
+	xhr.upload.onloadstart = function (e) {
+		$(".barra").value = 0;
+	}
+	xhr.upload.onloadend = function (e) {
+		$(".barra").value = e.loaded;
+	}
+	xhr.onreadystatechange = function() {
+	 if (xhr.readyState == 4 && xhr.status == 200) {
+		borrarBarras(); 
+		 if (xhr.responseText.substring(0, 5) != "Error") { 
+			 $('#modimagencont').html('<img src="' + xhr.responseText + '" id="modimagen">');
+			 $('.jcrop-holder').remove();
+			 $('#modimagen').Jcrop({
+             	bgColor: 'transparent',
+				addClass: 'jcrop-centered',
+				onSelect: showCoords,
+           	 	onChange: showCoords,
+				aspectRatio: 1,
+			    setSelect: [ 0, 0,100, 100 ],
+				minSize: [ 50,50 ],
+				maxSize: [ 200,200 ]
+        	 },function(){
+				jcrop_api = this;
+             });
+			 $('#src').val(xhr.responseText);
+			var divCortar = document.createElement('div'); 
+				divCortar.className = ('uploader_guardar');	
+				divCortar.innerHTML = ('Save');
+				divCortar.addEventListener('click', function(e) {  			    
+					cropFile();
+					}, false);
+			var divCancelar = document.createElement('div'); 
+				divCancelar.className = ('uploader_cancelar');	
+				divCancelar.innerHTML = ('Cancel');
+				divCancelar.addEventListener('click', function(e) {  
+				     $.Jcrop('#modimagen').destroy();		
+				 	 $('.jcrop-holder').remove();
+					 $('#modimagencont').html("");
+			         $('#divMod').html("");
+					 location.href = "#close";	
+					}, false);
+			var divMod = document.getElementById('divMod'); 	
+				divMod.appendChild(divCortar);
+				divMod.appendChild(divCancelar);			 
+		}
+		}	
+	}
+	xhr.send(formData);
+	} else { alert('Error, Image cant weight more than 2 mb'); }	
+	} else { alert('Error, Invalid image file'); }
+ }
+ 
+function cropFile(){
+	var x = document.getElementById('x').value;
+	var y = document.getElementById('y').value;
+	var w = document.getElementById('w').value;
+	var h = document.getElementById('h').value;
+	var src = document.getElementById('src').value;
+	var ajaxData = "x="+ x +"&y="+ y +"&w="+ w +"&h="+h +"&imgurl="+src+"";
+	 $.ajax({
+         type: "POST",
+         url: "/execution/filecrop/filecrop.php",
+         data: ajaxData,
+		 success: function(data){
+		 
+				AddImageUploader(data);
+				$.Jcrop('#modimagen').destroy();	
+				$('.jcrop-holder').remove();
+				$('#modimagencont').html("");
+				$('#divMod').html("");
+				location.href = "#close";	
+			}
+    });
+	
+}
+
+function AddImageUploader(path_url)
+{
+	var list = document.getElementById('lista-imagenes');
+	$('#lista-imagenes').html("");
+	var	row_img = document.createElement('li');	
+	var upload_img  = document.createElement('div'); 
+	upload_img.style.background = "url('"+ path_url +"')";
+	upload_img.style.backgroundSize = "120px 120px";
+	upload_img.style.backgroundRepeat ="no-repeat";
+	upload_img.className = "uploader_clasethumb";
+	row_img.appendChild(upload_img);
+	list.appendChild(row_img);
+		// add url value 
+	var input_url = document.createElement('input'); 
+	input_url.type = "hidden";
+	input_url.id = "url_img";
+	input_url.name = "url_img";
+	input_url.value = "'"+ path_url +"'";
+	row_img.appendChild(input_url);	
+}
+
+</script>
+<style>
+.botonera_button_principal{
+ margin-bottom:-50px;
+
+background-color: transparent;
+background-size:100% 100%;
+border-width: 0px;
+width:83px;
+height:129px;
+margin-top:50px;
+
+}
+
+
+.maxp{
+	.maxp{
+	width:300px;
+	margin:auto;
+	}
+}
+.uploader_hidden{
+	display:none !important;
+}
+.content_chat_div_1{
+	padding-top: 90px; padding-bottom: 90px;
+}
+
+	.images_holder{
+		width: 120px; display: inline-block;
+	}
+	
+	#lista-imagenes{
+		
+		background-image: url("/image/No_image_available_125x132.png");
+		background-size: 100% 100%;
+		border-style: solid;
+		border-width: 0px;
+		border-radius: 100%;
+		bottom: 0;
+		height: 120px;
+		list-style: outside none none;
+		margin: 0;
+		overflow: hidden;
+		padding: 0;
+		position: relative;
+		top: 0;
+		width: 120px;
+	}
+	
+	.uploader_clasethumb{
+		 border-width: 0px;
+	}
+	
+	.upload_container_input{
+		height: 0px;
+		width: 0px;
+	}
+	
+	
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+.botonera_button_principal{
+	width:111px;
+	height:176px;
+	margin-top:0px;
+ }
+	.row_margin_20{
+ margin-top:40px;
+}
+.maxp{
+	width:400px;
+}
+}
+</style>
 <?php 
 //include header template
 require('layout/footer.php');

@@ -1,96 +1,209 @@
 <?php
-//include config
-require_once('../includes/config.php');
-require_once('../classes/db.php');
-
-$db = new DB();
-
-//check if already logged in move to home page
-#if( $db->is_logged_in() ){ header('Location: index.php'); } 
-
-//process login form if submitted
+//if form has been submitted process it
 if(isset($_POST['submit'])){
-	$email = $_POST['email'];
-	$username = $_POST['username'];
-	$query = mysql_query("SELECT * FROM user WHERE email = '".$email."' AND username = '".$username."'");
-	$assoc = mysql_fetch_assoc($query);
-	$newPassword = CreatePassword();
-	$newPasswordEncrypt = md5($newPassword);
-	$update = mysql_query("UPDATE user SET password = '".$newPasswordEncrypt."'");
-	echo "<script>
-		alert('If your mail and user name is correct. To reach a message to the mail');
-	</script>";
-		SendMail($assoc['email'], 'Recovery Password', '<html><h3 style="color: red">Your new password is: "'.$newPassword.'"</h3></html>');
-		header('Location: /login/');
-}//end if submit
 
-//define page title
-$title = 'Login';
+	
+	//email validation
+	$email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+	
+		$query = "SELECT email FROM user WHERE email = '".$_POST['email']."'";
+		$sql = mysql_query($query);
+		if($row = mysql_fetch_assoc($sql))
+		{
+			$email = $row['email'];
+			if(RecoverPasswordUser($email)){
+			header('Location: /login/');
+			}else{
+			$error = 'Error trying to change password.';
+			}
+			
+		}else{
+			$email = $_POST['email'];
+			$error = 'E-mail does not exist';
+		}
+	
 
+	}else{
+			$email = $_POST['email'];
+			$error = 'Invalid e-mail';
+		}
+}
 //include header template
 require('layout/header.php'); 
 ?>
 
+
 <div id="content">
-<div  style="height: 112px; background-image: url('/image/header2-1440-112.png'); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
-	<div style="width: 1440px; display: inline-block; text-align: left;">
-		<form method="get" action="/" style="float: right; background-image: url('/image/barra-generica-478-47.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-			<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 20px; margin-top: 13px;">Search</p>
-			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value" style="border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-		</form>
-	</div>
-</div>
-<div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
-	
-	<div class="row">
-
-	    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-<?php if( !$user->is_logged_in() ){ ?>
-
-			<form role="form" method="post" action="" autocomplete="off">
-				<?php
-				//check for any errors
-				if(isset($error)){
-					foreach($error as $error){
-						echo '<p class="bg-danger">'.$error.'</p>';
-					}
-				}				
-				?>
-				<div id="content_containter">
-	<div class="content_div_1">
-		<div class="div_inline-block">
-		<form action="" method="post">
-		<table style="border-color: white; display: inline-block; " border="0px;">
-				<tr >
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 100px; padding-left: 17px; color: white; font-size: 18px; margin-top: 10px;">User Name</p>
-						<input type="text" name="username" id="username" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				<tr >
-					<td style="float: right; background-image: url('/image/barra-info-646-54.png'); border-width: 0px; margin-top: 30px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 66px; padding-left: 0px; width: 386px; height: 51px;">
-						<p style="float: left; width: 82px; padding-left: 17px; color: white; font-size: 18px; margin-top: 10px;">Email</p>
-						<input type="email" name="email" id="email" style="text-align: center; border-width: 0px; margin-top: 0px; background-color: transparent; background-repeat: no-repeat; background-size: 100% 100%; padding-top: 1px; padding-right: 0px; padding-left: 0px; height: 51px; float: left; width: 238px;">
-					</td>
-				</tr>
-				
-		</table>
-			<br>
-			<button type="submit" id="submit" name="submit" value="" style="background:url('/image/boton-aceptar2-50-50.png'); background-size: 60%; background-repeat: no-repeat; width: 120px; height: 120px; border: 0px">
-		</form>
-
-<?php } ?>
+<div  style="background-image: url('/image/botonera-sola-1024-x-66.png');margin-bottom:10px;background-size:100% 100%; margin-top: -1px;">
+		<div class="row">	
+			<div class="col-xs-3 col-md-2" >
+				<a href='/'>
+					<p>back</p>
+				</a>
+			</div>
+			
+			<div class="col-xs-6 col-md-8" >
+				<p></p>
+			</div>
 		</div>
-	</div>
+	</div>	
+		<?php 
+if(isset($error))
+{
 
+echo '<p class="bg-danger">'.$error.'</p>';
+}
+	
+?>
+<form  method="post" action="" autocomplete="off">
+				
+					<div class="row row_margin_20"  style="color:blue">
+						<div class="col-xs-1 col-md-4">
+						
+						</div>
+						<div class="col-xs-10 col-md-4">
+							<p class="fontsize_2" >Reset Your Password</p>
+						</div>
+					</div>
+					<div class="row row_margin_20"  style="text-align:left">
+						<div class="col-xs-1 col-md-4">
+						
+						</div>
+						<div class="col-xs-10 col-md-4">
+							<p class="fontsize_5 maxpl" >To reset your password,please select how you want to be notify</p>
+						</div>
+					</div>
+					<div class="row row_margin_10"  style="">
+						<div class="col-xs-1 col-md-4">
+						
+						</div>
+						<div class="col-xs-10 col-md-4">
+							<input type="text" name="email" class="email_reset"  id="email" placeholder="email" value="<?php if(isset($email)){ echo $email; } ?>" require>
+						</div>
+					</div>
+						
+						
+						<div class="row row_margin_10"  style="text-align:left;color:blue">
+						<div class="col-xs-1 col-md-4">
+						
+						</div>
+						<div class="col-xs-10 col-md-4">
+							<p class="fontsize_4 maxpl">Please notify me by</p>
+						</div>
+					</div>
 
-
+					<div class="row row_margin_10"  style="text-align:center;color:blue">
+						<div class="col-xs-1 col-md-4">
+						
+						</div>
+						<div class="col-xs-10 col-md-4">
+							<p class="fontsize_3 maxpl">
+								<input type="radio" name="notify" value="email" checked> Email<br>
+								<input type="radio" name="notify" value="message" disabled> Text message<br>
+								<input type="radio" name="notify" value="call" disabled> Call<br>
+							</p>
+						</div>
+					</div>
+					
+					<div class="row row_margin_10"  style="">
+						<div class="col-xs-1 col-md-4">
+						
+						</div>
+						<div class="col-xs-10 col-md-4">
+							<input type="text" name="wilwif_code" class="wilwif_reset"  id="wilwif_code" value="<?php if(isset($email)){ echo $email; } ?>" readonly>
+						</div>
+					</div>
+					
+					
+					<div class="row div_input_principal"  style="color:blue; text-align: center; ">
+						<div class="col-xs-12 col-md-12">
+							<p class="fontsize_4 p_button" >
+								<input type="submit" value="" class="botonera_button_principal" type="submit" name="submit">
+								
+							</P>
+						</div>	
+					</div>
+				</form>
 </div>
 
-</div>
-</div>
+<style>
 
-<?php 
+.div_input_principal{
+	margin-bottom:-50px;
+	margin-top: 71px;
+}
+.maxpl{
+	width:193px;
+	text-align:left;
+	margin:auto;
+}
+.botonera_button_principal{
+ 
+background-image: url("/image/logo-botonera-111-x-173.png");
+background-color: transparent;
+background-size:100% 100%;
+border-width: 0px;
+width:83px;
+height:129px;
+
+}
+
+.email_reset{
+		background-image: url("/image/Casilla-364-x-53.png");
+		background-size : 100% 100%;
+		height: 34px;
+		border-width: 0px;
+		margin-top:2px;
+		min-width:193px;
+		max-width:193px;
+		padding-left:35px;
+	}
+	
+	.wilwif_reset{
+		background-image: url("/image/Casilla-Wilwif-Code--364-x-53.png");
+		background-size : 100% 100%;
+		height: 34px;
+		border-width: 0px;
+		margin-top:2px;
+		min-width:193px;
+		max-width:193px;
+		padding-left:100px;
+	}
+	a{
+	
+		text-decoration:none;
+		color:white;
+	}
+	
+	a:hover{
+	
+		text-decoration:none;
+		color:white;
+		font-weight: bold;
+	}
+ /* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+.email_reset,.wilwif_reset{
+	height:53px;
+	min-width:364px;
+	max-width:364px;
+	padding-left:60px;
+}
+
+.maxpl{
+	width:364px;
+}
+.botonera_button_principal{
+	width:111px;
+	height:176px;
+	
+ }
+}	
+
+
+</style>
+<?php
 //include header template
 require('layout/footer.php');
 ?>

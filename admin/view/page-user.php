@@ -95,7 +95,7 @@ if(isset($_POST['username']) && !empty($_POST['username']))
 		$security_question = 	$user->user_security_question;
 		$creationDate = $user->user_create_date;
 		$modDate = $user->user_last_mod_date;
-		$user_photo = $user->user_photo;
+		$user_photo = $user->user_img;
 	}else{
 		die("User Does Not Exist");
 	}
@@ -157,17 +157,17 @@ if(isset($error))
 						<div class="list_container">
 						<ul id="list_images" class="list_images">
 					
-							<?php if($user_photo)
+							<?php if($user_photo!="")
 								{
 								?>
 									<li>
-										<div style="background: transparent url('http://wilwif.local:86<?php echo $user_photo?>') no-repeat scroll 0% 0% / 100% 100%;"></div>
+										<div style="background: transparent url('<?php echo $GLOBALS['configuration']->getOption('domain').$user_photo?>') no-repeat scroll 0% 0% / 100% 100%;"></div>
 									</li>
 								<?php
 								
 								}else{
 									?>
-									<div class="uploader_clasethumb" style="background: transparent url('http://wilwif.local:86/image/No_image_available_125x132.png') no-repeat scroll 0% 0% / 100% 100%;"></div>
+									<div class="uploader_clasethumb" style="background: transparent url('/image/No_image_available_125x132.png') no-repeat scroll 0% 0% / 100% 100%;"></div>
 									<?php
 								}
 								?>

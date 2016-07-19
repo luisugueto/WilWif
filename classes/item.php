@@ -17,6 +17,10 @@ class item{
   public $item_category_id;
   public $item_category_slug;
   public $item_date;
+  public $item_color;
+  public $item_brand;
+  public $item_model;
+  public $item_number;
    
   function __construct($item_code_,$especial = false) {
 	
@@ -44,6 +48,11 @@ class item{
 			$this->item_status = $row["status"];
 			$this->item_date = $row["create_date"];
 			$this->item_category_id  = $row["id_category"];
+			
+			$this->item_color  = $row["color"];
+			$this->item_brand  = $row["brand"];
+			$this->item_model  = $row["model"];
+			$this->item_number  = $row["number"];
 			$sql = 'SELECT slug FROM item_category where id ='.$this->item_category_id.'';
 			$query = mysql_query($sql) or die('error at try to access data' . mysql_error());
 			if($row2 = mysql_fetch_assoc($query))

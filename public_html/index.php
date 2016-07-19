@@ -3,10 +3,18 @@ require('../includes/config.php');
 require('../classes/db.php');
 require('../classes/item.php');
 require('../classes/functions.php');
+require('../classes/userInfo.php');
+require('../classes/shipment.php');
 require('../classes/errorCode.php');
+require('../classes/order.php');
+require('../classes/configuration.php');
+require_once('../lib/phpmailer/phpmailer.php');
 $db = new DB();
+$configuration = new configuration();
+$debug =true;
+$GLOBALS['configuration'] = $configuration;
 //define page title
-$title = 'Lost Object';
+$title = 'WilWif | Keep it Safe';
 $request_url = $_SERVER['REQUEST_URI'];
 $path_urls = explode('/', $request_url); 
 /*here we define the path request will take*/
@@ -21,7 +29,23 @@ if($path_urls[1])
 }else{
  $path = "";
 }
+$pagelocation="";
 switch ($path){
+	case 'share':
+	   include 'view/page-share.php';
+		break;
+	case 'insurace':
+	   include 'view/page-insurace.php';
+		break;
+	case 'code-received':
+	   include 'view/page-code-received.php';
+		break;
+	case 'found-something':
+	   include 'view/page-found-something.php';
+		break;
+	case 'register-choice':
+	   include 'view/page-register-choice.php';
+		break;
 	case 'item':
 	   include 'view/page-item.php';
 		break;
@@ -38,8 +62,8 @@ switch ($path){
 	 include 'view/page-register.php';
 		break;
 	
-	case 'account-lost':
-	 include 'view/page-account-lost.php';
+	case 'reset':
+	 include 'view/page-user-recovery-password.php';
 		break;
 
 	case 'account':
@@ -50,7 +74,7 @@ switch ($path){
 		 $secundary_path = "";
 		}
 		switch ($secundary_path){
-			case 'info':
+			case 'profile':
 				include'view/page-user-information.php';
 				break;
 			
@@ -58,8 +82,16 @@ switch ($path){
 				include'view/page-user-found-item.php';
 				break;
 				
+			case 'found-category':
+				include'view/page-user-found-category.php';
+				break;
+				
 			case 'found-items':
 				include'view/page-user-found-items.php';
+				break;
+			
+			case 'lost-category':
+				include'view/page-user-lost-category.php';
 				break;
 				
 			case 'lost-item':
@@ -133,14 +165,23 @@ switch ($path){
 		break;
 	
 	case 'logout':
-		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'It closed session.', NOW())";
+		$history = "INSERT INTO history (id_user, action, date) VALUES('".$_SESSION['id']."', 'Logout', NOW())";
 		$query_history = mysql_query($history) or die('error at try to access data' . mysql_error());
 		session_destroy();
 		header('Location: /');
 		break;
-	
-	default:
+		
+	case 'search':
 		include 'view/page-home.php';
+		break;
+		
+	default:
+		if($user->is_logged_in()){ 
+			header('Location: /account/'); 
+		}else{
+			include 'view/home.php';//include 'view/page-login.php';
+		}
+		
 		break;
 }
 

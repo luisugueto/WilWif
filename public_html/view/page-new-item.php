@@ -398,6 +398,98 @@ $item_city = $item->item_city;
 </div>
 <div id="content_containter" style="margin-top: 50px; margin-bottom: 50px; width: 1440px; display: inline-block;">
 	
+	<form method="post">
+				<div class="content_chat_div_1">
+		
+				<div >
+					<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="username" class="input_label_form">Username</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="text" name="username" class="input_text_form"  id="username"  value="<?php if(isset($username)){ echo $username; } ?>" readonly>
+							  </div>
+						 </div>
+					</div>	
+					<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="email" class="input_label_form">E-mail</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="text" name="email" class="input_text_form"  id="email"   value="<?php if(isset($email)){ echo $email; } ?>" >
+							  </div>
+						 </div>
+					</div>
+					<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="name" class="input_label_form">Name</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="text" name="name" class="input_text_form"  id="name"   value="<?php if(isset($name)){ echo $name; } ?>" >
+							  </div>
+						 </div>
+					</div>
+					<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="lastname" class="input_label_form">Last name</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="text" name="lastname" class="input_text_form"  id="lastname"   value="<?php if(isset($lastname)){ echo $lastname; } ?>" >
+							  </div>
+						 </div>
+					</div>
+					<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="password" class="input_label_form">Password</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="password" name="password" class="input_text_form"  id="password"   value="" >
+							  </div>
+						 </div>
+					</div>
+					<div class="row"> 
+						 <div class="input_container_form">
+							  <div class="input_container_label_form">
+								<label for="retrypassword" class="input_label_form">Retry-Password</label>
+							  </div>
+							  <div class="input_container_text_form">
+								<input type="password" name="retrypassword" class="input_text_form"  id="retrypassword"   value="" >
+							  </div>
+						 </div>
+					</div>
+						
+				</div>
+				</div>
+				<div class="options_container_page">
+					<div class="options_frame_page">
+						<div class="option_container_page" >
+							<a href="/">
+								<input class="search_option_result option_back" type="button" name="modify" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
+							</a>
+						</div>
+						
+							<div class="option_container_page">
+								<input class="search_option_result option_modify" type="submit" name="modify" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Change Info</p>
+							</div>
+							
+							<div class="option_container_page">
+								<input class="search_option_result option_modify" type="submit" name="modifypass" value="">
+								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Change Password</p>
+							</div>
+						
+					</div>
+				</div>
+				</form>
+	
+	
+	
 	
 	
 	<form role="form" method="post" action="" autocomplete="off">

@@ -1,3 +1,5 @@
+
+
 *::before, *::after {
     box-sizing: border-box;
 }
@@ -19,7 +21,7 @@ a{
 }
 html{
 	background-image: url('../image/fondo-1440-620.png');
-	background-size: 100% 200%;
+	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	min-height:100%;
 }
@@ -30,6 +32,7 @@ html{
 	display:block;
 	width: 100%;
 }
+
 
 .header_container{
 	height: 100px;
@@ -114,7 +117,6 @@ html{
 }
 .header_div_2
 {
-	width: 1440px;
 	display: inline-block;
 	text-align: left;
 }
@@ -241,6 +243,13 @@ html{
 	background-image: url('/image/boton-mensaje-56-56-03.png');
 }
 
+.option_add_user{
+	background-image: url('/image/boton-nuevouser-70-70.png');
+}
+
+.option_reset{
+	background-image: url('/image/boton-bloquear-57-57.png');
+}
 .search_option_result{
 	border-width: 0px;
 	padding-left: 0px; 
@@ -423,304 +432,7 @@ html{
 	background-image: url('../image/boton-on-usuario-148-148.png');
 }
 
-body{
-			min-width: 1440px;
-	}
 
-
-
-@media all and (max-width: 1024px)
-{	
-	body
-	{
-		min-width: 780px;
-	}
-	
-	#menu_button{
-	margin-top: 20px;
-	}
-	
-	.header_container{
-	 height: 101px;
-	 background-size: 100% 100%;
-	}
-
-	#logo_container{
-	margin-top: 0px;
-	top: 75px;
-	margin-left: 40px;
-	}
-	
-	.logo_container img {
-		height: 120px;
-		width: 120px;
-	}
-
-	.header_div_1{
-		height: 85px;
-	}
-	.header_div_2
-	{
-		height: 85px;
-		width: 780px;
-	}
-	
-	.header_div_3{
-		padding-left: 56px;
-		height: 60px; margin-top: 15px;
-		margin-left: 210px; width: 364px;
-	}
-	
-	.header_div_home
-	{
-		 background-image: url("../image/barra-home-356-53.png");
-	}
-	
-	.header_div_item
-	{
-		 background-image: url("../image/barra-item-356-53-01.png");
-	}
-	
-	
-	.search_option_result
-	{
-		width: 40px;
-		height: 40px;
-	}
-	
-	.header_title_1{
-		font-size: 20px;
-		margin-bottom: 12px;
-		margin-left: 0;
-		margin-top: 17px;
-		overflow: hidden;
-		width: 149px;
-	}
-	#content_containter{
-	margin-top: 100px;
-	width: 780px;
-	}
-
-	.content_div_1{
-		width: 686px;
-		height: 871px;
-		background-size: 100% 100%;
-		background-image: url('../image/cuadro-generico-687-1089.png');
-		padding: 68px 62px 62px 68px;
-	}
-	
-	.home_div{
-	 height: 115px;
-	 width: 115px;
-	}
-
-	.home_option{
-	height: 180px;
-	width: 50%; 
-	color:white;	
-}
-
-#home_config_div{
-	background-image: url('../image/boton-off-configurations-115-115.png');
-}
-
-#home_config_div:hover{
-	background-image: url('../image/boton-on-configurations-115-115-.png');
-}
-
-#home_chat_div{
-	background-image: url('../image/boton-off-chats-115-115.png');
-}
-
-#home_chat_div:hover{
-	background-image: url('../image/boton-on-chats-115-115.png');
-}
-
-
-#home_employee_div{
-	background-image: url('../image/boton-off-employee-115-115.png');
-}
-
-#home_employee_div:hover{
-	background-image: url('../image/boton-on-employee-115-115.png');
-}
-
-
-#home_stadistic_div{
-	background-image: url('../image/boton-off-estatistics-115-115.png');
-}
-
-#home_stadistic_div:hover{
-	background-image: url('../image/boton-on-estatistics-115-115.png');
-}
-
-
-#home_record_div{
-	background-image: url('../image/boton-off-record-115-115.png');
-}
-
-#home_record_div:hover{
-	background-image: url('../image/boton-on-record-115-115.png');
-}
-
-#home_item_div{
-	background-image: url('../image/boton-off-items-115-115.png');
-}
-
-#home_item_div:hover{
-	background-image: url('../image/boton-on-items-115-115.png');
-}
-
-#home_shipment_div{
-	background-image: url('../image/boton-off-orders-115-115.png');
-}
-
-#home_shipment_div:hover{
-	background-image: url('../image/boton-on-orders-115-115.png');
-}
-
-#home_notification_div{
-	background-image: url('../image/boton-off-notifications-115-115.png');
-}
-
-#home_notification_div:hover{
-	background-image: url('../image/boton-on-notifications-115-115.png');
-}
-
-#home_order_div{
-	background-image: url('../image/boton-off-orders-115-115.png');
-}
-
-#home_order_div:hover{
-	background-image: url('../image/boton-on-orders-115-115.png');
-}
-
-#home_user_div{
-	background-image: url('../image/boton-off-user-115-115.png');
-}
-
-#home_user_div:hover{
-	background-image: url('../image/boton-on-user-115-115.png');
-}
-
-.form_search{
-	float: none;
-	margin-top: 20px;
-	margin-left: 260px;
-}
-}
-
-@media all and (max-width: 420px)
-{
-	body{
-		min-width: 320px;
-	}
-	
-	#menu_button{
-	margin-top: 3px;
-	margin-left: 5px;
-	height: 30px;
-	width: 30px;
-	background-size: 30px 30px;
-}
-/*
-#menu{
-	width: 87px;
-	height: 213px;
-	background-size: 87px 213px;
-}
-*/
-	.header_container{
-		height: 41px;
-	}
-	
-	.logo_container{
-		margin-left: 40px;
-	}
-	
-	.logo_container img{
-		width: 53px;
-		height: 53px;
-	}
-	.header_div_1{
-		height: 35px;
-	}
-	
-	.header_div_2{
-		height: 35px;
-		margin-left: 0px;
-	}
-	
-	.header_div_3{
-		width: 184px;
-		padding-left: 0px;
-		background-size: 100% 100%;
-		height: 35px;
-		margin-top: 0px;
-		margin-left: 70px;
-	}
-	
-	.form_option{
-		margin-left: 0px;
-	}
-	.search_option_result
-	{
-		width: 20px;
-		height: 20px;
-	}
-	
-	.header_title_1{
-		margin-top: 10px;
-		height: 24px;
-		padding-left: 33px;
-		font-size: 10px;
-		width: 104px;
-		overflow:hidden;
-	}
-	
-	#content_containter{
-		width: 320px;
-		margin-top: 75px;
-	}
-	
-	.content_div_1{
-		width: 281px;
-		height: 375px;
-		padding: 27px 25px 25px 27px;
-		background-size: 100% 100%;
-	}
-	
-	.home_option{
-		padding-top: 10px;
-		height: 75px;
-	}
-	
-	.home_div{
-		width: 47px;
-		height: 47px;
-	}
-	.home_option h2{
-		font-size: 15px;
-	}
-	
-	.form_search{
-		width: 280px;
-		padding-right: 50px;
-		height: 49px;
-		margin-left: 25px;
-	}
-	
-	.form_search p {
-	width: 58px;
-	padding-left: 17px;
-	font-size: 13px;
-	margin-top: 15px;
-   }
-   
-   .form_search input{ 
-	width: 170px;
-   }
-}
 
 
 /* End Home page*/
@@ -745,22 +457,7 @@ body{
 
 
 
-@media all and (max-width: 420px)
-{
-.content_chat_div_1{
-	width: 281px;
-	padding: 20px 15px; 
-	
-}
 
-.chat_option{
-	height: 100px;
-}
-.chat_option h2{
-		font-size: 15px;
-	}
-	
-}
 
 /* End Chats Page*/
 
@@ -900,8 +597,321 @@ body{
 	color: white;
 }
 
-@media all and (max-width: 1024px)
+
+
+/* end page chat users */
+
+button{
+	cursor: pointer;
+}
+input[type="submit"]
 {
+	cursor: pointer;
+}
+
+
+
+.options_container_page{
+	width: 780px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	display: inline-block;
+}
+.option_container_page{
+	float: left; margin-right: 20px;
+}
+
+.option_container_page p{
+		color: white;
+		width: 62px;
+		margin-top: 0px;
+		margin-bottom: 0px;
+	}
+	
+.options_frame_page{
+	clear: both;
+	content: '';
+	display: table;
+	float: right;
+}
+
+.input_container_form{
+	background-image: url("/image/barra-login-580-50.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	height: 50px;
+	color: black;
+	 width: 100%;
+}
+
+.input_container_label_form{
+	width: 31%;
+	height: 50px;
+	float: left;
+	line-height: 50px;
+	font-size: 30px;
+	overflow:hidden;
+	text-align:left;
+	padding-left: 10px;
+}
+
+.input_container_text_form{
+	float: left;
+	height: 50px;
+	line-height: 50px;
+	overflow:hidden;
+	width: 69%;
+}
+.input_container_text_form a input{
+	color:blue;
+}
+.input_container_text_form input{
+	height: 42px;
+	padding: 0px 20px;
+	border-width: 0px;
+	width: 100%;
+	background-color: transparent;
+	font-size: 20px;
+	text-align:center;
+	
+}
+
+.input_container_text_form select{
+	height: 42px;
+	padding: 0px 20px;
+	border-width: 0px;
+	width: 100%;
+	background-color: transparent;
+	font-size: 20px;
+	text-align:center;
+}
+
+
+
+
+/* Resolution 780px */
+
+
+@media (max-width:1025px) {
+	
+	body
+	{
+
+	}
+	
+	#menu_button{
+	margin-top: 20px;
+	}
+	
+	.header_container{
+	 height: 101px;
+	 background-size: 100% 100%;
+	}
+
+	#logo_container{
+	margin-top: 0px;
+	top: 75px;
+	margin-left: 40px;
+	}
+	
+	.logo_container img {
+		height: 120px;
+		width: 120px;
+	}
+
+	.header_div_1{
+		height: 85px;
+	}
+	.header_div_2
+	{
+		height: 85px;
+		width: 780px;
+	}
+	
+	.header_div_3{
+		padding-left: 56px;
+		height: 60px; 
+		margin-top: 15px;
+		margin-left: 210px;
+		width: 364px;
+	}
+	
+	.header_div_home
+	{
+		 background-image: url("../image/barra-home-356-53.png");
+	}
+	
+	.header_div_item
+	{
+		 background-image: url("../image/barra-item-356-53-01.png");
+	}
+	
+	
+	.search_option_result
+	{
+		width: 40px;
+		height: 40px;
+	}
+	
+	.header_title_1{
+		font-size: 20px;
+		margin-bottom: 12px;
+		margin-left: 0;
+		margin-top: 17px;
+		overflow: hidden;
+		width: 149px;
+	}
+	#content_containter{
+	margin-top: 100px;
+	width: 780px;
+	}
+
+	.content_div_1{
+		width: 686px;
+		height: 871px;
+		background-size: 100% 100%;
+		background-image: url('../image/cuadro-generico-687-1089.png');
+		padding: 68px 62px 62px 68px;
+	}
+	
+	.home_div{
+	 height: 115px;
+	 width: 115px;
+	}
+
+	.home_option{
+	height: 180px;
+	width: 50%; 
+	color:white;	
+}
+
+#home_config_div{
+	background-image: url('../image/boton-off-configurations-115-115.png');
+}
+
+#home_config_div:hover{
+	background-image: url('../image/boton-on-configurations-115-115-.png');
+}
+
+#home_chat_div{
+	background-image: url('../image/boton-off-chats-115-115.png');
+}
+
+#home_chat_div:hover{
+	background-image: url('../image/boton-on-chats-115-115.png');
+}
+
+
+#home_employee_div{
+	background-image: url('../image/boton-off-employee-115-115.png');
+}
+
+#home_employee_div:hover{
+	background-image: url('../image/boton-on-employee-115-115.png');
+}
+
+
+#home_stadistic_div{
+	background-image: url('../image/boton-off-estatistics-115-115.png');
+}
+
+#home_stadistic_div:hover{
+	background-image: url('../image/boton-on-estatistics-115-115.png');
+}
+
+
+#home_record_div{
+	background-image: url('../image/boton-off-record-115-115.png');
+}
+
+#home_record_div:hover{
+	background-image: url('../image/boton-on-record-115-115.png');
+}
+
+#home_item_div{
+	background-image: url('../image/boton-off-items-115-115.png');
+}
+
+#home_item_div:hover{
+	background-image: url('../image/boton-on-items-115-115.png');
+}
+
+#home_shipment_div{
+	background-image: url('../image/boton-off-orders-115-115.png');
+}
+
+#home_shipment_div:hover{
+	background-image: url('../image/boton-on-orders-115-115.png');
+}
+
+#home_notification_div{
+	background-image: url('../image/boton-off-notifications-115-115.png');
+}
+
+#home_notification_div:hover{
+	background-image: url('../image/boton-on-notifications-115-115.png');
+}
+
+#home_order_div{
+	background-image: url('../image/boton-off-orders-115-115.png');
+}
+
+#home_order_div:hover{
+	background-image: url('../image/boton-on-orders-115-115.png');
+}
+
+#home_user_div{
+	background-image: url('../image/boton-off-user-115-115.png');
+}
+
+#home_user_div:hover{
+	background-image: url('../image/boton-on-user-115-115.png');
+}
+
+.form_search{
+	float: none;
+	margin-top: 20px;
+	margin-left: 260px;
+}
+
+
+	.content_chat_div_1{
+		width: 500px;
+		padding: 100px 35px 105px;
+	}
+	
+	.input_container_form{
+		//width: 400px;
+	}
+	
+	.input_container_label_form{
+		
+		font-size: 20px;
+	}
+	
+	.input_container_text_form{
+		
+	}
+	
+	.input_container_text_form input{
+		
+		padding-right: 10px; 
+		padding-left: 10px;
+		font-size: 16px;
+		
+	}
+	
+	.input_container_text_form select{
+		padding-right: 10px; 
+		padding-left: 10px;
+		font-size: 16px;
+		
+	}
+
+	.options_container_page{
+		width: 500px;
+	}
+	
 	.content_result_div{
 		width: 720px;
 		padding: 106px 36px 101px 38px;
@@ -963,10 +973,18 @@ body{
 .column_cel_3_4{
 	width:75%;
 }
+
+
 }
 
-@media all and (max-width: 420px)
-{
+
+/*  320px */
+
+/* Portrait */
+@media (max-width:480px) {
+
+	
+
 	.content_result_div{
 		width: 280px;
 		height: 400px;
@@ -1008,137 +1026,119 @@ body{
 .result_container{
 	height: 240px;
 }
-}
-/* end page chat users */
-
-button{
-	cursor: pointer;
-}
-input[type="submit"]
-{
-	cursor: pointer;
-}
 
 
-
-.options_container_page{
-	width: 780px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	display: inline-block;
+	body{
+		
+	}
+	
+	#menu_button{
+	margin-top: 3px;
+	margin-left: 5px;
+	height: 30px;
+	width: 30px;
+	background-size: 30px 30px;
 }
-.option_container_page{
-	float: left; margin-right: 20px;
+/*
+#menu{
+	width: 87px;
+	height: 213px;
+	background-size: 87px 213px;
 }
-
-.option_container_page p{
-		color: white;
-		width: 62px;
+*/
+	.header_container{
+		height: 41px;
+	}
+	
+	.logo_container{
+		margin-left: 40px;
+	}
+	
+	.logo_container img{
+		width: 53px;
+		height: 53px;
+	}
+	.header_div_1{
+		height: 35px;
+	}
+	
+	.header_div_2{
+		height: 35px;
+		margin-left: 0px;
+		width:100%;
+	}
+	
+	.header_div_3{
+		width: 184px;
+		padding-left: 0px;
+		background-size: 100% 100%;
+		height: 35px;
 		margin-top: 0px;
-		margin-bottom: 0px;
+		margin-left: 10px;
 	}
 	
-.options_frame_page{
-	clear: both;
-	content: '';
-	display: table;
-	float: right;
-}
-
-.input_container_form{
-	background-image: url("/image/barra-login-580-50.png");
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-	height: 50px;
-	color: white;
-	 width: 100%;
-}
-
-.input_container_label_form{
-	width: 31%;
-	height: 50px;
-	float: left;
-	line-height: 50px;
-	font-size: 30px;
-	overflow:hidden;
-	text-align:left;
-	padding-left: 10px;
-}
-
-.input_container_text_form{
-	float: left;
-	height: 50px;
-	line-height: 50px;
-	overflow:hidden;
-	width: 69%;
-}
-.input_container_text_form a input{
-	color:blue;
-}
-.input_container_text_form input{
-	height: 42px;
-	padding: 0px 20px;
-	border-width: 0px;
-	width: 100%;
-	background-color: transparent;
-	font-size: 20px;
-	text-align:center;
-	
-}
-
-.input_container_text_form select{
-	height: 42px;
-	padding: 0px 20px;
-	border-width: 0px;
-	width: 100%;
-	background-color: transparent;
-	font-size: 20px;
-	text-align:center;
-}
-
-@media all and (max-width: 1024px)
-{
-	.content_chat_div_1{
-		width: 500px;
-		padding: 100px 35px 105px;
+	.form_option{
+		margin-left: 0px;
+	}
+	.search_option_result
+	{
+		width: 20px;
+		height: 20px;
 	}
 	
-	.input_container_form{
-		//width: 400px;
+	.header_title_1{
+		margin-top: 10px;
+		height: 24px;
+		padding-left: 33px;
+		font-size: 10px;
+		width: 104px;
+		overflow:hidden;
 	}
 	
-	.input_container_label_form{
-		
-		font-size: 20px;
+	#content_containter{
+		width: 320px;
+		margin-top: 75px;
 	}
 	
-	.input_container_text_form{
-		
+	.content_div_1{
+		width: 281px;
+		height: 375px;
+		padding: 27px 25px 25px 27px;
+		background-size: 100% 100%;
 	}
 	
-	.input_container_text_form input{
-		
-		padding-right: 10px; 
-		padding-left: 10px;
-		font-size: 16px;
-		
+	.home_option{
+		padding-top: 10px;
+		height: 75px;
 	}
 	
-	.input_container_text_form select{
-		padding-right: 10px; 
-		padding-left: 10px;
-		font-size: 16px;
-		
+	.home_div{
+		width: 47px;
+		height: 47px;
 	}
+	.home_option h2{
+		font-size: 15px;
+	}
+	
+	.form_search{
+		width: 280px;
+		padding-right: 50px;
+		height: 49px;
+		margin-left: 25px;
+	}
+	
+	.form_search p {
+	width: 58px;
+	padding-left: 17px;
+	font-size: 13px;
+	margin-top: 15px;
+   }
+   
+   .form_search input{ 
+	width: 170px;
+   }
 
-	.options_container_page{
-		width: 500px;
-	}
-}
-
-
-@media all and (max-width: 420px)
-{
+ 
 	.content_chat_div_1{
 		width: 300px;
 		padding-top: 15px;
@@ -1197,4 +1197,20 @@ input[type="submit"]
 		padding-top: 40px;
 		padding-bottom: 30px;
 	}
+
+
+.content_chat_div_1{
+	width: 281px;
+	padding: 20px 15px; 
+	
+}
+
+.chat_option{
+	height: 100px;
+}
+.chat_option h2{
+		font-size: 15px;
+	}
+	
+
 }

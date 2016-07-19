@@ -45,27 +45,27 @@ if(isset($_POST['create']))
 require('layout/header.php'); 
 ?>
 
-<div id="content">
-<div class="header_div_1">
-	<div class="header_div_2">
-		<div id="menu_button">
+
+<header class="header_container" style=" background-image: url('/image/botonera-sola-1024-x-66/png');">
+	<div class="row"  style="border-width: 0px 0px 3px; border-style: solid; border-color: white; line-height:49px">
+		<div class="col-xs-3 col-md-3">	
+		<a href='/notifications/'>
+			<p class="fontsize_3" style="margin-bottom: 0px;"><img src="/image/flecha2-27-46.png">back</p>
+		</a>
+		</div>
+		
+		<div class="col-xs-6 col-md-6">	
+			<a href="/">
+				<img style="margin-top: 2%; margin-bottom: 3%;" src="/image/Logotipo-110-x-32.png" title="logo" width="110" height="32" >
+			</a>
+		</div>
+		<div class="col-xs-3 col-md-3">
 		
 		</div>
-		<div class="header_div_3 header_div_home">
-			<h2 class="header_title_1">Notification</h2>
-		</div>
-		<form class="form_search" method="get" action="" >
-			<p >Search</p>
-			<input type="text" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; }?>" name="s" id="search_value">
-		</form>
 	</div>
-</div>
-<div>
-	<div id="menu" class="menu_close">
-		<?php require('layout/menu.php'); ?>
-	</div>
-</div>
-<div id="content_containter" >
+</header>
+
+<div id="content" >
 	<?php 
 if(isset($error))
 {
@@ -73,81 +73,66 @@ if(isset($error))
 }
 ?>
 <form method="post">
-				<div class="content_chat_div_1">
-		
-				<div >
+				<div style="color:black">
 					<div class="row"> 
-						 <div class="input_container_form">
-							  <div class="input_container_label_form">
-								<label for="username" class="input_label_form">Username</label>
-							  </div>
-							  <div class="input_container_text_form">
-								<input type="text" name="username" class="input_text_form"  id="username"  value="<?php if(isset($username)){ echo $username; } ?>" readonly>
-							  </div>
-						 </div>
+						<div class="col-xs-12 col-md-12 fontsize_4">
+							<div>
+								<input type="text" name="username" class="label_text_input"  id="username"  value="<?php if(isset($username)){ echo $username; } ?>" readonly>
+							</div>
+						</div>
 					</div>	
 					<div class="row"> 
-						 <div class="input_container_form">
-							  <div class="input_container_label_form">
-								<label for="status" class="input_label_form">Status</label>
-							  </div>
-							  <div class="input_container_text_form">
-								<input type="text" name="status" class="input_text_form"  id="status"   value="<?php if(isset($status)){ echo $status; } ?>"  readonly>
-							  </div>
-						 </div>
-					</div>
-					<div class="row"> 
-						 <div class="input_container_form">
-							  <div class="input_container_label_form">
-								<label for="creation_date" class="input_label_form">Creation Date</label>
-							  </div>
-							  <div class="input_container_text_form">
-								<input type="text" name="creation_date" class="input_text_form"  id="creation_date"   value="<?php if(isset($create_date)){ echo $create_date; } ?>"require readonly>
-							  </div>
-						 </div>
-					</div>
-					<div class="row"> 
-						 <div class="textarea_container_form">
-							  <div class="textarea_container_label_form" >
-								<label for="message" class="input_label_form" >Message</label>
-							  </div>
-							  <div class="textarea_container_text_form">
-								<textarea maxlength="200" type="text" name="message" class="textarea_text_form"  id="message" <?php if(isset($message)){ echo 'readonly'; } ?>><?php if(isset($message)){ echo $message; } ?></textarea>
-							  </div>
-						 </div>
-					</div>
-				</div>
-				</div>
-				<div class="options_container_page">
-					<div class="options_frame_page">
-						<div class="option_container_page" >
-							<a href="/notifications/">
-								<input class="search_option_result option_back" type="button" name="modify" value="">
-								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Return</p>
-							</a>
+						<div class="col-xs-12 col-md-12 fontsize_4">
+							<div>
+								<input type="text" name="status" class="label_text_input"  id="status"   value="<?php if(isset($status)){ echo $status; } ?>"  readonly>
+							</div>
 						</div>
-						<?php if(!isset($_GET['notification_id'])){ 
+					</div>	
+					<div class="row"> 
+						<div class="col-xs-12 col-md-12 fontsize_4">
+							<div>
+								<input type="text" name="creation_date" class="label_text_input"  id="creation_date"   value="<?php if(isset($create_date)){ echo $create_date; } ?>"require readonly>
+							</div>
+						</div>
+					</div>	
+					<div class="row"> 
+						<div class="col-xs-12 col-md-12 fontsize_4">
+							<div>
+								<textarea maxlength="200" type="text" style="resize:none;height: 250px;"name="message" class="label_text_input"  id="message" <?php if(isset($message)){ echo 'readonly'; } ?>><?php if(isset($message)){ echo $message; } ?></textarea>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<?php if(!isset($_GET['notification_id'])){ 
 						?>
-							<div class="option_container_page">
-								<input class="search_option_result option_create" type="submit" name="create" value="">
-								<p style="width: 62px; margin-top: 0px; margin-bottom: 0px;">Add</p>
-						</div>
-						
-						<?php
-						} ?>
+				<div class="row"> 
+					<div class="col-xs-12 col-md-12 fontsize_4">
+						<input type="submit" name="create" value="Add">
 					</div>
 				</div>
+				<?php
+						} ?>
+					
 				</form>
 
 	
 
 
 </div>
-
-
-</div>
-</div>
 <style>
+
+.label_text_input{
+		width: 300px;
+		border-width: 2px;
+		padding-bottom: 1px;
+		text-align:left;
+		margin-bottom:5px;
+		padding-left: 50px;
+		border-style: solid;
+		
+	}
+	
 .textarea_container_label_form{
 	height: 50px;
 	font-size: 30px;
@@ -169,5 +154,6 @@ if(isset($error))
 </style>
 <?php 
 //include header template
+$actualpage = "Notifications";
 require('layout/footer.php');
 ?>

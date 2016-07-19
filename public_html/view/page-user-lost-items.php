@@ -1,4 +1,15 @@
 <?php
+if (isset($_POST['item_method']) && isset($_POST['item_code'])) {
+	$item_method = $_POST['item_method'];
+
+if($item_method == "deleted")
+	{
+			$item_code = $_POST['item_code'];
+		$query = "UPDATE item SET status = 'Erased' WHERE code = '".$item_code."'";
+		$sql = mysql_query($query);
+	
+	}
+}
 require('layout/header.php');
 ?>
 
@@ -19,13 +30,13 @@ require('layout/header.php');
 		
 		<div class="rows" style=" display: block;">
 			<?php
-				$query = "SELECT code FROM item WHERE id_user = '".$_SESSION['id']."' AND type='Lost' AND status != 'Deleted'";
+				$query = "SELECT code FROM item WHERE id_user = '".$_SESSION['id']."' AND type='Lost' AND status != 'Erased'";
 				$sql = mysql_query($query);
 				$sql_row = mysql_num_rows($sql);
 				if($sql_row == 0)
 				{
 					echo "<tr>
-					<td colspan='4'>No tiene articulos.</td>
+					<td colspan='4'>No item to display.</td>
 					</tr>";
 				}
 				while($sql_assoc = mysql_fetch_assoc($sql))
@@ -73,17 +84,19 @@ require('layout/header.php');
 							</div>
 							<div style="float: left; height: 137px; width: 100px; padding-top: 40px;">
 								<div>
-									<?php echo "<a href='/item/?code=".$item->item_code."&type=v'>";?>
+									<?php echo "<a href='/account/lost-item/?code=".$item->item_code."&type=v'>";?>
 										<img width="34" height="34" src="/image/boton-modificar-34-34.png" style="cursor: pointer;">
-										<p style="width: 62px; float: right; margin-top: 7px;margin-bottom: 0px;">Modify</p>
+										<p style="width: 62px; float: right; margin-top: 7px;margin-bottom: 0px;"></p>
 									</a>
 								</div>
 								
 								<div>
-									<?php echo "<a href='/item/?code=".$item->item_code."&type=v'>";?>
-										<img width="34" height="34" src="/image/boton-eliminar1-34-34.png" style="cursor: pointer;">
-										<p style="width: 62px; float: right; margin-top: 7px;margin-bottom: 0px;">Trash</p>
-									</a>
+									<form action=""  method="post"  class="form_option">
+									<input type="hidden" name="item_code" value="<?php echo $item->item_code;?>">
+									<input type="hidden" name="item_method" value="deleted">
+									<input class="search_option_result option_deleted" type="submit" value="">
+									</form>
+										
 								</div>
 							</div>
 						</div>
@@ -104,7 +117,7 @@ require('layout/header.php');
 					</a>
 				</div>
 				<div style="float: left; margin-right: 20px;">
-					<?php echo "<a href='/account/found-item/'>";?>
+					<?php echo "<a href='/account/lost-item/'>";?>
 						<img width="50" height="50" src="/image/boton-aceptar-39-39.png" style="cursor: pointer;">
 						<p style="width: 62px; margin-bottom: 0px;">Add</p>
 					</a>

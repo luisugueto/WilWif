@@ -34,8 +34,8 @@ if (isset($_POST['modify'])){
 		$lastname = (isset($_POST['lastname']))? $_POST['lastname']: '';
 		
 		if(!isset($error))
-		{	
-			$user = ModifyUser($username,$email,$name,$lastname,$rolcode,'','');
+		{			
+			$user = ModifyAccountEmployee($username,$email,$name,$lastname);
 			if (is_a($user, 'errorCodes')) {
 				$errors = $user->GetErrors();
 				echo "<p>type Error</p>";
@@ -302,7 +302,7 @@ if(isset($error))
 										<option value=""></option>
 									<?php
 									}
-									 $query = "select slug,code from rol";
+									 $query = "select slug,code from rol where code !='001'";
 									 $sql = mysql_query($query);
 									 while($row = mysql_fetch_assoc($sql))
 									{
